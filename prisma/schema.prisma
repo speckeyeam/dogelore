@@ -1,0 +1,45 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id          String     @id @default(uuid())
+  email       String     @unique
+  password    String
+  username    String     @unique
+  sessions    Sessions[]
+  Post        Post[]
+  dateCreated String?
+}
+
+model Sessions {
+  sessionId  String @id @default(uuid())
+  expiration String
+  userId     String
+  User       User   @relation(fields: [userId], references: [id])
+
+  @@index([userId], map: "SessionId_userId_fkey")
+}
+
+model Post {
+  id     Int     @id @unique @default(autoincrement())
+  User   User?   @relation(fields: [userId], references: [id])
+  userId String?
+  type   Boolean
+}
+
+model Admin {
+  id        Int     @id @unique @default(autoincrement())
+  userId    String?
+  dateAdded String?
+}
+
+//maybe have a folder for each post, storing each of the images, labeled 1 through max
