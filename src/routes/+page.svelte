@@ -30,7 +30,7 @@
 
   <ul class="nav-links">
     <h2 class="nav-right nav-button">Sign Up</h2>
-    <h2 class="nav-right nav-button">Login</h2>
+    <h2 class="nav-right nav-button">Login2</h2>
 
     <img
       src="https://s.yimg.com/ny/api/res/1.2/_wPmgp89IYk4DPxgi4_HzQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTEyMDA7aD02NzY-/https://media.zenfs.com/en/nbc_today_217/f0ecf037deda4fc7ee4fa0c1e03584e1"
