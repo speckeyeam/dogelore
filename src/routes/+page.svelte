@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
-
+  import { signIn, signOut } from "@auth/sveltekit/client";
   let hot: Boolean = false;
   let memes: Boolean = true;
   let series: Boolean = false;
@@ -52,6 +52,9 @@
   };
 
   let y: any;
+  export let data;
+  const user = data.session;
+  console.log(user);
 </script>
 
 <svelte:window bind:scrollY={y} on:scroll={handleScroll} />
@@ -91,14 +94,20 @@
     </div>
 
     <ul class="nav-links">
-      <h2 class="nav-right nav-button">Sign Up</h2>
+      <button on:click={() => signIn("google")} class="nav-right nav-button"
+        >Sign Up</button
+      >
+      <!-- <button on:click={() => signOut("google")} class="nav-right nav-button"
+        >Sign out</button
+      > -->
       <h2 class="nav-right nav-button">Login</h2>
-
-      <img
-        src="https://s.yimg.com/ny/api/res/1.2/_wPmgp89IYk4DPxgi4_HzQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTEyMDA7aD02NzY-/https://media.zenfs.com/en/nbc_today_217/f0ecf037deda4fc7ee4fa0c1e03584e1"
-        alt="Avatar"
-        class="pfp nav-right"
-      />
+      <div class="pfp pfp-wrapper">
+        <img
+          src="https://s.yimg.com/ny/api/res/1.2/_wPmgp89IYk4DPxgi4_HzQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTEyMDA7aD02NzY-/https://media.zenfs.com/en/nbc_today_217/f0ecf037deda4fc7ee4fa0c1e03584e1"
+          alt="Avatar"
+          class="pfp nav-right"
+        />
+      </div>
     </ul>
   </nav>
   <div class="menu {isNavVisible && 'visible'}" on:scroll={handleScroll}>
@@ -147,6 +156,8 @@
   .nav-links {
     display: flex;
     justify-content: flex-end;
+    align-items: center;
+    position: relative;
     font-size: 1rem;
     margin: 0;
     margin-bottom: 0.3rem;
@@ -169,13 +180,29 @@
     height: 4rem;
     border: double 0.2rem transparent;
     object-fit: cover;
+    border-radius: 50%;
+    transition: opacity 1s ease;
+    cursor: pointer;
+    transition: transform 0.7s;
+    margin: 0 auto;
+  }
+
+  .pfp-wrapper {
     background-image: linear-gradient(white, white),
       radial-gradient(circle at bottom right, #f4b43e, white);
     background-origin: border-box;
     background-clip: content-box, border-box;
-    border-radius: 50%;
-    transition: opacity 1s ease;
-    cursor: pointer;
+    object-fit: cover;
+    display: flex;
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+  }
+  .pfp:hover {
+    transform: rotate(-180deg);
+  }
+
+  .pfp:hover > * {
+    transform: rotate(180deg);
   }
 
   input:focus {
@@ -188,6 +215,18 @@
   }
 
   .nav-button {
+    align-items: center;
+    display: flex;
+    background: none;
+    height: fit-content;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+    vertical-align: middle;
+    font-weight: 700;
     padding: 0.2rem 1rem 0.2rem 1rem;
     border-radius: 1000rem;
     font-size: 1.25rem;
