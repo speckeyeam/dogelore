@@ -1,3 +1,60 @@
+<script lang="ts">
+  import { onMount } from "svelte";
+
+  let hot: Boolean = false;
+  let memes: Boolean = true;
+  let series: Boolean = false;
+  let menu: Boolean[] = [false, true, false];
+  const toggleMenu = async (section: string) => {
+    switch (section) {
+      case "hot": {
+        if (!hot) {
+          hot = memes = series = false;
+          hot = true;
+        }
+        break;
+      }
+      case "memes": {
+        if (!memes) {
+          hot = memes = series = false;
+          memes = true;
+        }
+        break;
+      }
+      case "series": {
+        if (!series) {
+          hot = memes = series = false;
+          series = true;
+        }
+        break;
+      }
+    }
+  };
+
+  let prevScrollPos = 0;
+  let isScrollingUp = false;
+  let isNavVisible = true;
+
+  const handleScroll = async () => {
+    const currentScrollPos = y;
+
+    if (currentScrollPos > prevScrollPos) {
+      // Scrolling down
+      isScrollingUp = false;
+      isNavVisible = false;
+    } else {
+      // Scrolling up
+      isScrollingUp = true;
+      isNavVisible = true;
+    }
+
+    prevScrollPos = currentScrollPos;
+  };
+
+  let y: any;
+</script>
+
+<svelte:window bind:scrollY={y} on:scroll={handleScroll} />
 <head>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" />
@@ -6,39 +63,66 @@
     rel="stylesheet"
   />
   <link
+    href="https://fonts.googleapis.com/css2?family=Jost&display=swap"
+    rel="stylesheet"
+  />
+  <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
   />
   <!--https://fonts.google.com/specimen/Jost download later maybe?-->
 </head>
-<nav class="navbar">
-  <a href="#" class="logo">
-    <h1>Dogelore</h1>
-  </a>
-  <div class="nav-search">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      class="bi bi-search nav-search-icon"
-      viewBox="0 0 16 16"
-    >
-      <path
-        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+<body>
+  <nav class="navbar">
+    <a href="#" class="logo">
+      <h1>Dogelore</h1>
+    </a>
+    <div class="nav-search">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="bi bi-search nav-search-icon"
+        viewBox="0 0 16 16"
+      >
+        <path
+          d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+        />
+      </svg>
+      <input class="nav-search-input" placeholder="Search..." />
+    </div>
+
+    <ul class="nav-links">
+      <h2 class="nav-right nav-button">Sign Up</h2>
+      <h2 class="nav-right nav-button">Login</h2>
+
+      <img
+        src="https://s.yimg.com/ny/api/res/1.2/_wPmgp89IYk4DPxgi4_HzQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTEyMDA7aD02NzY-/https://media.zenfs.com/en/nbc_today_217/f0ecf037deda4fc7ee4fa0c1e03584e1"
+        alt="Avatar"
+        class="pfp nav-right"
       />
-    </svg>
-    <input class="nav-search-input" placeholder="Search..." />
+    </ul>
+  </nav>
+  <div class="menu {isNavVisible && 'visible'}" on:scroll={handleScroll}>
+    <button
+      on:click={() => toggleMenu("hot")}
+      class="menu-item {hot ? 'selected-menu-item' : ''}"
+    >
+      hot
+    </button>
+    <button
+      on:click={() => toggleMenu("memes")}
+      class="menu-item {memes ? 'selected-menu-item' : ''}"
+    >
+      memes
+    </button>
+    <button
+      on:click={() => toggleMenu("series")}
+      class="menu-item {series ? 'selected-menu-item' : ''}"
+    >
+      series
+    </button>
   </div>
-
-  <ul class="nav-links">
-    <h2 class="nav-right nav-button">Sign Up</h2>
-    <h2 class="nav-right nav-button">Login2</h2>
-
-    <img
-      src="https://s.yimg.com/ny/api/res/1.2/_wPmgp89IYk4DPxgi4_HzQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTEyMDA7aD02NzY-/https://media.zenfs.com/en/nbc_today_217/f0ecf037deda4fc7ee4fa0c1e03584e1"
-      alt="Avatar"
-      class="pfp nav-right"
-    />
-  </ul>
-</nav>
+  <div style="width:100%; height: 4000px" />
+</body>
 
 <style>
   .navbar {
@@ -54,7 +138,12 @@
     top: 0;
     left: 0;
     right: 0;
+    height: 10%;
+    background-color: white;
+    z-index: 2;
+    transition: transform 0.3s ease;
   }
+
   .nav-links {
     display: flex;
     justify-content: flex-end;
@@ -69,8 +158,9 @@
   .logo {
     text-decoration: none;
     color: black;
-    font-size: 1.8rem;
+    font-size: 2rem;
     margin-left: 1rem;
+    margin-right: 3rem;
     /* font family is bold 700*/
   }
   .pfp {
@@ -84,18 +174,26 @@
     background-origin: border-box;
     background-clip: content-box, border-box;
     border-radius: 50%;
+    transition: opacity 1s ease;
+    cursor: pointer;
   }
-  .pfp:hover {
-    /* background-image: linear-gradient(white, white),
-      radial-gradient(circle at top left, #f4b43e, white); */
-    /* chatgpt says that making a gradient image would be better but im too lazy to make it now*/
+
+  input:focus {
+    outline: none;
   }
+
+  input {
+    font-weight: 400;
+    font-family: "Jost", sans-serif;
+  }
+
   .nav-button {
     padding: 0.2rem 1rem 0.2rem 1rem;
     border-radius: 1000rem;
     font-size: 1.25rem;
     background-color: #3a71d4;
     color: white;
+    cursor: pointer;
   }
   h1 {
     margin: 0;
@@ -111,6 +209,7 @@
     align-items: center;
     display: flex;
     justify-content: center;
+    transition-duration: 0.2s;
   }
   .nav-search-input {
     width: 23rem;
@@ -119,10 +218,69 @@
     font-size: 1.2rem;
     /*change font size */
   }
+
+  .nav-search:hover {
+    border-bottom: 0.2rem solid #f5f5f5;
+    border-right: 0.15rem solid #f5f5f5;
+  }
+
   .nav-search-icon {
     margin-right: 1rem;
     fill: #9b9b9b;
     width: 1.8rem;
     height: 1.8rem;
+    cursor: pointer;
+  }
+
+  .menu {
+    display: flex;
+    align-items: left;
+    user-select: none;
+    width: 100%;
+    position: fixed;
+    top: 10%;
+    left: 0;
+    right: 0;
+    margin-right: 2rem;
+    background-color: white;
+    max-height: 10%;
+    z-index: 1;
+    transition-duration: 0.3s;
+  }
+  .menu:not(.visible) {
+    transform: translateY(-100%);
+  }
+  .menu-item {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+    margin-left: 2rem;
+    margin-top: 0.8rem;
+    padding-bottom: 0.3rem;
+    font-family: "Jost", sans-serif !important;
+    font-weight: 700;
+    font-size: 2rem;
+    color: #14336f;
+    height: 100%;
+    margin-bottom: 0;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    border-radius: 0.25rem 0.25rem 0 0;
+    cursor: pointer;
+  }
+  .menu:not(.visible) {
+    transform: translateY(-100%);
+  }
+  body {
+    background-color: #f5f5f5;
+    height: 100%;
+    width: 100%;
+  }
+  .selected-menu-item {
+    background-color: #f5f5f5;
   }
 </style>
