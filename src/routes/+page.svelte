@@ -1,9 +1,12 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { signIn, signOut } from "@auth/sveltekit/client";
+  import { text } from "@sveltejs/kit";
   let hot: Boolean = false;
   let memes: Boolean = true;
   let series: Boolean = false;
+  let dropdown: Boolean = false;
+  let dropdownValue: String = "Hot";
   let menu: Boolean[] = [false, true, false];
   const toggleMenu = async (section: string) => {
     switch (section) {
@@ -42,6 +45,7 @@
       // Scrolling down
       isScrollingUp = false;
       isNavVisible = false;
+      dropdown = false;
     } else {
       // Scrolling up
       isScrollingUp = true;
@@ -51,6 +55,12 @@
     prevScrollPos = currentScrollPos;
   };
 
+  const toggleDropdown = async (dd: any) => {
+    dropdown = !dropdown;
+    if (typeof dd == "string") {
+      dropdownValue = dd;
+    }
+  };
   let y: any;
   export let data;
   const user = data.session;
@@ -97,17 +107,20 @@
       <button on:click={() => signIn("google")} class="nav-right nav-button"
         >Sign Up</button
       >
-      <!-- <button on:click={() => signOut("google")} class="nav-right nav-button"
-        >Sign out</button
-      > -->
+
       <h2 class="nav-right nav-button">Login</h2>
-      <div class="pfp pfp-wrapper">
-        <img
-          src="https://s.yimg.com/ny/api/res/1.2/_wPmgp89IYk4DPxgi4_HzQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTEyMDA7aD02NzY-/https://media.zenfs.com/en/nbc_today_217/f0ecf037deda4fc7ee4fa0c1e03584e1"
-          alt="Avatar"
-          class="pfp nav-right"
-        />
-      </div>
+      {#if data.session}
+        <button on:click={() => signOut("google")} class="nav-right nav-button"
+          >Sign out</button
+        >
+        <div class="pfp pfp-wrapper">
+          <img
+            src="https://s.yimg.com/ny/api/res/1.2/_wPmgp89IYk4DPxgi4_HzQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTEyMDA7aD02NzY-/https://media.zenfs.com/en/nbc_today_217/f0ecf037deda4fc7ee4fa0c1e03584e1"
+            alt="Avatar"
+            class="pfp nav-right"
+          />
+        </div>
+      {/if}
     </ul>
   </nav>
   <div class="menu {isNavVisible && 'visible'}" on:scroll={handleScroll}>
@@ -129,6 +142,43 @@
     >
       series
     </button>
+
+    <div class="dropdown">
+      <button class="dropbtn" on:click={toggleDropdown}
+        >Sort - {dropdownValue}</button
+      >
+      {#if dropdown}
+        <div class="dropdown-content">
+          <button
+            class="dropdown-btn {dropdownValue == 'Hot'
+              ? 'selected-dropdown-btn'
+              : ''}"
+            on:click={() => toggleDropdown("Hot")}>Hot</button
+          >
+          <br />
+          <button
+            class="dropdown-btn {dropdownValue == 'New'
+              ? 'selected-dropdown-btn'
+              : ''}"
+            on:click={() => toggleDropdown("New")}>New</button
+          >
+          <br />
+          <button
+            class="dropdown-btn {dropdownValue == 'Old'
+              ? 'selected-dropdown-btn'
+              : ''}"
+            on:click={() => toggleDropdown("Old")}>Old</button
+          >
+          <br />
+          <button
+            class="dropdown-btn {dropdownValue == 'Top'
+              ? 'selected-dropdown-btn'
+              : ''}"
+            on:click={() => toggleDropdown("Top")}>Top</button
+          >
+        </div>
+      {/if}
+    </div>
   </div>
   <div style="width:100%; height: 4000px" />
 </body>
@@ -310,6 +360,7 @@
     padding-left: 0.5rem;
     border-radius: 0.25rem 0.25rem 0 0;
     cursor: pointer;
+    bottom: 0;
   }
   .menu:not(.visible) {
     transform: translateY(-100%);
@@ -321,5 +372,67 @@
   }
   .selected-menu-item {
     background-color: #f5f5f5;
+  }
+  .dropdown {
+    margin-left: 2rem;
+  }
+
+  .dropbtn {
+    color: #9b9b9b;
+    font-family: "Jost", sans-serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    border: none;
+    margin-top: 0.8rem;
+    background-color: transparent;
+    bottom: 0;
+  }
+  .dropbtn:hover {
+    color: black;
+  }
+  .dropdown {
+    position: relative;
+    display: flex;
+    align-items: center;
+    text-align: center;
+  }
+
+  .dropdown-content {
+    position: absolute;
+    background-color: white;
+    min-width: 8rem;
+    color: #9b9b9b;
+    z-index: 3;
+    top: calc(100% + 0.125rem);
+    font-family: "Jost", sans-serif;
+    font-weight: 700;
+    text-align: center;
+  }
+  .dropdown-btn:hover {
+    color: black;
+  }
+
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+
+  .dropdown-btn {
+    align-items: center;
+    background: none;
+    height: fit-content;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+    padding-bottom: 0.25rem;
+    padding-top: 0.25rem;
+    width: 100%;
+    text-align: center;
+  }
+
+  .selected-dropdown-btn {
+    color: black;
   }
 </style>
