@@ -7,6 +7,11 @@
   let series: Boolean = false;
   let dropdown: Boolean = false;
   let dropdownValue: String = "Hot";
+  let popupMenu: Boolean,
+    signUp: Boolean,
+    logIn: Boolean,
+    otherMethods: Boolean = false;
+
   let menu: Boolean[] = [false, true, false];
   const toggleMenu = async (section: string) => {
     switch (section) {
@@ -61,6 +66,10 @@
       dropdownValue = dd;
     }
   };
+
+  const togglePopupMenu = async (dd: any) => {
+    popupMenu = !popupMenu;
+  };
   let y: any;
   export let data;
   const user = data.session;
@@ -104,11 +113,23 @@
     </div>
 
     <ul class="nav-links">
-      <button on:click={() => signIn("google")} class="nav-right nav-button"
-        >Sign Up</button
+      <button
+        on:click={() => togglePopupMenu("SignUp")}
+        class="nav-right nav-button">Sign Up</button
+      >
+      <button
+        on:click={() => togglePopupMenu("Login")}
+        class="nav-right nav-button">Login</button
       >
 
-      <h2 class="nav-right nav-button">Login</h2>
+      {#if popupMenu}
+        <button class="popup-background" on:click={togglePopupMenu} />
+        <div class="popup-menu" id="popupMenu">
+          <ul>
+            <!-- Add more menu items as needed -->
+          </ul>
+        </div>
+      {/if}
       {#if data.session}
         <button on:click={() => signOut("google")} class="nav-right nav-button"
           >Sign out</button
@@ -144,8 +165,9 @@
     </button>
 
     <div class="dropdown">
-      <button class="dropbtn" on:click={toggleDropdown}
-        >Sort - {dropdownValue}</button
+      <button
+        class="dropbtn {dropdown ? 'selected-dropbtn' : ''}"
+        on:click={toggleDropdown}>Sort - {dropdownValue}</button
       >
       {#if dropdown}
         <div class="dropdown-content">
@@ -434,5 +456,32 @@
 
   .selected-dropdown-btn {
     color: black;
+  }
+
+  .selected-dropbtn {
+    color: black !important;
+  }
+
+  .popup-background {
+    border-style: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(244, 180, 62, 0.5); /* Orange with 50% opacity */
+    cursor: pointer;
+  }
+
+  /* Styles for the popup menu */
+  .popup-menu {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    z-index: 9999;
   }
 </style>
