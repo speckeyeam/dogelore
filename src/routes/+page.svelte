@@ -11,7 +11,7 @@
     signUp: Boolean,
     logIn: Boolean,
     otherMethods: Boolean = false;
-
+  let popupValue: String;
   let menu: Boolean[] = [false, true, false];
   const toggleMenu = async (section: string) => {
     switch (section) {
@@ -67,8 +67,30 @@
     }
   };
 
-  const togglePopupMenu = async (dd: any) => {
-    popupMenu = !popupMenu;
+  const togglePopupMenu = async (pu: any) => {
+    if (typeof pu == "string") {
+      popupMenu = true;
+      switch (pu) {
+        case "Sign Up": {
+          signUp = true;
+          logIn = otherMethods = false;
+          break;
+        }
+        case "Log In": {
+          logIn = true;
+          signUp = otherMethods = false;
+          break;
+        }
+        case "Other": {
+          otherMethods = true;
+          logIn = signUp = false;
+          break;
+        }
+      }
+      popupValue = pu;
+    } else {
+      popupMenu = false;
+    }
   };
   let y: any;
   export let data;
@@ -114,11 +136,11 @@
 
     <ul class="nav-links">
       <button
-        on:click={() => togglePopupMenu("SignUp")}
+        on:click={() => togglePopupMenu("Sign Up")}
         class="nav-right nav-button">Sign Up</button
       >
       <button
-        on:click={() => togglePopupMenu("Login")}
+        on:click={() => togglePopupMenu("Log In")}
         class="nav-right nav-button">Login</button
       >
 
@@ -126,20 +148,90 @@
         <button class="popup-background" on:click={togglePopupMenu} />
         <div class="popup-menu" id="popupMenu">
           <div class="popup-div">
-            <h1 class="popup-title">Login</h1>
-            <h2 class="popup-input-tag">username</h2>
+            <button on:click={togglePopupMenu} class="popup-close"
+              >&#x2715</button
+            >
+            <h1 class="popup-title">{popupValue}</h1>
+            {#if logIn}
+              <h2 class="popup-input-tag">email</h2>
 
-            <input class="popup-input" placeholder="username" />
-            <h2 class="popup-input-tag">password</h2>
-            <input class="popup-input" placeholder="password" />
+              <input class="popup-input" placeholder="email" />
+              <h2 class="popup-input-tag">password</h2>
+              <input class="popup-input" placeholder="password" />
+              <div class="google-sign-in-other-div">
+                <button
+                  on:click={() => signIn("google")}
+                  type="button"
+                  class="google-sign-in-button"
+                >
+                  Sign in with Google
+                </button>
+                <button
+                  on:click={() => togglePopupMenu("Other")}
+                  class="other-button">Other...</button
+                >
+              </div>
 
-            <button type="button" class="google-sign-in-button">
-              Sign in with Google
-            </button>
-            <div class="popup-buttons">
-              <button class="nav-button popup-button">Submit</button>
-              <button class="nav-button popup-button">Login</button>
-            </div>
+              <div class="popup-buttons">
+                <button class="nav-button popup-button">Submit</button>
+                <button
+                  on:click={() => togglePopupMenu("Sign Up")}
+                  class="nav-button popup-button">Sign Up</button
+                >
+              </div>
+            {/if}
+            {#if signUp}
+              <h2 class="popup-input-tag">username</h2>
+              <input class="popup-input" placeholder="username" />
+              <h2 class="popup-input-tag">email</h2>
+              <input class="popup-input" placeholder="email" />
+              <h2 class="popup-input-tag">password</h2>
+              <input class="popup-input" placeholder="password" />
+              <div class="google-sign-in-other-div">
+                <button
+                  on:click={() => signIn("google")}
+                  type="button"
+                  class="google-sign-in-button"
+                >
+                  Sign in with Google
+                </button>
+                <button
+                  on:click={() => togglePopupMenu("Other")}
+                  class="other-button"
+                >
+                  Other...
+                </button>
+              </div>
+
+              <div class="popup-buttons">
+                <button class="nav-button popup-button">Submit</button>
+                <button
+                  on:click={() => togglePopupMenu("Log In")}
+                  class="nav-button popup-button">Log In</button
+                >
+              </div>
+            {/if}
+
+            {#if otherMethods}
+              <button
+                on:click={() => signIn("google")}
+                type="button"
+                class="google-sign-in-button other"
+              >
+                Sign in with Google
+              </button>
+              <h2 class="popup-input-tag">...</h2>
+              <div class="popup-buttons">
+                <button
+                  on:click={() => togglePopupMenu("Sign Up")}
+                  class="nav-button popup-button">Sign Up</button
+                >
+                <button
+                  on:click={() => togglePopupMenu("Log In")}
+                  class="nav-button popup-button">Log In</button
+                >
+              </div>
+            {/if}
           </div>
         </div>
       {/if}
@@ -301,6 +393,7 @@
 
   .nav-button {
     align-items: center;
+    white-space: nowrap;
     display: flex;
     background: none;
     height: fit-content;
@@ -475,6 +568,16 @@
     color: black !important;
   }
 
+  .popup-close {
+    position: absolute;
+    top: 0rem;
+    right: 0rem;
+    font-size: 2rem;
+    cursor: pointer;
+    border-radius: 50%;
+    border-style: none;
+    background-color: transparent;
+  }
   .popup-background {
     border-style: none;
     position: fixed;
@@ -509,16 +612,34 @@
     margin: 0;
   }
   .popup-input {
+    border-style: none;
+    border: 0.01rem solid;
     display: block;
     margin-right: 8rem;
     margin-left: 8rem;
+    font-size: 1.5rem;
+    padding-top: 0.5rem;
+    padding-left: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-color: #e2e1e5;
+    color: black;
+    width: 20rem;
+    border-radius: 0.18rem;
   }
+  .popup-input::placeholder {
+    color: #d2d2d2;
+  }
+
+  .popup-input:focus {
+    border-color: transparent;
+  }
+
   .popup-input-tag {
     margin-top: 0.25rem;
     margin-right: 8rem;
     margin-left: 8rem;
     margin-bottom: 0.1rem;
-    font-weight: 400;
+    font-weight: 200;
     font-size: 1.5rem;
   }
   .popup-button {
@@ -527,16 +648,19 @@
     margin-left: auto;
     flex-direction: row;
     display: inline-flex;
+    margin-top: 1rem;
   }
   .popup-buttons {
     margin-left: auto;
   }
+
   .google-sign-in-button {
     width: 15rem;
     cursor: pointer;
     transition: background-color 0.3s, box-shadow 0.3s;
-
-    padding: 0.75rem 1rem 0.75rem;
+    margin-top: 1rem;
+    margin-left: 8.5rem;
+    padding: 0.75rem 0.5rem 0.75rem;
     border: none;
     border-radius: 0.4rem;
     box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.04), 0 1px 1px rgba(0, 0, 0, 0.25);
@@ -551,8 +675,24 @@
     background-color: white;
     background-repeat: no-repeat;
     background-position: 12px 11px;
+    display: inline-block;
   }
-
+  .other {
+    margin-right: 8rem !important;
+    margin-left: 8rem !important;
+  }
+  .other-button {
+    font-family: "Jost", sans-serif;
+    font-weight: 700;
+    display: inline-block;
+    margin-left: 0.5rem;
+    font-size: 0.8rem;
+    color: #14336f;
+    border-style: none;
+    background-color: transparent;
+    text-decoration: underline;
+    cursor: pointer;
+  }
   .google-sign-in-button:hover {
     box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.25);
   }
