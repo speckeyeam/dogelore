@@ -39,6 +39,26 @@
     }
   };
 
+  const handleSubmit = async () => {
+    signIn("credentials", {
+      username: "password",
+      password: "password",
+    });
+    fetch("/api/login", {
+      method: "POST",
+      body: JSON.stringify({
+        password: "password",
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.sucess) {
+        } else if (res.notLoggedIn) {
+          alert("not logged in");
+        }
+      })
+      .catch(() => alert("Failed to submit"));
+  };
   let prevScrollPos = 0;
   let isScrollingUp = false;
   let isNavVisible = true;
@@ -173,7 +193,9 @@
               </div>
 
               <div class="popup-buttons">
-                <button class="nav-button popup-button">Submit</button>
+                <button on:click={handleSubmit} class="nav-button popup-button"
+                  >Submit</button
+                >
                 <button
                   on:click={() => togglePopupMenu("Sign Up")}
                   class="nav-button popup-button">Sign Up</button
