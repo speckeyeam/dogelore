@@ -13,6 +13,7 @@
     otherMethods: Boolean = false;
   let popupValue: String;
   let menu: Boolean[] = [false, true, false];
+  let postPopupMenu = false;
   const toggleMenu = async (section: string) => {
     switch (section) {
       case "hot": {
@@ -87,31 +88,14 @@
     }
   };
 
-  const togglePopupMenu = async (pu: any) => {
-    if (typeof pu == "string") {
-      popupMenu = true;
-      switch (pu) {
-        case "Sign Up": {
-          signUp = true;
-          logIn = otherMethods = false;
-          break;
-        }
-        case "Log In": {
-          logIn = true;
-          signUp = otherMethods = false;
-          break;
-        }
-        case "Other": {
-          otherMethods = true;
-          logIn = signUp = false;
-          break;
-        }
-      }
-      popupValue = pu;
-    } else {
-      popupMenu = false;
-    }
+  const toggleSignIn = async (pu: any) => {
+    popupMenu = !popupMenu;
   };
+
+  const toggleCreatePost = async (pu: any) => {
+    postPopupMenu = !postPopupMenu;
+  };
+
   let y: any;
   export let data;
   const user = data.session;
@@ -155,119 +139,68 @@
     </div>
 
     <ul class="nav-links">
-      <button
-        on:click={() => togglePopupMenu("Sign Up")}
-        class="nav-right nav-button">Sign Up</button
-      >
-      <button
-        on:click={() => togglePopupMenu("Log In")}
-        class="nav-right nav-button">Login</button
-      >
-
       {#if popupMenu}
-        <button class="popup-background" on:click={togglePopupMenu} />
+        <button class="popup-background" on:click={toggleSignIn} />
         <div class="popup-menu" id="popupMenu">
           <div class="popup-div">
-            <button on:click={togglePopupMenu} class="popup-close"
-              >&#x2715</button
+            <!-- <button on:click={toggleSignIn} class="popup-close">&#x2715</button> -->
+            <h1 class="popup-title">Sign In</h1>
+            <button
+              on:click={() => signIn("google")}
+              type="button"
+              class="google-sign-in-button other"
             >
-            <h1 class="popup-title">{popupValue}</h1>
-            {#if logIn}
-              <h2 class="popup-input-tag">email</h2>
+              Sign in with Google
+            </button>
+            <!-- <h2 class="popup-input-tag">...</h2> -->
 
-              <input class="popup-input" placeholder="email" />
-              <h2 class="popup-input-tag">password</h2>
-              <input class="popup-input" placeholder="password" />
-              <div class="google-sign-in-other-div">
-                <button
-                  on:click={() => signIn("google")}
-                  type="button"
-                  class="google-sign-in-button"
-                >
-                  Sign in with Google
-                </button>
-                <button
-                  on:click={() => togglePopupMenu("Other")}
-                  class="other-button">Other...</button
-                >
-              </div>
-
-              <div class="popup-buttons">
-                <button on:click={handleSubmit} class="nav-button popup-button"
-                  >Submit</button
-                >
-                <button
-                  on:click={() => togglePopupMenu("Sign Up")}
-                  class="nav-button popup-button">Sign Up</button
-                >
-              </div>
-            {/if}
-            {#if signUp}
-              <h2 class="popup-input-tag">username</h2>
-              <input class="popup-input" placeholder="username" />
-              <h2 class="popup-input-tag">email</h2>
-              <input class="popup-input" placeholder="email" />
-              <h2 class="popup-input-tag">password</h2>
-              <input class="popup-input" placeholder="password" />
-              <div class="google-sign-in-other-div">
-                <button
-                  on:click={() => signIn("google")}
-                  type="button"
-                  class="google-sign-in-button"
-                >
-                  Sign in with Google
-                </button>
-                <button
-                  on:click={() => togglePopupMenu("Other")}
-                  class="other-button"
-                >
-                  Other...
-                </button>
-              </div>
-
-              <div class="popup-buttons">
-                <button class="nav-button popup-button">Submit</button>
-                <button
-                  on:click={() => togglePopupMenu("Log In")}
-                  class="nav-button popup-button">Log In</button
-                >
-              </div>
-            {/if}
-
-            {#if otherMethods}
-              <button
-                on:click={() => signIn("google")}
-                type="button"
-                class="google-sign-in-button other"
+            <div class="popup-buttons">
+              <button on:click={toggleSignIn} class="nav-button popup-button"
+                >Close</button
               >
-                Sign in with Google
-              </button>
-              <h2 class="popup-input-tag">...</h2>
-              <div class="popup-buttons">
-                <button
-                  on:click={() => togglePopupMenu("Sign Up")}
-                  class="nav-button popup-button">Sign Up</button
-                >
-                <button
-                  on:click={() => togglePopupMenu("Log In")}
-                  class="nav-button popup-button">Log In</button
-                >
-              </div>
-            {/if}
+            </div>
           </div>
         </div>
       {/if}
+
+      {#if postPopupMenu}
+        <button class="popup-background" on:click={toggleCreatePost} />
+        <div class="popup-menu" id="popupMenu">
+          <div class="popup-div">
+            <h1 class="popup-title">Create Post</h1>
+
+            <!-- <h2 class="popup-input-tag">...</h2> -->
+
+            <div class="popup-buttons">
+              <button
+                on:click={toggleCreatePost}
+                class="nav-button popup-button">Close</button
+              >
+            </div>
+          </div>
+        </div>
+      {/if}
+
       {#if data.session}
-        <button on:click={() => signOut("google")} class="nav-right nav-button"
+        <!-- <button on:click={() => signOut("google")} class="nav-right nav-button"
           >Sign out</button
+        > -->
+        <button on:click={toggleCreatePost} class="nav-right nav-button"
+          >le post</button
         >
         <div class="pfp pfp-wrapper">
           <img
-            src="https://s.yimg.com/ny/api/res/1.2/_wPmgp89IYk4DPxgi4_HzQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTEyMDA7aD02NzY-/https://media.zenfs.com/en/nbc_today_217/f0ecf037deda4fc7ee4fa0c1e03584e1"
+            src={data.session.user?.image ||
+              "https://s.yimg.com/ny/api/res/1.2/_wPmgp89IYk4DPxgi4_HzQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTEyMDA7aD02NzY-/https://media.zenfs.com/en/nbc_today_217/f0ecf037deda4fc7ee4fa0c1e03584e1"}
             alt="Avatar"
             class="pfp nav-right"
           />
         </div>
+      {:else}
+        <div class="pfp invisible" />
+        <button on:click={toggleSignIn} class="nav-right nav-button"
+          >Sign In</button
+        >
       {/if}
     </ul>
   </nav>
@@ -395,7 +328,9 @@
     display: flex;
     justify-content: center; /* Center content horizontally */
     align-items: center; /* Center content vertically */
+    margin-right: 1rem;
   }
+
   .pfp:hover {
     transform: rotate(-180deg);
   }
@@ -734,5 +669,12 @@
     background-color: #ebebeb;
     box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.04), 0 1px 1px rgba(0, 0, 0, 0.25);
     cursor: not-allowed;
+  }
+  .invisible {
+    color: transparent !important;
+    border-style: none !important;
+    border-color: transparent !important;
+    background-color: transparent !important;
+    cursor: default;
   }
 </style>

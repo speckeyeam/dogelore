@@ -1,0 +1,61 @@
+            <!-- {#if logIn}
+              <h2 class="popup-input-tag">email</h2>
+
+              <input class="popup-input" placeholder="email" />
+              <h2 class="popup-input-tag">password</h2>
+              <input class="popup-input" placeholder="password" />
+              <div class="google-sign-in-other-div">
+                <button
+                  on:click={() => signIn("google")}
+                  type="button"
+                  class="google-sign-in-button"
+                >
+                  Sign in with Google
+                </button>
+                <button
+                  on:click={() => togglePopupMenu("Other")}
+                  class="other-button">Other...</button
+                >
+              </div>
+
+              <div class="popup-buttons">
+                <button on:click={handleSubmit} class="nav-button popup-button"
+                  >Submit</button
+                >
+                <button
+                  on:click={() => togglePopupMenu("Sign Up")}
+                  class="nav-button popup-button">Sign Up</button
+                >
+              </div>
+            {/if} -->
+            <!-- {#if signUp}
+              <h2 class="popup-input-tag">username</h2>
+              <input class="popup-input" placeholder="username" />
+              <h2 class="popup-input-tag">email</h2>
+              <input class="popup-input" placeholder="email" />
+              <h2 class="popup-input-tag">password</h2>
+              <input class="popup-input" placeholder="password" />
+              <div class="google-sign-in-other-div">
+                <button
+                  on:click={() => signIn("google")}
+                  type="button"
+                  class="google-sign-in-button"
+                >
+                  Sign in with Google
+                </button>
+                <button
+                  on:click={() => togglePopupMenu("Other")}
+                  class="other-button"
+                >
+                  Other...
+                </button>
+              </div>
+
+              <div class="popup-buttons">
+                <button class="nav-button popup-button">Submit</button>
+                <button
+                  on:click={() => togglePopupMenu("Log In")}
+                  class="nav-button popup-button">Log In</button
+                >
+              </div>
+            {/if} -->
