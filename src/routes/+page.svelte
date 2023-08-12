@@ -11,7 +11,9 @@
     signUp: Boolean,
     logIn: Boolean,
     otherMethods: Boolean = false;
-  let popupValue: String;
+  let files: FileList;
+  let imageArray: File[] = [];
+  let createPostValue: String = "Image/Video";
   let menu: Boolean[] = [false, true, false];
   let postPopupMenu = false;
   const toggleMenu = async (section: string) => {
@@ -96,6 +98,24 @@
     postPopupMenu = !postPopupMenu;
   };
 
+  const handleImages = async (e: any) => {
+    if (e.target.files) {
+      let images = e.target.files;
+      imageArray = imageArray.concat(Array.from(images));
+    }
+  };
+  const removeImage = async (file: File) => {
+    const index = imageArray.indexOf(file, 0);
+    if (index > -1) {
+      imageArray.splice(index, 1);
+      imageArray = imageArray;
+    }
+  };
+  const openFile = async (pu: any) => {
+    const input = document.getElementById("imageInput");
+    input?.click();
+  };
+
   let y: any;
   export let data;
   const user = data.session;
@@ -167,15 +187,70 @@
         <button class="popup-background" on:click={toggleCreatePost} />
         <div class="popup-menu" id="popupMenu">
           <div class="popup-div">
-            <h1 class="popup-title">Create Post</h1>
+            <h1 class="popup-title">{createPostValue} Post</h1>
 
-            <!-- <h2 class="popup-input-tag">...</h2> -->
+            <h2 class="popup-input-tag">post title</h2>
+            <input class="popup-input" placeholder="title" />
+
+            <h2 class="popup-input-tag">upload file</h2>
+            <div class="file-holder">
+              {#if files}
+                {#each imageArray as file}
+                  <div class="image-container">
+                    <img
+                      src={URL.createObjectURL(file)}
+                      alt={file.name}
+                      class="uploaded-image"
+                    />
+                    <button
+                      class="close-button"
+                      on:click={() => removeImage(file)}
+                    >
+                      <svg
+                        color="#14336f"
+                        width="2rem"
+                        height="2rem"
+                        fill="#000000"
+                        version="1.1"
+                        id="Capa_1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                        viewBox="0 0 460.775 460.775"
+                        xml:space="preserve"
+                      >
+                        <path
+                          d="M285.08,230.397L456.218,59.27c6.076-6.077,6.076-15.911,0-21.986L423.511,4.565c-2.913-2.911-6.866-4.55-10.992-4.55
+                   c-4.127,0-8.08,1.639-10.993,4.55l-171.138,171.14L59.25,4.565c-2.913-2.911-6.866-4.55-10.993-4.55
+                   c-4.126,0-8.08,1.639-10.992,4.55L4.558,37.284c-6.077,6.075-6.077,15.909,0,21.986l171.138,171.128L4.575,401.505
+                   c-6.074,6.077-6.074,15.911,0,21.986l32.709,32.719c2.911,2.911,6.865,4.55,10.992,4.55c4.127,0,8.08-1.639,10.994-4.55
+                   l171.117-171.12l171.118,171.12c2.913,2.911,6.866,4.55,10.993,4.55c4.128,0,8.081-1.639,10.992-4.55l32.709-32.719
+                   c6.074-6.075,6.074-15.909,0-21.986L285.08,230.397z"
+                        />
+                      </svg></button
+                    >
+                  </div>
+                {/each}
+              {/if}
+
+              <button on:click={openFile} class="popup-input-file">+</button>
+            </div>
+            <input
+              type="file"
+              id="imageInput"
+              multiple
+              style="display: none;"
+              accept="image/*, video/*"
+              on:change={(e) => handleImages(e)}
+              bind:files
+            />
 
             <div class="popup-buttons">
               <button
                 on:click={toggleCreatePost}
                 class="nav-button popup-button">Close</button
               >
+              <button class="nav-button popup-button">Text Post</button>
+              <button class="nav-button popup-button">Submit</button>
             </div>
           </div>
         </div>
@@ -556,6 +631,7 @@
     padding: 20px;
     border-radius: 8px;
     z-index: 9999;
+    max-width: 37rem;
   }
   .popup-title {
     font-family: "Jost", sans-serif;
@@ -572,15 +648,15 @@
     border-style: none;
     border: 0.01rem solid;
     display: block;
-    margin-right: 8rem;
-    margin-left: 8rem;
+    /* margin-right: 8rem; */
+    /* margin-left: 8rem; */
     font-size: 1.5rem;
     padding-top: 0.5rem;
     padding-left: 0.5rem;
     padding-bottom: 0.5rem;
     border-color: #e2e1e5;
     color: black;
-    width: 20rem;
+    width: 35rem;
     border-radius: 0.18rem;
   }
   .popup-input::placeholder {
@@ -592,10 +668,10 @@
   }
 
   .popup-input-tag {
-    margin-top: 0.25rem;
-    margin-right: 8rem;
-    margin-left: 8rem;
-    margin-bottom: 0.1rem;
+    margin-top: 1rem;
+    /* margin-right: 8rem; */
+    /* margin-left: 8rem; */
+    margin-bottom: 0.2rem;
     font-weight: 200;
     font-size: 1.5rem;
   }
@@ -676,5 +752,72 @@
     border-color: transparent !important;
     background-color: transparent !important;
     cursor: default;
+  }
+  .popup-input-file {
+    width: 8rem;
+    height: 8rem;
+    background-color: white;
+    border: 0.2rem solid #3a71d4;
+    border-radius: 0.5rem;
+    font-size: 2.5rem;
+    font-weight: 200;
+    cursor: pointer;
+    min-width: 8rem;
+    height: 8rem;
+  }
+  .uploaded-image {
+    width: 13rem;
+    height: 13rem;
+    background-color: white;
+    border: 0.2rem solid #14336f;
+    border-radius: 0.5rem;
+    cursor: pointer;
+
+    object-fit: contain;
+    min-width: 13rem;
+    min-height: 13rem;
+    margin-bottom: 0.5rem;
+  }
+  .file-holder {
+    display: flex;
+    overflow-x: scroll;
+    white-space: nowrap;
+  }
+
+  .file-holder::-webkit-scrollbar {
+    height: 0.5rem;
+  }
+  .file-holder::-webkit-scrollbar-track {
+    background: white;
+  }
+  .file-holder::-webkit-scrollbar-thumb {
+    background: #d9d9d9;
+    border-radius: 1rem;
+    width: 0.5rem;
+  }
+
+  .close-button {
+    position: absolute;
+    top: 0.3rem;
+    right: 0;
+    background-color: rgb(255, 255, 255, 0.5);
+    border: none;
+    padding: 0.5rem;
+    left: 10rem;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    width: 3rem;
+    height: 3rem;
+    transition-duration: 0.3s;
+  }
+  .close-button:hover {
+    background-color: rgb(255, 255, 255, 0.8);
+  }
+  .image-container {
+    margin-right: 0.75rem;
+    position: relative;
+    display: inline-block;
+    width: 13rem;
+    min-width: 13rem;
   }
 </style>
