@@ -5,11 +5,11 @@ import type { RequestEvent } from "./$types";
 
 const prisma = new PrismaClient();
 
-export const POST = (async (request: RequestEvent) => {
-  const session = await request.locals.getSession();
+export const POST = (async (event: RequestEvent) => {
+  const session = await event.locals.getSession();
 
   if (session?.user) {
-    const data = await request.request.formData();
+    const data = await event.request.formData();
     console.log([...data]);
     const files = data.get("files");
     const title = data.get("title");
