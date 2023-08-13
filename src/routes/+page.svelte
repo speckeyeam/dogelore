@@ -16,6 +16,33 @@
   let createPostValue: String = "Image/Video";
   let menu: Boolean[] = [false, true, false];
   let postPopupMenu = false;
+  let filePost = true;
+  let postTitle: string,
+    postBody: String = "";
+
+  const submitFilePost = async () => {
+    var data = new FormData();
+    data.append("title", postTitle);
+
+    for (const file of imageArray) {
+      data.append("file", file, file.name);
+    }
+    console.log(data);
+
+    // data.append("files", imageArray[0]);
+
+    fetch("/api/createPost", {
+      method: "POST",
+      body: data,
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.sucess) {
+        }
+      })
+      .catch(() => alert("Failed to submit"));
+  };
+
   const toggleMenu = async (section: string) => {
     switch (section) {
       case "hot": {
@@ -187,71 +214,103 @@
         <button class="popup-background" on:click={toggleCreatePost} />
         <div class="popup-menu" id="popupMenu">
           <div class="popup-div">
-            <h1 class="popup-title">{createPostValue} Post</h1>
+            <h1 class="popup-title">
+              {filePost ? "Image/Video" : "Text"} Post
+            </h1>
 
             <h2 class="popup-input-tag">post title</h2>
-            <input class="popup-input" placeholder="title" />
-
-            <h2 class="popup-input-tag">upload file</h2>
-            <div class="file-holder">
-              {#if files}
-                {#each imageArray as file}
-                  <div class="image-container">
-                    <img
-                      src={URL.createObjectURL(file)}
-                      alt={file.name}
-                      class="uploaded-image"
-                    />
-                    <button
-                      class="close-button"
-                      on:click={() => removeImage(file)}
-                    >
-                      <svg
-                        color="#14336f"
-                        width="2rem"
-                        height="2rem"
-                        fill="#000000"
-                        version="1.1"
-                        id="Capa_1"
-                        xmlns="http://www.w3.org/2000/svg"
-                        xmlns:xlink="http://www.w3.org/1999/xlink"
-                        viewBox="0 0 460.775 460.775"
-                        xml:space="preserve"
+            <input
+              bind:value={postTitle}
+              class="popup-input"
+              placeholder="title"
+            />
+            {#if filePost}
+              <h2 class="popup-input-tag">upload file</h2>
+              <div class="file-holder">
+                {#if files}
+                  {#each imageArray as file}
+                    <div class="image-container">
+                      <img
+                        src={URL.createObjectURL(file)}
+                        alt={file.name}
+                        class="uploaded-image"
+                      />
+                      <button
+                        class="close-button"
+                        on:click={() => removeImage(file)}
                       >
-                        <path
-                          d="M285.08,230.397L456.218,59.27c6.076-6.077,6.076-15.911,0-21.986L423.511,4.565c-2.913-2.911-6.866-4.55-10.992-4.55
+                        <svg
+                          color="#14336f"
+                          width="2rem"
+                          height="2rem"
+                          fill="#000000"
+                          version="1.1"
+                          id="Capa_1"
+                          xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink"
+                          viewBox="0 0 460.775 460.775"
+                          xml:space="preserve"
+                        >
+                          <path
+                            d="M285.08,230.397L456.218,59.27c6.076-6.077,6.076-15.911,0-21.986L423.511,4.565c-2.913-2.911-6.866-4.55-10.992-4.55
                    c-4.127,0-8.08,1.639-10.993,4.55l-171.138,171.14L59.25,4.565c-2.913-2.911-6.866-4.55-10.993-4.55
                    c-4.126,0-8.08,1.639-10.992,4.55L4.558,37.284c-6.077,6.075-6.077,15.909,0,21.986l171.138,171.128L4.575,401.505
                    c-6.074,6.077-6.074,15.911,0,21.986l32.709,32.719c2.911,2.911,6.865,4.55,10.992,4.55c4.127,0,8.08-1.639,10.994-4.55
                    l171.117-171.12l171.118,171.12c2.913,2.911,6.866,4.55,10.993,4.55c4.128,0,8.081-1.639,10.992-4.55l32.709-32.719
                    c6.074-6.075,6.074-15.909,0-21.986L285.08,230.397z"
-                        />
-                      </svg></button
-                    >
-                  </div>
-                {/each}
-              {/if}
+                          />
+                        </svg></button
+                      >
+                    </div>
+                  {/each}
+                {/if}
 
-              <button on:click={openFile} class="popup-input-file">+</button>
-            </div>
-            <input
-              type="file"
-              id="imageInput"
-              multiple
-              style="display: none;"
-              accept="image/*, video/*"
-              on:change={(e) => handleImages(e)}
-              bind:files
-            />
+                <button on:click={openFile} class="popup-input-file">+</button>
+              </div>
 
-            <div class="popup-buttons">
-              <button
-                on:click={toggleCreatePost}
-                class="nav-button popup-button">Close</button
-              >
-              <button class="nav-button popup-button">Text Post</button>
-              <button class="nav-button popup-button">Submit</button>
-            </div>
+              <input
+                type="file"
+                id="imageInput"
+                multiple
+                style="display: none;"
+                accept="image/*, video/*"
+                on:change={(e) => handleImages(e)}
+                bind:files
+              />
+
+              <div class="popup-buttons">
+                <button
+                  on:click={toggleCreatePost}
+                  class="nav-button popup-button">Close</button
+                >
+                <button
+                  class="nav-button popup-button"
+                  on:click={() => (filePost = false)}>Text Post</button
+                >
+                <button
+                  on:click={submitFilePost}
+                  class="nav-button popup-button">Submit</button
+                >
+              </div>
+            {:else}
+              <h2 class="popup-input-tag">post text</h2>
+              <textarea
+                bind:value={postBody}
+                class="popup-input popup-textarea"
+                placeholder="text"
+              />
+              <div class="popup-buttons">
+                <button
+                  on:click={toggleCreatePost}
+                  class="nav-button popup-button">Close</button
+                >
+                <button
+                  class="nav-button popup-button"
+                  on:click={() => (filePost = true)}>File Post</button
+                >
+                <button class="nav-button popup-button">Submit</button>
+              </div>
+            {/if}
           </div>
         </div>
       {/if}
@@ -659,6 +718,10 @@
     width: 35rem;
     border-radius: 0.18rem;
   }
+  .popup-textarea {
+    max-width: 35rem;
+    font-family: "Jost", sans-serif;
+  }
   .popup-input::placeholder {
     color: #d2d2d2;
   }
@@ -666,7 +729,9 @@
   .popup-input:focus {
     border-color: transparent;
   }
-
+  .popup-textarea:focus {
+    border-color: transparent;
+  }
   .popup-input-tag {
     margin-top: 1rem;
     /* margin-right: 8rem; */
@@ -782,6 +847,7 @@
     display: flex;
     overflow-x: scroll;
     white-space: nowrap;
+    max-width: 35rem;
   }
 
   .file-holder::-webkit-scrollbar {
