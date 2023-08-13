@@ -10,12 +10,14 @@ export const POST = (async (event: RequestEvent) => {
 
   if (session?.user) {
     const data = await event.request.formData();
-    console.log([...data]);
-    const files = data.get("files");
+    //console.log([...data]);
+    const files = data.getAll("file");
     const title = data.get("title");
+    const array = [...files];
+    console.log(files.length);
     if (files && title) {
       //do s3 stuff
-      console.log("sucess");
+      //console.log(files.length);
     }
   } else {
   }
