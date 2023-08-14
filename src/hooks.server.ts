@@ -12,7 +12,7 @@ let gsecret;
 // Dynamically import the environment variables
 import("$env/static/private").then(
   ({ id: importedId, gsecret: importedGsecret }) => {
-    id = importedId || "default-id";
+    id = importedId || process.env.id;
     gsecret = importedGsecret || "default-gsecret";
 
     // You can start your tests here or call a function to begin testing
@@ -21,9 +21,16 @@ import("$env/static/private").then(
 );
 export const handle = SvelteKitAuth({
   adapter: PrismaAdapter(prisma),
-  session: {
-    strategy: "jwt",
-    maxAge: 300000,
+  callbacks: {
+    async session({ session, user }) {
+      session.user = {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        image: user.image,
+      };
+      return session;
+    },
   },
   providers: [
     Google({
