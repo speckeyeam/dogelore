@@ -62,6 +62,7 @@ model Post {
   userId String?
   title  String
   date   DateTime
+  text   String?
   file   Boolean
 }
 

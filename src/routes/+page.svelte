@@ -18,7 +18,7 @@
   let postPopupMenu = false;
   let filePost = true;
   let postTitle: string,
-    postBody: String = "";
+    postBody: string = "";
 
   const submitFilePost = async () => {
     var data = new FormData();
@@ -42,7 +42,22 @@
       })
       .catch(() => alert("Failed to submit"));
   };
+  const submitTextPost = async () => {
+    var data = new FormData();
+    data.append("title", postTitle);
+    data.append("text", postBody);
 
+    fetch("/api/createPost", {
+      method: "POST",
+      body: data,
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.sucess) {
+        }
+      })
+      .catch(() => alert("Failed to submit"));
+  };
   const toggleMenu = async (section: string) => {
     switch (section) {
       case "hot": {
@@ -308,7 +323,10 @@
                   class="nav-button popup-button"
                   on:click={() => (filePost = true)}>File Post</button
                 >
-                <button class="nav-button popup-button">Submit</button>
+                <button
+                  on:click={submitTextPost}
+                  class="nav-button popup-button">Submit</button
+                >
               </div>
             {/if}
           </div>

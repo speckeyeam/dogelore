@@ -15,12 +15,12 @@ export const POST = (async (event: RequestEvent) => {
 
   if (session?.user) {
     const data = await event.request.formData();
-    //console.log([...data]);
+    console.log([...data]);
     const files = data.getAll("file");
     const title = data.get("title");
-    const array = [...files];
-    console.log(files.length);
-    if (files && title) {
+    const text = data.get("text");
+
+    if (files.length > 0 && title) {
       //do s3 stuff
       let accessKeyId;
       let secretAccessKey;
@@ -82,11 +82,31 @@ export const POST = (async (event: RequestEvent) => {
           date: new Date(),
         },
       });
-      if (post) {
+      if (!post) {
         return json({ sucess: false, prismaL: true });
       }
       for (i = 0; i < files.length; i++) {
         uploadFile(files[i], foldername + "/" + i + ".jpg");
+      }
+    } else if (title && text) {
+      if (text.length < 2000 && text.length > 0) {
+        console.log("fail");
+        console.log(text + " JUDE");
+        const id = uuidv4();
+
+        const post = await prisma.Post.create({
+          data: {
+            id,
+            userId: session.user.id,
+            file: true,
+            title,
+            text: text,
+            date: new Date(),
+          },
+        });
+        if (!post) {
+          return json({ sucess: false, prismaL: true });
+        }
       }
     }
   } else {
