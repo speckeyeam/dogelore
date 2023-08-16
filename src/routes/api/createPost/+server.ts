@@ -62,7 +62,11 @@ export const POST = (async (event: RequestEvent) => {
         let file: any = files[i];
         const arrayBuffer = await file.arrayBuffer();
         let boofer = Buffer.from(arrayBuffer);
-        if (Buffer.byteLength(boofer) > 5368709120) {
+        if (
+          Buffer.byteLength(boofer) > 5368709120 ||
+          !(file?.type.includes("video/") || file?.type.includes("image/"))
+        ) {
+          console.log("fail");
           files.splice(i, 1);
         }
       }
@@ -85,8 +89,14 @@ export const POST = (async (event: RequestEvent) => {
       if (!post) {
         return json({ sucess: false, prismaL: true });
       }
+      let fileType: string = "";
       for (i = 0; i < files.length; i++) {
-        uploadFile(files[i], foldername + "/" + i + ".jpg");
+        if (files[i].type.includes("video")) {
+          fileType = "." + files[i].type.replace("video/", "");
+        } else {
+          fileType = ".jpg";
+        }
+        uploadFile(files[i], foldername + "/" + i + fileType);
       }
     } else if (title && text) {
       if (text.length < 2000 && text.length > 0) {

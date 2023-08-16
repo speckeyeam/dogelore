@@ -245,11 +245,18 @@
                 {#if files}
                   {#each imageArray as file}
                     <div class="image-container">
-                      <img
-                        src={URL.createObjectURL(file)}
-                        alt={file.name}
-                        class="uploaded-image"
-                      />
+                      {#if file.type.includes("image/")}
+                        <img
+                          src={URL.createObjectURL(file)}
+                          alt={file.name}
+                          class="uploaded-image"
+                        />
+                      {:else}
+                        <video class="uploaded-image" autoplay muted loop>
+                          <source src={URL.createObjectURL(file)} />
+                        </video>
+                      {/if}
+
                       <button
                         class="close-button"
                         on:click={() => removeImage(file)}
