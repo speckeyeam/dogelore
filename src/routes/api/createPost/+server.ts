@@ -4,7 +4,7 @@ import { PrismaClient } from "@prisma/client";
 import type { RequestEvent } from "./$types";
 import * as AWS from "aws-sdk";
 import * as fs from "fs";
-import { ACCESS_KEY } from "$env/static/private";
+import { ACCESS_KEY, AWS_REGION } from "$env/static/private";
 import { SECRET_ACCESS_KEY } from "$env/static/private";
 import { v4 as uuidv4 } from "uuid";
 
