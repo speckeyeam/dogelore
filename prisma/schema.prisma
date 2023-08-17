@@ -74,6 +74,14 @@ model post_Likes {
   @@unique([user_id, post_id])
 }
 
+model comment_Likes {
+  user_id String
+  post_id String
+  like    Boolean
+
+  @@unique([user_id, post_id])
+}
+
 // model User {
 //   id          String     @id @default(uuid())
 //   email       String     @unique
