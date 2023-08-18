@@ -66,7 +66,6 @@ export const POST = (async (event: RequestEvent) => {
           Buffer.byteLength(boofer) > 5368709120 ||
           !(file?.type.includes("video/") || file?.type.includes("image/"))
         ) {
-          console.log("fail");
           files.splice(i, 1);
         }
       }
@@ -100,22 +99,23 @@ export const POST = (async (event: RequestEvent) => {
       }
     } else if (title && text) {
       if (text.length < 2000 && text.length > 0) {
-        console.log("fail");
-        console.log(text + " JUDE");
         const id = uuidv4();
 
         const post = await prisma.Post.create({
           data: {
             id,
             userId: session.user.id,
-            file: true,
+            file: false,
             title,
             text: text,
             date: new Date(),
           },
         });
+
         if (!post) {
           return json({ sucess: false, prismaL: true });
+        } else {
+          return json({ sucess: true, id: post.id });
         }
       }
     }
@@ -125,6 +125,6 @@ export const POST = (async (event: RequestEvent) => {
   //   if (!session?.user) throw redirect(303, "/auth");
 
   //should prob check other stuff just in case
-  return json({ sucess: true });
+  return json({ sucess: false });
   //return json(newList.value + " test");
 }) satisfies RequestHandler;

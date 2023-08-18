@@ -20,33 +20,41 @@ export const load = (async ({ params, cookies }) => {
     });
 
     if (post) {
-      const prefix = post.id + "/";
-      const params = {
-        Bucket: "dogelore" /* required */,
-        Prefix: prefix, // Can be your folder name
-      };
+      if (post.file) {
+        const prefix = post.id + "/";
+        const params = {
+          Bucket: "dogelore" /* required */,
+          Prefix: prefix, // Can be your folder name
+        };
 
-      const s3 = new AWS.S3({
-        accessKeyId: ACCESS_KEY || process.env.ACCESS_KEY,
-        secretAccessKey: SECRET_ACCESS_KEY || process.env.SECRET_ACCESS_KEY,
-      });
-
-      s3.listObjectsV2(params, function (err, data) {
-        if (err) {
-          console.log(err, err.stack);
-        } // an error occurred
-
-        console.log(data);
-        const keyArray: string[] = [];
-        data.Contents.forEach(function (obj, index) {
-          console.log(obj.Key, "<<<file path");
-          keyArray.push("https://dogelore.s3.amazonaws.com/" + obj.Key);
+        const s3 = new AWS.S3({
+          accessKeyId: ACCESS_KEY || process.env.ACCESS_KEY,
+          secretAccessKey: SECRET_ACCESS_KEY || process.env.SECRET_ACCESS_KEY,
         });
 
-        // data.Contents.forEach(function (obj, index) {
-        //   console.log(index);
-        // });
-      });
+        s3.listObjectsV2(params, function (err, data) {
+          if (err) {
+            console.log(err, err.stack);
+          } // an error occurred
+
+          console.log(data);
+          const keyArray: string[] = [];
+          data.Contents.forEach(function (obj, index) {
+            console.log(obj.Key, "<<<file path");
+            keyArray.push("https://dogelore.s3.amazonaws.com/" + obj.Key);
+          });
+          return {
+            data: keyArray,
+          };
+          // data.Contents.forEach(function (obj, index) {
+          //   console.log(index);
+          // });
+        });
+      } else {
+        return {
+          data: post,
+        };
+      }
     }
 
     // s3.listObjectsV2(params, function (err, data) {
