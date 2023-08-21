@@ -12,8 +12,8 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 10%;
-    max-height: 10%;
+    height: 5.4rem;
+    max-height: 5.4rem;
     background-color: white;
     z-index: 2;
     transition: transform 0.3s ease;
@@ -146,12 +146,12 @@
     user-select: none;
     width: 100%;
     position: fixed;
-    top: 10%;
+    top:5.4rem;
     left: 0;
     right: 0;
     margin-right: 2rem;
     background-color: white;
-    max-height: 10%;
+    max-height: 5.4rem;
     z-index: 1;
     transition-duration: 0.3s;
   }

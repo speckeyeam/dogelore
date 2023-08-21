@@ -1,6 +1,6 @@
 .post-bg{
     width: 80%;
-    height: 100vw;
+    max-height: 100vw;
     max-width: 85%; /* Set a maximum width to ensure the container doesn't get too wide */
     background-color: white;
     margin-left: 10%;
@@ -8,11 +8,25 @@
     flex-direction: column;
 }
 
+.create-comment-div{
+    margin-top:1.5rem;
+    width: 80%;
+    max-height: 100vw;
+    max-width: 85%; /* Set a maximum width to ensure the container doesn't get too wide */
+    background-color: white;
+    margin-left: 10%;
+    display:flex;
+    flex-direction: column;
+    border-radius: .25rem;
+}
+
   .post-title{
-    margin-top:7%;
+    margin:0;
+    box-sizing: border-box;
+    margin-top:5.4rem;
     margin-left:2rem;
     font-family: "Jost", "Sans-serif";
-    margin-bottom:-.3rem;
+    margin-bottom:.35rem;
   }
   .post-user{
     font-size: 1.1rem;
@@ -38,6 +52,7 @@
     height: fit-content;
     vertical-align: middle;
     margin-bottom:.5rem;
+    
   }
   body{
     height: 100%;
@@ -51,6 +66,102 @@ margin-left: 2rem;
   .post-text{
     font-family: "Jost", "Sans-serif";
     font-weight: 300;
-    max-width: calc(100% - 4rem);
     margin-top: 0rem;
+    font-size: 1.1rem;
   }
+  .post-likes-div{
+    background-color:#14336F;
+    border-bottom-left-radius: .25rem;
+    border-bottom-right-radius: .25rem;
+    display: flex;
+    flex-direction: row;
+    vertical-align: center;
+    justify-content: space-between;
+  }
+  .post-likes{
+    color: white;
+    font-family: "Jost", "Sans-serif";
+    font-weight: 700;
+    font-size: 1.9rem;
+    margin:0;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-right: 1rem;
+    margin-left: 1rem;
+  }
+  .like-post{
+
+font-size: 1.9rem;
+
+
+  }
+  .dislike-post{
+    font-size: 1.9rem;
+
+  }
+  .more-options{
+
+    fill:white;
+height:2rem;
+width:2rem;
+  }
+  .btn{
+    border:none;
+    background-color: transparent;
+    margin:0;
+    padding:0;
+    cursor: pointer;
+    user-select: none;
+  }
+  .more-options-btn{
+    justify-content: flex-end;
+    display:flex;
+    display: inline-flex;
+    align-items: center;
+    margin-right:2rem;
+  }
+  .post-likes-container{
+    display: flex;
+    flex-direction: row;
+    margin-left:2rem;
+  }
+
+  .create-comment-container{
+    margin-left:1rem;
+    width: calc(100% - 2rem);
+  }
+   .create-comment-btn{
+      white-space: nowrap;
+
+    background: none;
+    height: fit-content;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+    font-weight: 700;
+    padding: 0.2rem 1rem 0.2rem 1rem;
+    border-radius: 1000rem;
+    font-size: 1.25rem;
+    background-color: #3a71d4;
+    color: white;
+    font-family: "Jost", "sans-serif";
+    display: block;
+    margin-left: auto;
+    margin-right: 0;
+    margin-bottom:1rem;
+  } 
+  .create-comment-textarea{
+    border-color: transparent;
+    font-family: "Jost", "Sans-serif";
+    font-size: 1.1rem;
+    width: calc(100% - .5rem);
+    margin-left:.25rem;
+    outline-color: #3a71d4;
+    margin-top:1rem;
+}
+.create-comment-textarea:focus{
+border-color: transparent;
+}
