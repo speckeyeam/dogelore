@@ -1,10 +1,30 @@
 <script lang="ts">
   import type { PageData } from "./$types";
-  import NavBar from "$lib/components/NavBar.svelte";
+  import { NavBar, Comment } from "$lib/components/NavBar.svelte";
   import "$lib/styles/style.css";
   import "$lib/styles/post.css";
   export let data: PageData;
   let post = data.data;
+  let post_id = post.id;
+  let comment = "";
+
+  const submitComment = async () => {
+    fetch("/api/comment/create", {
+      method: "POST",
+      body: JSON.stringify({
+        post_id,
+        comment,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.sucess) {
+        } else if (res.notLoggedIn) {
+          alert("not logged in");
+        }
+      })
+      .catch(() => alert("Failed to submit"));
+  };
 </script>
 
 <NavBar {data} />
@@ -46,11 +66,15 @@
   <div class="create-comment-div">
     <div class="create-comment-container">
       <textarea
+        bind:value={comment}
         rows="4"
         placeholder="Le comment..."
         class="create-comment-textarea"
       />
-      <button class="create-comment-btn">Comment</button>
+      <button on:click={submitComment} class="create-comment-btn"
+        >Comment</button
+      >
     </div>
   </div>
 {/if}
+<Comment />

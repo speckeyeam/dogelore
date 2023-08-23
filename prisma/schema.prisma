@@ -46,6 +46,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   Posts         Post[]
+  Comment       Comment[]
 }
 
 model VerificationToken {
@@ -64,6 +65,17 @@ model Post {
   date   DateTime
   text   String?
   file   Boolean
+}
+
+model Comment {
+  id       String   @id @default(cuid())
+  post_id  String
+  User     User?    @relation(fields: [userId], references: [id])
+  reply    Boolean  @default(false)
+  reply_to String?
+  userId   String?
+  text     String
+  date     DateTime
 }
 
 model post_Likes {

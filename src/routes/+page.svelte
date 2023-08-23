@@ -99,26 +99,6 @@
     }
   };
 
-  const handleSubmit = async () => {
-    signIn("credentials", {
-      username: "password",
-      password: "password",
-    });
-    fetch("/api/login", {
-      method: "POST",
-      body: JSON.stringify({
-        password: "password",
-      }),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.sucess) {
-        } else if (res.notLoggedIn) {
-          alert("not logged in");
-        }
-      })
-      .catch(() => alert("Failed to submit"));
-  };
   let prevScrollPos = 0;
   let isScrollingUp = false;
   let isNavVisible = true;
@@ -151,7 +131,7 @@
     popupMenu = !popupMenu;
   };
 
-  const toggleCreatePost = async (pu: any) => {
+  const toggleCreatePost = async () => {
     postPopupMenu = !postPopupMenu;
   };
 
