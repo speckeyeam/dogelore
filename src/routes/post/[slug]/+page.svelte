@@ -1,13 +1,14 @@
 <script lang="ts">
   import type { PageData } from "./$types";
-  import { NavBar, Comment } from "$lib/components/NavBar.svelte";
+  import NavBar from "$lib/components/NavBar.svelte";
+  import Comment from "$lib/components/Comment.svelte";
   import "$lib/styles/style.css";
   import "$lib/styles/post.css";
   export let data: PageData;
   let post = data.data;
   let post_id = post.id;
   let comment = "";
-
+  console.log(data);
   const submitComment = async () => {
     fetch("/api/comment/create", {
       method: "POST",
@@ -77,4 +78,7 @@
     </div>
   </div>
 {/if}
-<Comment />
+
+{#each data.comments as comment, i}
+  <Comment data={comment} />
+{/each}

@@ -4,7 +4,7 @@ import { PrismaClient } from "@prisma/client";
 import * as AWS from "aws-sdk";
 import { ACCESS_KEY } from "$env/static/private";
 import { SECRET_ACCESS_KEY } from "$env/static/private";
-
+import { getComments } from "$lib/server/server";
 export const load = (async ({ params, cookies }) => {
   let valid;
 
@@ -53,6 +53,7 @@ export const load = (async ({ params, cookies }) => {
       } else {
         return {
           data: post,
+          comments: await getComments(post.id),
         };
       }
     }
