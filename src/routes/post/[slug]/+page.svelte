@@ -20,6 +20,10 @@
       .then((res) => res.json())
       .then((res) => {
         if (res.sucess) {
+          if (res.comment) {
+            data.comments?.unshift(res.comment);
+            data.comments = data.comments;
+          }
         } else if (res.notLoggedIn) {
           alert("not logged in");
         }
@@ -79,6 +83,10 @@
   </div>
 {/if}
 
-{#each data.comments as comment, i}
-  <Comment data={comment} />
-{/each}
+{#if data.comments && data.comments.length > 0}
+  <div class="comments-div">
+    {#each data.comments as comment, i}
+      <Comment data={comment} />
+    {/each}
+  </div>
+{/if}

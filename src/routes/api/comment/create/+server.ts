@@ -28,7 +28,7 @@ export const POST = (async (event: RequestEvent) => {
             },
           });
           if (post) {
-            return json({ sucess: true });
+            return json({ sucess: true, comment: post });
           }
         } else {
           if (reply_to) {
@@ -43,7 +43,7 @@ export const POST = (async (event: RequestEvent) => {
               },
             });
             if (post) {
-              return json({ sucess: true });
+              return json({ sucess: true, comment: post });
             }
           }
         }
