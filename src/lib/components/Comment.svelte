@@ -1,6 +1,7 @@
 <script lang="ts">
   export let nodeReference: any;
   export let data: {};
+  let replies = true;
 </script>
 
 <div
@@ -17,6 +18,32 @@
       <h3 class="comment-likes">100</h3>
       <button class="comment-like btn">👎</button>
       <button class="comment-reply btn">Reply</button>
+      {#if replies}
+        <svg
+          id="Layer_1"
+          data-name="Layer 1"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 95.6 52.23"
+          class="show-replies-svg"
+          color="#14336f"
+        >
+          <defs>
+            <style>
+              .cls-1 {
+                fill: #fff;
+                stroke: #14336f;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+                stroke-width: 9px;
+              }
+            </style>
+          </defs>
+          <polygon
+            class="cls-1"
+            points="47.8 47.73 91.1 4.5 4.5 4.5 47.8 47.73"
+          />
+        </svg>
+      {/if}
     </div>
   </div>
 </div>
