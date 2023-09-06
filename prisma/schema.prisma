@@ -68,14 +68,16 @@ model Post {
 }
 
 model Comment {
-  id       String   @id @default(cuid())
+  id       String    @id @default(cuid())
   post_id  String
-  User     User?    @relation(fields: [userId], references: [id])
-  reply    Boolean  @default(false)
+  User     User?     @relation(fields: [userId], references: [id])
+  reply    Boolean   @default(false)
   reply_to String?
   userId   String?
   text     String
   date     DateTime
+  Reply    Comment?  @relation("replies", fields: [reply_to], references: [id])
+  Replies  Comment[] @relation("replies")
 }
 
 model post_Likes {

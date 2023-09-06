@@ -14,7 +14,7 @@ export async function getComments(id: string) {
   if (await postExists(id)) {
     const comments = await prisma.comment.findMany({
       where: { post_id: id, reply: false },
-      include: { User: true },
+      include: { User: true, Replies: true },
     });
     if (comments) {
       return comments;
