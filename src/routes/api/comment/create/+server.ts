@@ -26,7 +26,7 @@ export const POST = (async (event: RequestEvent) => {
               text: comment,
               date: new Date(),
             },
-            include: { User: true },
+            include: { User: true, Replies: true },
           });
           if (post) {
             return json({ sucess: true, comment: post });
@@ -42,7 +42,7 @@ export const POST = (async (event: RequestEvent) => {
                 text: comment,
                 date: new Date(),
               },
-              include: { User: true },
+              include: { User: true, Replies: true },
             });
             if (post) {
               return json({ sucess: true, comment: post });
@@ -51,8 +51,6 @@ export const POST = (async (event: RequestEvent) => {
         }
       }
     }
-    console.log(data.comment + " test");
-    console.log("jude");
   } else {
   }
 

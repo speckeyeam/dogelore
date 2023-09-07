@@ -1,18 +1,22 @@
 .post-bg{
 
-    max-height: 100vw;
+
     max-width: calc(100% - 19rem);
     background-color: white;
     margin-left: 9.5rem;
     display:flex;
     flex-direction: column;
+    justify-content: space-between;
 }
-
+.file-post{
+  max-height:100vw;
+  width: 100vw;
+}
 .create-comment-div{
     margin-top:1.5rem;
     margin-bottom: 1.5rem;
 
-    max-height: 100vw;
+  
     max-width: calc(100% - 19rem);
     background-color: white;
     margin-left: 9.5rem;
@@ -185,7 +189,6 @@ width:calc(100% - 4rem);
 .comment{
  margin-bottom: 1.5rem;
   font-family: "Jost", "Sans-serif";
-  max-height: 100vw;
   max-width: calc(100% - 19rem);
   background-color: white;
   margin-left: 9.5rem;
@@ -251,7 +254,7 @@ font-size:1.5rem;
   font-family: "Jost", "Sans-serif";
 
  width:calc(100% - 21rem);
-  max-height: 100vw;
+
   max-width: calc(100% - 21rem); /* Set a maximum width to ensure the container doesn't get too wide */
   background-color: white;
   margin-left: 11.5rem;
@@ -273,4 +276,7 @@ font-size:1.5rem;
 .create-comment-container{
   display:flex;
   flex-direction: column;
+}
+.replies-container{
+  margin-left: 4rem;
 }

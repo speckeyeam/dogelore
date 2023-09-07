@@ -37,12 +37,15 @@
 {#if post.file}
   <h1>video</h1>
 {:else}<div class="post-bg">
-    <h1 class="post-title">{post.title}</h1>
-    <h3 class="post-user">speckam (add later)</h3>
-    <h3 class="post-type">meme</h3>
-    <div class="post-text-div">
-      <h3 class="post-text">{post.text}</h3>
+    <div>
+      <h1 class="post-title">{post.title}</h1>
+      <h3 class="post-user">speckam (add later)</h3>
+      <h3 class="post-type">meme</h3>
+      <div class="post-text-div">
+        <h3 class="post-text">{post.text}</h3>
+      </div>
     </div>
+
     <div class="post-likes-div">
       <div class="post-likes-container">
         <button class="like-post btn">👍</button>

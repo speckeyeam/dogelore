@@ -5,7 +5,8 @@ import * as AWS from "aws-sdk";
 import { ACCESS_KEY } from "$env/static/private";
 import { SECRET_ACCESS_KEY } from "$env/static/private";
 import { getComments } from "$lib/server/server";
-export const load = (async ({ params, cookies }) => {
+export const load = (async ({ params, cookies, url }) => {
+  let theurl = url.searchParams.get("comment");
   let valid;
 
   const prisma = new PrismaClient();
@@ -54,6 +55,7 @@ export const load = (async ({ params, cookies }) => {
         return {
           data: post,
           comments: await getComments(post.id),
+          viewComment: theurl,
         };
       }
     }
