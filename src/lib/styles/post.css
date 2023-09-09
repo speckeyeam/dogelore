@@ -1,6 +1,6 @@
 .post-bg{
 
-
+  margin-bottom:1.5rem;
     max-width: calc(100% - 19rem);
     background-color: white;
     margin-left: 9.5rem;
@@ -13,7 +13,7 @@
   width: 100vw;
 }
 .create-comment-div{
-    margin-top:1.5rem;
+   
     margin-bottom: 1.5rem;
 
   
@@ -82,6 +82,7 @@ margin-left: 2rem;
     flex-direction: row;
     vertical-align: center;
     justify-content: space-between;
+
   }
   .post-likes{
     color: white;
@@ -279,4 +280,16 @@ font-size:1.5rem;
 }
 .replies-container{
   margin-left: 4rem;
+}
+.go-back-btn{
+  font-family: "Jost", "sans-serif";
+  margin-left:9.5rem;
+  margin-bottom:1.5rem;
+}
+.go-back-btn-container{
+  display: inline-flex;
+}
+.main-btn{
+  font-family: "Jost", "sans-serif";
+  margin-left:1rem;
 }

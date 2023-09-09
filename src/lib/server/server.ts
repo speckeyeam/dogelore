@@ -25,3 +25,25 @@ export async function getComments(id: string) {
   }
   return null;
 }
+
+export async function getReplies(id: string) {
+  const replies = await prisma.comment.findMany({
+    where: { id: id },
+    include: {
+      User: true,
+      Replies: {
+        include: {
+          User: true,
+          Replies: { include: { User: true, Replies: true } },
+        },
+      },
+    },
+  });
+
+  if (replies) {
+    //return parents
+
+    return replies[0].Replies;
+  }
+  return null;
+}
