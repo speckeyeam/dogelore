@@ -5,7 +5,8 @@
   export let nodeReference: any;
   export let data: {};
   export let redirect: Boolean;
-
+  export let second: Boolean;
+  export let third: Boolean;
   let replies = true;
   let showReplies = false;
   let replyLimit = 0;
@@ -153,7 +154,11 @@
 {#if showReplies && data.Replies}
   <div class="replies-container">
     {#each data.Replies as reply, i}
-      <svelte:self data={reply} redirect={true} />
+      {#if second}
+        <svelte:self data={reply} third={true} redirect={true} />
+      {:else}
+        <svelte:self data={reply} second={true} redirect={false} />
+      {/if}
     {/each}
   </div>
 {/if}

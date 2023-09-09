@@ -16,7 +16,12 @@ export async function getComments(id: string) {
       where: { post_id: id, reply: false },
       include: {
         User: true,
-        Replies: { include: { User: true, Replies: true } },
+        Replies: {
+          include: {
+            User: true,
+            Replies: { include: { User: true, Replies: true } },
+          },
+        },
       },
     });
     if (comments) {
@@ -34,7 +39,12 @@ export async function getReplies(id: string) {
       Replies: {
         include: {
           User: true,
-          Replies: { include: { User: true, Replies: true } },
+          Replies: {
+            include: {
+              User: true,
+              Replies: { include: { User: true, Replies: true } },
+            },
+          },
         },
       },
     },
