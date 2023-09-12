@@ -15,7 +15,7 @@ export const POST = (async (event: RequestEvent) => {
     let post_id = data.post_id;
     let reply = data.reply;
     let reply_to = data.reply_to;
-    if (comment && postExists(post_id)) {
+    if (comment && (await postExists(post_id))) {
       if (comment.length > 0 && comment.length < 5000) {
         if (!reply) {
           const post = await prisma.comment.create({

@@ -58,42 +58,54 @@ model VerificationToken {
 }
 
 model Post {
-  id     String   @id @unique
-  User   User?    @relation(fields: [userId], references: [id])
-  userId String?
-  title  String
-  date   DateTime
-  text   String?
-  file   Boolean
+  id       String          @id @unique
+  User     User?           @relation(fields: [userId], references: [id])
+  userId   String?
+  title    String
+  date     DateTime
+  text     String?
+  file     Boolean
+  Likes    post_likes[]
+  Dislikes post_dislikes[]
 }
 
 model Comment {
-  id       String    @id @default(cuid())
+  id       String             @id @default(cuid())
   post_id  String
-  User     User?     @relation(fields: [userId], references: [id])
-  reply    Boolean   @default(false)
+  User     User?              @relation(fields: [userId], references: [id])
+  reply    Boolean            @default(false)
   reply_to String?
   userId   String?
   text     String
   date     DateTime
-  Reply    Comment?  @relation("replies", fields: [reply_to], references: [id])
-  Replies  Comment[] @relation("replies")
+  Reply    Comment?           @relation("replies", fields: [reply_to], references: [id])
+  Replies  Comment[]          @relation("replies")
+  Likes    comment_likes[]
+  Dislikes comment_dislikes[]
 }
 
-model post_Likes {
-  user_id String
-  post_id String
-  like    Boolean
-
-  @@unique([user_id, post_id])
+model post_likes {
+  id     String @unique
+  Post   Post?  @relation(fields: [postId], references: [id])
+  postId String
 }
 
-model comment_Likes {
-  user_id String
-  post_id String
-  like    Boolean
+model post_dislikes {
+  id     String @unique
+  Post   Post?  @relation(fields: [postId], references: [id])
+  postId String
+}
 
-  @@unique([user_id, post_id])
+model comment_likes {
+  id        String   @unique
+  Comment   Comment? @relation(fields: [commentId], references: [id])
+  commentId String
+}
+
+model comment_dislikes {
+  id        String   @unique
+  Comment   Comment? @relation(fields: [commentId], references: [id])
+  commentId String
 }
 
 // model User {

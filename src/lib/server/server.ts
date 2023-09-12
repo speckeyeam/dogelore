@@ -10,6 +10,15 @@ export async function postExists(id: string) {
   }
 }
 
+export async function commentExists(id: string) {
+  if (id) {
+    const post = await prisma.comment.findUnique({ where: { id } });
+    return post ? true : false;
+  } else {
+    return false;
+  }
+}
+
 export async function getComments(id: string) {
   if (await postExists(id)) {
     const comments = await prisma.comment.findMany({

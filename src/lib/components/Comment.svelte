@@ -19,7 +19,8 @@
     } else {
       let url =
         $page.url.origin + "/post/" + data.post_id + "?comment=" + data.id;
-      window.location.href = url;
+      // window.location.href = url;
+      goto(url);
     }
   };
   const submitReply = async () => {
@@ -49,6 +50,32 @@
       })
       .catch(() => alert("Failed to submit"));
   };
+
+  const like = async (like: boolean) => {
+    fetch("/api/comment/like", {
+      method: "POST",
+      body: JSON.stringify({
+        comment_id: data.id,
+        like,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.sucess) {
+          if (res.comment) {
+            data.Replies?.unshift(res.comment);
+            data.Replies = data.Replies;
+            reply = false;
+            replyMessage = "";
+          }
+        } else if (res.notLoggedIn) {
+          alert("not logged in");
+        } else {
+          alert(res.toString());
+        }
+      })
+      .catch(() => alert("Failed to submit"));
+  };
 </script>
 
 <div
@@ -61,9 +88,9 @@
     <h2 class="comments-user">{data.User?.name}</h2>
     <h2 class="comments-text">{data.text}</h2>
     <div class="comment-likes-container">
-      <button class="comment-like btn">👍</button>
+      <button on:click={() => like(true)} class="comment-like btn">👍</button>
       <h3 class="comment-likes">100</h3>
-      <button class="comment-like btn">👎</button>
+      <button on:click={() => like(false)} class="comment-like btn">👎</button>
       <button class="comment-reply btn" on:click={() => (reply = !reply)}
         >Reply</button
       >
