@@ -1,17 +1,58 @@
 <script lang="ts">
   import type { Boolean } from "aws-sdk/clients/apigateway";
   import { page } from "$app/stores";
+  import { onMount } from "svelte";
   import { goto } from "$app/navigation";
   export let nodeReference: any;
   export let data: {};
+  export let showReplies;
+  $: showReplies = false;
   export let redirect: Boolean;
   export let second: Boolean;
   export let third: Boolean;
   let replies = true;
-  let showReplies = false;
+  //let showReplies = false;
   let replyLimit = 0;
   let reply = false;
   let replyMessage = "";
+
+  //const currentUrl = writable(window.location.href);
+
+  // Function to update the current URL in the store
+  function updateCurrentUrl() {
+    // alert("test");
+    showReplies = false;
+  }
+
+  var firstTimeUrl = $page.url;
+  (() => {
+    let oldPushState = history.pushState;
+    history.pushState = function pushState() {
+      let ret = oldPushState.apply(this, arguments);
+      window.dispatchEvent(new Event("pushstate"));
+      window.dispatchEvent(new Event("locationchange"));
+      return ret;
+    };
+
+    let oldReplaceState = history.replaceState;
+    history.replaceState = function replaceState() {
+      let ret = oldReplaceState.apply(this, arguments);
+      window.dispatchEvent(new Event("replacestate"));
+      window.dispatchEvent(new Event("locationchange"));
+      return ret;
+    };
+
+    window.addEventListener("popstate", () => {
+      window.dispatchEvent(new Event("locationchange"));
+    });
+  })();
+
+  // Listen for URL changes when the component is mounted
+  onMount(() => {
+    window.addEventListener("locationchange", function () {
+      console.log("location changed!");
+    });
+  });
 
   const showReply = async () => {
     if (!redirect) {
@@ -19,7 +60,9 @@
     } else {
       let url =
         $page.url.origin + "/post/" + data.post_id + "?comment=" + data.id;
-      // window.location.href = url;
+      showReplies = false;
+      data.Replies = data.Replies;
+      //window.location.href = url;
       goto(url);
     }
   };
@@ -182,9 +225,19 @@
   <div class="replies-container">
     {#each data.Replies as reply, i}
       {#if second}
-        <svelte:self data={reply} third={true} redirect={true} />
+        <svelte:self
+          showReplies={false}
+          data={reply}
+          third={true}
+          redirect={true}
+        />
       {:else}
-        <svelte:self data={reply} second={true} redirect={false} />
+        <svelte:self
+          showReplies={false}
+          data={reply}
+          second={true}
+          redirect={false}
+        />
       {/if}
     {/each}
   </div>

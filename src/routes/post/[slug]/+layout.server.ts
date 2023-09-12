@@ -4,13 +4,14 @@ import { PrismaClient } from "@prisma/client";
 import * as AWS from "aws-sdk";
 import { ACCESS_KEY } from "$env/static/private";
 import { SECRET_ACCESS_KEY } from "$env/static/private";
-import { getComments, getReplies } from "$lib/server/server";
+import { getComments, getReplies, commentExists } from "$lib/server/server";
 export const load = (async ({ params, cookies, url }) => {
   let theurl = url.searchParams.get("comment");
   let valid;
 
   const prisma = new PrismaClient();
   let comments: any;
+
   const postId: string = params.slug;
 
   if (postId) {

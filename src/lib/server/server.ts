@@ -13,7 +13,7 @@ export async function postExists(id: string) {
 export async function commentExists(id: string) {
   if (id) {
     const post = await prisma.comment.findUnique({ where: { id } });
-    return post ? true : false;
+    return post ? post : false;
   } else {
     return false;
   }
