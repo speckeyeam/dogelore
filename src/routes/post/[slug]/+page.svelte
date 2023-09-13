@@ -13,7 +13,7 @@
   let comment = "";
   let element: any;
   console.log(data);
-  $: comments = data.comments;
+  console.log($page.url.search);
   onMount(() => scrollToBottom(element));
 
   const scrollToBottom = async (node: any) => {
@@ -39,10 +39,12 @@
   };
 </script>
 
-{#if comments && comments.length > 0}
-  <div class="comments-div" use:scrollToBottom bind:this={element}>
-    {#each comments as comment, i}
-      <Comment data={comment} />
-    {/each}
-  </div>
-{/if}
+{#key $page.url.search}
+  {#if data.comments && data.comments.length > 0}
+    <div class="comments-div" use:scrollToBottom bind:this={element}>
+      {#each data.comments as comment, i}
+        <Comment data={comment} />
+      {/each}
+    </div>
+  {/if}
+{/key}

@@ -25,33 +25,15 @@
   }
 
   var firstTimeUrl = $page.url;
-  (() => {
-    let oldPushState = history.pushState;
-    history.pushState = function pushState() {
-      let ret = oldPushState.apply(this, arguments);
-      window.dispatchEvent(new Event("pushstate"));
-      window.dispatchEvent(new Event("locationchange"));
-      return ret;
-    };
-
-    let oldReplaceState = history.replaceState;
-    history.replaceState = function replaceState() {
-      let ret = oldReplaceState.apply(this, arguments);
-      window.dispatchEvent(new Event("replacestate"));
-      window.dispatchEvent(new Event("locationchange"));
-      return ret;
-    };
-
-    window.addEventListener("popstate", () => {
-      window.dispatchEvent(new Event("locationchange"));
-    });
-  })();
 
   // Listen for URL changes when the component is mounted
   onMount(() => {
-    window.addEventListener("locationchange", function () {
-      console.log("location changed!");
-    });
+    //window.addEventListener("hashchange", updateCurrentUrl);
+    // const urlParams = new URLSearchParams(window.location.search);
+    // const isBeta = urlParams.has("beta");
+    // window.addEventListener("change", function () {
+    //   alert("test");
+    // });
   });
 
   const showReply = async () => {
