@@ -12,8 +12,7 @@
   let post_id = post.id;
   let comment = "";
   let element: any;
-  console.log(data);
-  console.log($page.url.search);
+
   onMount(() => scrollToBottom(element));
 
   const scrollToBottom = async (node: any) => {
@@ -43,7 +42,7 @@
   {#if data.comments && data.comments.length > 0}
     <div class="comments-div" use:scrollToBottom bind:this={element}>
       {#each data.comments as comment, i}
-        <Comment data={comment} />
+        <Comment redirect={false} third={false} second={true} data={comment} />
       {/each}
     </div>
   {/if}

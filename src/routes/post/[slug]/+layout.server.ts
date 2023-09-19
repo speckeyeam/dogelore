@@ -19,6 +19,7 @@ export const load = (async ({ params, cookies, url }) => {
       where: {
         id: postId,
       },
+      include: { Likes: true, Dislikes: true },
     });
 
     if (post) {

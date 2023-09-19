@@ -293,3 +293,9 @@ font-size:1.5rem;
   font-family: "Jost", "sans-serif";
   margin-left:1rem;
 }
+.not-selected-like-btn{
+  filter: grayscale(100%);
+}
+.selected-like-text{
+  color:#f4b43e
+}

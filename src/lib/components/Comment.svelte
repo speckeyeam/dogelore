@@ -5,8 +5,7 @@
   import { goto } from "$app/navigation";
   export let nodeReference: any;
   export let data: {};
-  export let showReplies;
-  $: showReplies = false;
+  let showReplies = false;
   export let redirect: Boolean;
   export let second: Boolean;
   export let third: Boolean;
@@ -15,26 +14,6 @@
   let replyLimit = 0;
   let reply = false;
   let replyMessage = "";
-
-  //const currentUrl = writable(window.location.href);
-
-  // Function to update the current URL in the store
-  function updateCurrentUrl() {
-    // alert("test");
-    showReplies = false;
-  }
-
-  var firstTimeUrl = $page.url;
-
-  // Listen for URL changes when the component is mounted
-  onMount(() => {
-    //window.addEventListener("hashchange", updateCurrentUrl);
-    // const urlParams = new URLSearchParams(window.location.search);
-    // const isBeta = urlParams.has("beta");
-    // window.addEventListener("change", function () {
-    //   alert("test");
-    // });
-  });
 
   const showReply = async () => {
     if (!redirect) {
@@ -96,7 +75,6 @@
         } else if (res.notLoggedIn) {
           alert("not logged in");
         } else {
-          alert(res.toString());
         }
       })
       .catch(() => alert("Failed to submit"));
@@ -207,15 +185,10 @@
   <div class="replies-container">
     {#each data.Replies as reply, i}
       {#if second}
-        <svelte:self
-          showReplies={false}
-          data={reply}
-          third={true}
-          redirect={true}
-        />
+        <svelte:self second={false} data={reply} third={true} redirect={true} />
       {:else}
         <svelte:self
-          showReplies={false}
+          third={false}
           data={reply}
           second={true}
           redirect={false}

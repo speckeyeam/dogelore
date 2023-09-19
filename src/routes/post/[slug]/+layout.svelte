@@ -13,11 +13,73 @@
   let post_id = post.id;
   let comment = "";
   let element: any;
+  let liked: boolean;
+  let disliked = false;
   console.log(data);
+  let likeCount = 0;
+  let originalCount = 0;
+  if (data.session?.user) {
+    if (
+      post.Likes.find((item: any) => item.id === data.session.user.id + post.id)
+    ) {
+      liked = true;
+    }
+
+    if (
+      post.Dislikes.find(
+        (item: any) => item.id === data.session.user.id + post.id
+      )
+    ) {
+      disliked = true;
+    }
+  }
+
+  const like = async (like: boolean) => {
+    fetch("/api/post/like", {
+      method: "POST",
+      body: JSON.stringify({
+        post_id,
+        like,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.success) {
+          if (res.deselect) {
+            liked = false;
+            disliked = false;
+            likeCount = originalCount;
+          } else if (res.like) {
+            liked = true;
+            disliked = false;
+
+            if (liked) {
+              likeCount = likeCount + 1;
+            }
+            likeCount = likeCount + 1;
+          } else if (res.dislike) {
+            disliked = true;
+            liked = false;
+            if (liked) {
+              likeCount = likeCount - 1;
+            }
+            likeCount = likeCount - 1;
+          }
+          likeCount = likeCount;
+        } else if (res.notLoggedIn) {
+          alert("not logged in");
+        } else {
+        }
+      })
+      .catch(() => alert("Failed to submit"));
+  };
 
   onMount(() => scrollToBottom(element));
 
   const scrollToBottom = async (node: any) => {
+    likeCount = post.Likes.length - post.Dislikes.length;
+    originalCount = post.Likes.length - post.Dislikes.length;
+    alert(likeCount);
     if (data.viewComment) {
       if (node) {
         // You can adjust the behavior and options as needed
@@ -83,9 +145,17 @@
     </div>
     <div class="post-likes-div">
       <div class="post-likes-container">
-        <button class="like-post btn">👍</button>
-        <h3 class="post-likes">100</h3>
-        <button class="dislike-post btn">👎</button>
+        <button
+          class="like-post btn {liked ? '' : 'not-selected-like-btn'}"
+          on:click={() => like(true)}>👍</button
+        >
+        <h3 class="post-likes {liked ? '' : ''}">
+          {likeCount}
+        </h3>
+        <button
+          class="dislike-post btn {disliked ? '' : 'not-selected-like-btn  '}"
+          on:click={() => like(false)}>👎</button
+        >
       </div>
       <button class="more-options-btn btn">
         <svg

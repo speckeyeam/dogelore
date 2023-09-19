@@ -3,7 +3,10 @@ const prisma = new PrismaClient();
 
 export async function postExists(id: string) {
   if (id) {
-    const post = await prisma.post.findUnique({ where: { id } });
+    const post = await prisma.post.findUnique({
+      where: { id },
+      include: { Likes: true, Dislikes: true },
+    });
     return post ? true : false;
   } else {
     return false;
@@ -25,10 +28,21 @@ export async function getComments(id: string) {
       where: { post_id: id, reply: false },
       include: {
         User: true,
+        Likes: true,
+        Dislikes: true,
         Replies: {
           include: {
             User: true,
-            Replies: { include: { User: true, Replies: true } },
+            Likes: true,
+            Dislikes: true,
+            Replies: {
+              include: {
+                User: true,
+                Replies: true,
+                Likes: true,
+                Dislikes: true,
+              },
+            },
           },
         },
       },
@@ -48,17 +62,28 @@ export async function getReplies(id: string) {
       Replies: {
         include: {
           User: true,
+          Likes: true,
+          Dislikes: true,
           Replies: {
             include: {
               User: true,
-              Replies: { include: { User: true, Replies: true } },
+              Likes: true,
+              Dislikes: true,
+              Replies: {
+                include: {
+                  User: true,
+                  Replies: true,
+                  Likes: true,
+                  Dislikes: true,
+                },
+              },
             },
           },
         },
       },
     },
   });
-
+  //check to see if user liked comment or post and return bool if so.
   if (replies) {
     //return parents
 

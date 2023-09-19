@@ -2,50 +2,66 @@ import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
 import { PrismaClient } from "@prisma/client";
 import type { RequestEvent } from "./$types";
-import { commentExists } from "$lib/server/server";
+import { postExists } from "$lib/server/server";
 
 const prisma = new PrismaClient();
 
 export const POST = (async (event: RequestEvent) => {
   const session = await event.locals.getSession();
 
-  if (session?.user) {
+  console.log(session);
+  if (session) {
     const data = await event.request.json();
 
     let post_id = data.post_id;
-    let like = data.like;
+
     let id: String = session.user.id + post_id;
-    if (await commentExists(post_id)) {
-      console.log("tset");
-      const like = await prisma.comment_likes.findUnique({
+    if (await postExists(post_id)) {
+      const like = await prisma.post_likes.findUnique({
         where: { id },
       });
-
-      const dislike = await prisma.comment_dislikes.findUnique({
+      const dislike = await prisma.post_dislikes.findUnique({
         where: { id },
       });
       if (data.like) {
-        const createLike = await prisma.post_likes.create({
-          data: {
-            id,
-            postId: post_id,
-          },
-        });
+        if (like) {
+          const deleteLike = await prisma.post_likes.deleteMany({
+            where: { id },
+          });
+          return json({ success: true, deselect: true });
+        } else {
+          const createLike = await prisma.post_likes.create({
+            data: {
+              id,
+              postId: post_id,
+            },
+          });
+        }
 
-        const deleteDislike = await prisma.post_dislikes.delete({
+        const deleteDislike = await prisma.post_dislikes.deleteMany({
           where: { id },
         });
+        return json({ success: true, like: true });
       } else {
-        const createDislike = await prisma.post_dislikes.create({
-          data: {
-            id,
-            postId: post_id,
-          },
-        });
+        if (dislike) {
+          const deleteDislike = await prisma.post_dislikes.deleteMany({
+            where: { id },
+          });
 
-        const deleteLike = await prisma.post_likes.delete({
+          return json({ success: true, deselect: true });
+        } else {
+          const createDislike = await prisma.post_dislikes.create({
+            data: {
+              id,
+              postId: post_id,
+            },
+          });
+        }
+
+        const deleteLike = await prisma.post_likes.deleteMany({
           where: { id },
         });
+        return json({ success: true, dislike: true });
       }
     } else {
       return json({ success: false });
