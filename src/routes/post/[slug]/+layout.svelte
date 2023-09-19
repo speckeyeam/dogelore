@@ -46,24 +46,16 @@
       .then((res) => {
         if (res.success) {
           if (res.deselect) {
-            liked = false;
-            disliked = false;
+            liked = disliked = false;
             likeCount = originalCount;
           } else if (res.like) {
+            likeCount = likeCount + (disliked ? 2 : 1);
             liked = true;
             disliked = false;
-
-            if (liked) {
-              likeCount = likeCount + 1;
-            }
-            likeCount = likeCount + 1;
           } else if (res.dislike) {
+            likeCount = likeCount - (liked ? 2 : 1);
             disliked = true;
             liked = false;
-            if (liked) {
-              likeCount = likeCount - 1;
-            }
-            likeCount = likeCount - 1;
           }
           likeCount = likeCount;
         } else if (res.notLoggedIn) {
@@ -79,7 +71,7 @@
   const scrollToBottom = async (node: any) => {
     likeCount = post.Likes.length - post.Dislikes.length;
     originalCount = post.Likes.length - post.Dislikes.length;
-    alert(likeCount);
+
     if (data.viewComment) {
       if (node) {
         // You can adjust the behavior and options as needed

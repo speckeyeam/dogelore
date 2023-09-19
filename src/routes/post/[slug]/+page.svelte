@@ -42,7 +42,13 @@
   {#if data.comments && data.comments.length > 0}
     <div class="comments-div" use:scrollToBottom bind:this={element}>
       {#each data.comments as comment, i}
-        <Comment redirect={false} third={false} second={true} data={comment} />
+        <Comment
+          redirect={false}
+          third={false}
+          second={true}
+          data={comment}
+          user_id={data.session?.user.id}
+        />
       {/each}
     </div>
   {/if}

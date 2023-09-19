@@ -5,6 +5,7 @@
   import { goto } from "$app/navigation";
   export let nodeReference: any;
   export let data: {};
+  export let user_id;
   let showReplies = false;
   export let redirect: Boolean;
   export let second: Boolean;
@@ -14,6 +15,26 @@
   let replyLimit = 0;
   let reply = false;
   let replyMessage = "";
+  let liked: boolean;
+  let disliked = false;
+  let likeCount = 0;
+  let originalCount = 0;
+
+  likeCount = data.Likes.length - data.Dislikes.length;
+  originalCount = data.Likes.length - data.Dislikes.length;
+  if (user_id) {
+    console.log(data.id);
+    console.log(user_id);
+    if (data.Likes.find((item: any) => item.id === user_id + data.id)) {
+      liked = true;
+      originalCount = data.Likes.length - data.Dislikes.length - 1;
+    }
+
+    if (data.Dislikes.find((item: any) => item.id === user_id + data.id)) {
+      disliked = true;
+      originalCount = data.Likes.length - data.Dislikes.length + 1;
+    }
+  }
 
   const showReply = async () => {
     if (!redirect) {
@@ -65,16 +86,24 @@
     })
       .then((res) => res.json())
       .then((res) => {
-        if (res.sucess) {
-          if (res.comment) {
-            data.Replies?.unshift(res.comment);
-            data.Replies = data.Replies;
-            reply = false;
-            replyMessage = "";
+        if (res.success) {
+          if (res.deselect) {
+            liked = disliked = false;
+            likeCount = originalCount;
+          } else if (res.like) {
+            likeCount = likeCount + (disliked ? 2 : 1);
+            liked = true;
+            disliked = false;
+          } else if (res.dislike) {
+            likeCount = likeCount - (liked ? 2 : 1);
+            disliked = true;
+            liked = false;
           }
+          likeCount = likeCount;
         } else if (res.notLoggedIn) {
           alert("not logged in");
         } else {
+          alert("tsest");
         }
       })
       .catch(() => alert("Failed to submit"));
@@ -91,9 +120,17 @@
     <h2 class="comments-user">{data.User?.name}</h2>
     <h2 class="comments-text">{data.text}</h2>
     <div class="comment-likes-container">
-      <button on:click={() => like(true)} class="comment-like btn">👍</button>
-      <h3 class="comment-likes">100</h3>
-      <button on:click={() => like(false)} class="comment-like btn">👎</button>
+      <button
+        on:click={() => like(true)}
+        class="comment-like btn {liked ? '' : 'not-selected-like-btn'}"
+        >👍</button
+      >
+      <h3 class="comment-likes">{likeCount}</h3>
+      <button
+        on:click={() => like(false)}
+        class="comment-like btn {disliked ? '' : 'not-selected-like-btn  '}"
+        >👎</button
+      >
       <button class="comment-reply btn" on:click={() => (reply = !reply)}
         >Reply</button
       >
@@ -185,13 +222,20 @@
   <div class="replies-container">
     {#each data.Replies as reply, i}
       {#if second}
-        <svelte:self second={false} data={reply} third={true} redirect={true} />
+        <svelte:self
+          second={false}
+          data={reply}
+          third={true}
+          redirect={true}
+          {user_id}
+        />
       {:else}
         <svelte:self
           third={false}
           data={reply}
           second={true}
           redirect={false}
+          {user_id}
         />
       {/if}
     {/each}

@@ -9,43 +9,59 @@ const prisma = new PrismaClient();
 export const POST = (async (event: RequestEvent) => {
   const session = await event.locals.getSession();
 
-  if (session?.user) {
+  console.log(session);
+  if (session) {
     const data = await event.request.json();
 
     let comment_id = data.comment_id;
-    let like = data.like;
+
     let id: String = session.user.id + comment_id;
     if (await commentExists(comment_id)) {
-      console.log("tset");
       const like = await prisma.comment_likes.findUnique({
         where: { id },
       });
-
       const dislike = await prisma.comment_dislikes.findUnique({
         where: { id },
       });
       if (data.like) {
-        const createLike = await prisma.comment_likes.create({
-          data: {
-            id,
-            commentId: comment_id,
-          },
-        });
+        if (like) {
+          const deleteLike = await prisma.comment_likes.deleteMany({
+            where: { id },
+          });
+          return json({ success: true, deselect: true });
+        } else {
+          const createLike = await prisma.comment_likes.create({
+            data: {
+              id,
+              commentId: comment_id,
+            },
+          });
+        }
 
-        const deleteDislike = await prisma.comment_dislikes.delete({
+        const deleteDislike = await prisma.comment_dislikes.deleteMany({
           where: { id },
         });
+        return json({ success: true, like: true });
       } else {
-        const createDislike = await prisma.comment_dislikes.create({
-          data: {
-            id,
-            commentId: comment_id,
-          },
-        });
+        if (dislike) {
+          const deleteDislike = await prisma.comment_dislikes.deleteMany({
+            where: { id },
+          });
 
-        const deleteLike = await prisma.comment_likes.delete({
+          return json({ success: true, deselect: true });
+        } else {
+          const createDislike = await prisma.comment_dislikes.create({
+            data: {
+              id,
+              commentId: comment_id,
+            },
+          });
+        }
+
+        const deleteLike = await prisma.comment_likes.deleteMany({
           where: { id },
         });
+        return json({ success: true, dislike: true });
       }
     } else {
       return json({ success: false });
