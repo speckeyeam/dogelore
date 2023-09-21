@@ -39,7 +39,7 @@
       .then((res) => res.json())
       .then((res) => {
         if (res.sucess && res.id) {
-          let url = $page.url.origin + "post/" + res.id;
+          let url = $page.url.origin + "/post/" + res.id;
           toggleCreatePost();
           window.open(url, "_blank").focus();
           postTitle = postBody = "";

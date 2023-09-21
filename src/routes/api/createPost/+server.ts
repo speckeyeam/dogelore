@@ -97,6 +97,7 @@ export const POST = (async (event: RequestEvent) => {
         }
         uploadFile(files[i], foldername + "/" + i + fileType);
       }
+      return json({ sucess: true, id: post.id });
     } else if (title && text) {
       if (text.length < 2000 && text.length > 0) {
         const id = uuidv4();

@@ -82,7 +82,7 @@ margin-left: 2rem;
     flex-direction: row;
     vertical-align: center;
     justify-content: space-between;
-
+height:4.7rem;
   }
   .post-likes{
     color: white;
@@ -298,4 +298,15 @@ font-size:1.5rem;
 }
 .selected-like-text{
   color:#f4b43e
+}
+.post-file{
+      max-width: calc(100% - 4rem);
+      margin-left:2rem;
+      margin-left:0;
+      max-height: 35rem;
+
+}
+.file-div{
+  display:flex;
+  justify-content: center;
 }

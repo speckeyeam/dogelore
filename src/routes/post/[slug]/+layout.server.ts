@@ -4,7 +4,12 @@ import { PrismaClient } from "@prisma/client";
 import * as AWS from "aws-sdk";
 import { ACCESS_KEY } from "$env/static/private";
 import { SECRET_ACCESS_KEY } from "$env/static/private";
-import { getComments, getReplies, commentExists } from "$lib/server/server";
+import {
+  getComments,
+  getReplies,
+  commentExists,
+  postExists,
+} from "$lib/server/server";
 export const load = (async ({ params, cookies, url }) => {
   let theurl = url.searchParams.get("comment");
   let valid;
@@ -15,12 +20,7 @@ export const load = (async ({ params, cookies, url }) => {
   const postId: string = params.slug;
 
   if (postId) {
-    const post = await prisma.post.findFirst({
-      where: {
-        id: postId,
-      },
-      include: { Likes: true, Dislikes: true },
-    });
+    const post = await postExists(postId);
 
     if (post) {
       if (theurl) {
@@ -40,24 +40,34 @@ export const load = (async ({ params, cookies, url }) => {
           secretAccessKey: SECRET_ACCESS_KEY || process.env.SECRET_ACCESS_KEY,
         });
 
-        s3.listObjectsV2(params, function (err, data) {
-          if (err) {
-            console.log(err, err.stack);
-          } // an error occurred
+        const keyArray: string[] = [];
+        const listItems = s3
+          .listObjectsV2(params, async function (err, data) {
+            if (err) {
+              console.log(err, err.stack);
+            } // an error occurred
 
-          console.log(data);
-          const keyArray: string[] = [];
-          data.Contents.forEach(function (obj, index) {
-            console.log(obj.Key, "<<<file path");
-            keyArray.push("https://dogelore.s3.amazonaws.com/" + obj.Key);
-          });
-          return {
-            data: keyArray,
-          };
-          // data.Contents.forEach(function (obj, index) {
-          //   console.log(index);
-          // });
-        });
+            console.log(data);
+            if (data.Contents) {
+              data.Contents.forEach(function (obj, index) {
+                console.log(obj.Key, "<<<file path");
+                keyArray.push("https://dogelore.s3.amazonaws.com/" + obj.Key);
+              });
+            }
+
+            return keyArray;
+            // data.Contents.forEach(function (obj, index) {
+            //   console.log(index);
+            // });
+          })
+          .promise();
+        console.log(keyArray + " . TEST");
+        return {
+          data: post,
+          fileArray: await listItems,
+          comments,
+          viewComment: theurl,
+        };
       } else {
         return {
           data: post,
@@ -74,5 +84,6 @@ export const load = (async ({ params, cookies, url }) => {
 
     //get posts
   }
+
   throw error(404, "Not found");
 }) satisfies PageServerLoad;

@@ -5,9 +5,9 @@ export async function postExists(id: string) {
   if (id) {
     const post = await prisma.post.findUnique({
       where: { id },
-      include: { Likes: true, Dislikes: true },
+      include: { Likes: true, Dislikes: true, User: true },
     });
-    return post ? true : false;
+    return post ? post : false;
   } else {
     return false;
   }
