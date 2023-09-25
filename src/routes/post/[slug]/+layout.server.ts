@@ -48,7 +48,7 @@ export const load = (async ({ params, cookies, url }) => {
             } // an error occurred
 
             console.log(data);
-            if (data.Contents) {
+            if (data?.Contents) {
               data.Contents.forEach(function (obj, index) {
                 console.log(obj.Key, "<<<file path");
                 keyArray.push("https://dogelore.s3.amazonaws.com/" + obj.Key);

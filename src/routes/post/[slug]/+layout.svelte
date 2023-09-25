@@ -2,6 +2,7 @@
   import type { PageData } from "./$types";
   import NavBar from "$lib/components/NavBar.svelte";
   import Comment from "$lib/components/Comment.svelte";
+  import SlideShow from "$lib/components/SlideShow.svelte";
   import { onMount } from "svelte";
   import { page } from "$app/stores";
   import "$lib/styles/style.css";
@@ -139,14 +140,7 @@
       <h3 class="post-type">meme</h3>
       <div class="post-text-div">
         {#if data.fileArray}
-          <div class="file-div">
-            <img
-              class="post-file"
-              src={"https://dogelore.s3.amazonaws.com/" +
-                data.fileArray.Contents[0].Key}
-              alt="doge"
-            />
-          </div>
+          <SlideShow fileArray={data.fileArray} />
         {/if}
       </div>
     </div>
