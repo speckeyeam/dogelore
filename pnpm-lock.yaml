@@ -15,6 +15,7 @@ specifiers:
   prisma: ^5.1.1
   svelte: ^4.1.2
   svelte-check: ^3.4.6
+  swiper: ^10.3.0
   tslib: ^2.6.1
   typescript: ^5.1.6
   uuid: ^9.0.0
@@ -29,6 +30,7 @@ dependencies:
   aws-sdk: 2.1438.0
   bcryptjs: 2.4.3
   fs: 0.0.1-security
+  swiper: 10.3.0
   uuid: 9.0.0
 
 devDependencies:
@@ -2212,6 +2214,11 @@ packages:
       locate-character: 3.0.0
       magic-string: 0.30.2
       periscopic: 3.1.0
+
+  /swiper/10.3.0:
+    resolution: {integrity: sha512-o81KZH4phL/dJxKFWpZ/zf78QxOyFMood+c86vJJO0ZeSOoniyzV8HWDsw12KOlQdm4WRxrc/6kfGImAcxcS3w==}
+    engines: {node: '>= 4.7.0'}
+    dev: false
 
   /to-regex-range/5.0.1:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==}
