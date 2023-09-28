@@ -15,7 +15,7 @@ export const POST = (async (event: RequestEvent) => {
 
   if (session?.user) {
     const data = await event.request.formData();
-    console.log([...data]);
+    // console.log([...data]);
     const files = data.getAll("file");
     const title = data.get("title");
     const text = data.get("text");
@@ -92,10 +92,12 @@ export const POST = (async (event: RequestEvent) => {
       for (i = 0; i < files.length; i++) {
         if (files[i].type.includes("video")) {
           fileType = "." + files[i].type.replace("video/", "");
+          console.log(fileType + "TEST");
+          uploadFile(files[i], foldername + "/" + i + fileType);
         } else {
           fileType = ".jpg";
+          uploadFile(files[i], foldername + "/" + i + fileType);
         }
-        uploadFile(files[i], foldername + "/" + i + fileType);
       }
       return json({ sucess: true, id: post.id });
     } else if (title && text) {

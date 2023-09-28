@@ -9,6 +9,7 @@ specifiers:
   '@sveltejs/adapter-auto': ^2.1.0
   '@sveltejs/kit': ^1.22.4
   '@types/node': ^20.5.0
+  '@vime/core': ^5.4.1
   aws-sdk: ^2.1435.0
   bcryptjs: ^2.4.3
   fs: 0.0.1-security
@@ -27,6 +28,7 @@ dependencies:
   '@auth/sveltekit': 0.3.6_wtlg4o4rxbz2ym7kavkszagzku
   '@aws-sdk/client-s3': 3.391.0
   '@prisma/client': 5.1.1_prisma@5.1.1
+  '@vime/core': 5.4.1
   aws-sdk: 2.1438.0
   bcryptjs: 2.4.3
   fs: 0.0.1-security
@@ -1336,6 +1338,12 @@ packages:
       tslib: 2.6.1
     dev: false
 
+  /@stencil/core/2.5.2:
+    resolution: {integrity: sha512-bgjPXkSzzg1WnTgVUm6m5ZzpKt602WmA/QljODAW1xVN40OHJdbGblzF/F6MFzqv2c5Cy30CB41arc8qADIdcQ==}
+    engines: {node: '>=12.10.0', npm: '>=6.0.0'}
+    hasBin: true
+    dev: false
+
   /@sveltejs/adapter-auto/2.1.0_@sveltejs+kit@1.22.4:
     resolution: {integrity: sha512-o2pZCfATFtA/Gw/BB0Xm7k4EYaekXxaPGER3xGSY3FvzFJGTlJlZjBseaXwYSM94lZ0HniOjTokN3cWaLX6fow==}
     peerDependencies:
@@ -1411,12 +1419,26 @@ packages:
   /@types/estree/1.0.1:
     resolution: {integrity: sha512-LG4opVs2ANWZ1TJoKc937iMmNstM/d0ae1vNbnBvBhqCSezgVUOzcLCqbI5elV8Vy6WKwKjaqR+zO9VKirBBCA==}
 
+  /@types/fscreen/1.0.2:
+    resolution: {integrity: sha512-mcLTUz/csZ0orKbsPUXCRLs+NTK7+LWX52id+ws7HSsu/wMeuX3320Bpq+zeAfxGw0gPUVhuUozuvKbmsB+u6A==}
+    dev: false
+
   /@types/node/20.5.0:
     resolution: {integrity: sha512-Mgq7eCtoTjT89FqNoTzzXg2XvCi5VMhRV6+I2aYanc6kQCBImeNaAYRs/DyoVqk1YEUJK5gN9VO7HRIdz4Wo3Q==}
 
   /@types/pug/2.0.6:
     resolution: {integrity: sha512-SnHmG9wN1UVmagJOnyo/qkk0Z7gejYxOYYmaAwr5u2yFYfsupN3sg10kyzN8Hep/2zbHxCnsumxOoRIRMBwKCg==}
     dev: true
+
+  /@vime/core/5.4.1:
+    resolution: {integrity: sha512-ZFpV3xqZJ5tvh5rZOYKRh8zFzNIKr2ZcK6L75nJjFjbWt/ZmFF2nMBxtD9/hC4Xjk9v7hp1+P9cmctL674VFgA==}
+    dependencies:
+      '@stencil/core': 2.5.2
+      '@types/fscreen': 1.0.2
+      fscreen: 1.2.0
+      mitt: 3.0.1
+      stencil-wormhole: 3.4.1
+    dev: false
 
   /acorn/8.10.0:
     resolution: {integrity: sha512-F0SAmZ8iUtS//m8DmCTA0jlh6TDKkHQyK6xc6V4KDTyZKA9dnvX9/3sRTVQrWm79glUAZbnmmNcdYwUIHWVybw==}
@@ -1684,6 +1706,10 @@ packages:
     resolution: {integrity: sha512-3XY9e1pP0CVEUCdj5BmfIZxRBTSDycnbqhIOGec9QYtmVH2fbLpj86CFWkrNOkt/Fvty4KZG5lTglL9j/gJ87w==}
     dev: false
 
+  /fscreen/1.2.0:
+    resolution: {integrity: sha512-hlq4+BU0hlPmwsFjwGGzZ+OZ9N/wq9Ljg/sq3pX+2CD7hrJsX9tJgWWK/wiNTFM212CLHWhicOoqwXyZGGetJg==}
+    dev: false
+
   /fsevents/2.3.2:
     resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
@@ -1907,6 +1933,10 @@ packages:
     resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==}
     dev: true
 
+  /mitt/3.0.1:
+    resolution: {integrity: sha512-vKivATfr97l2/QBCYAkXYDbrIWPM2IIKEl7YPhjCvKlG3kE2gm+uBo6nEXK3M5/Ffh/FLpKExzOQ3JJoJGFKBw==}
+    dev: false
+
   /mkdirp/0.5.6:
     resolution: {integrity: sha512-FP+p8RB8OWpF3YZBCrP5gtADmtXApB5AMLn+vdyA+PyxCjrCs00mjyUozssO33cwDeT3wNGdLxJ5M//YqtHAJw==}
     hasBin: true
@@ -2099,6 +2129,10 @@ packages:
   /source-map-js/1.0.2:
     resolution: {integrity: sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==}
     engines: {node: '>=0.10.0'}
+
+  /stencil-wormhole/3.4.1:
+    resolution: {integrity: sha512-ppYTcWTJnIl4ZAKwF39LTA9f/ypHfbVefsHdN2hpMQGrR57wt1TieZo9tlCM/r1Y4SFiZ5yz/cjho564C921Xw==}
+    dev: false
 
   /streamsearch/1.1.0:
     resolution: {integrity: sha512-Mcc5wHehp9aXz1ax6bZUyY5afg9u2rv5cqQI3mRrYkGC8rW2hM02jWuwjtL++LS5qinSyhj2QfLyNsuc+VsExg==}

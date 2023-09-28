@@ -1,15 +1,25 @@
 <script lang="ts">
+  import Video from "$lib/components/Video.svelte";
   export let fileArray: any[];
   import { register } from "swiper/element/bundle";
   register();
 
-  const isImage = async (input: String) => {
+  const isImage = (input: String) => {
     if (input.substring(input.length - 3)) {
       let ext = input.substring(input.length - 3);
+
       return ext == "jpg" ? true : false;
     }
+    return false;
   };
 </script>
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@vime/core@^5/themes/default.css"
+/>
+
+<!-- Optional light theme (extends default). ~400B -->
 
 <div
   class="file-div {fileArray.Contents.length > 1 ? '' : 'justify-content-div'}"
@@ -38,10 +48,7 @@
                 alt="doge"
               />
             {:else}
-              <video
-                class="post-file"
-                src={"https://dogelore.s3.amazonaws.com/" + image.Key}
-              />
+              <Video src={"https://dogelore.s3.amazonaws.com/" + image.Key} />
             {/if}
           </div>
         </swiper-slide>
@@ -54,8 +61,7 @@
       alt="doge"
     />
   {:else}
-    <video
-      class="post-file"
+    <Video
       src={"https://dogelore.s3.amazonaws.com/" + fileArray.Contents[0].Key}
     />
   {/if}
