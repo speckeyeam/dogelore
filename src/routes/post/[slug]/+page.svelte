@@ -8,7 +8,6 @@
   import "$lib/styles/style.css";
   import "$lib/styles/post.css";
   import { goto } from "$app/navigation";
-  import { Player, Ui } from "@vime/svelte";
   export let data: PageData;
   let post = data.data;
   $: test = data.viewComment;
