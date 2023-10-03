@@ -1,7 +1,7 @@
-<script>
+<script lang="ts">
   import { onMount } from "svelte";
 
-  export let src;
+  export let src: any;
   let showPlayer = false;
   let player;
 

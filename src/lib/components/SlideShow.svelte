@@ -1,6 +1,6 @@
 <script lang="ts">
   import Video from "$lib/components/Video.svelte";
-  export let fileArray: any[];
+  export let fileArray: any;
   import { register } from "swiper/element/bundle";
   register();
 
@@ -66,23 +66,3 @@
     />
   {/if}
 </div>
-
-<style>
-  .swiper-button-prev {
-    color: red;
-  }
-
-  .swiper-button-next {
-    color: #000;
-  }
-  .swiper-button-next,
-  .swiper-rtl .swiper-button-prev {
-    color: black !important;
-  }
-  :root {
-    --swiper-theme-color: black !important;
-  }
-  :host {
-    --swiper-theme-color: none !important;
-  }
-</style>

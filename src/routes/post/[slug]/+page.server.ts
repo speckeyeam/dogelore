@@ -1,5 +1,4 @@
 import { error } from "@sveltejs/kit";
-import type { PageServerLoad } from "./$types";
 import { PrismaClient } from "@prisma/client";
 import * as AWS from "aws-sdk";
 import { ACCESS_KEY } from "$env/static/private";
@@ -10,7 +9,15 @@ import {
   commentExists,
   postExists,
 } from "$lib/server/server";
-export const load = (async ({ params, cookies, url }) => {
+export const load = async ({
+  params,
+  cookies,
+  url,
+}: {
+  params: any;
+  cookies: any;
+  url: any;
+}) => {
   let theurl = url.searchParams.get("comment");
   let valid;
 
@@ -52,7 +59,9 @@ export const load = (async ({ params, cookies, url }) => {
             if (data?.Contents) {
               data.Contents.forEach(function (obj, index) {
                 // console.log(obj.Key, "<<<file path");
-                keyArray.push(obj.Key);
+                if (obj.Key) {
+                  keyArray.push(obj.Key);
+                }
               });
             }
 
@@ -87,4 +96,4 @@ export const load = (async ({ params, cookies, url }) => {
   }
 
   throw error(404, "Not found");
-}) satisfies PageServerLoad;
+};

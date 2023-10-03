@@ -1,12 +1,12 @@
 import { json } from "@sveltejs/kit";
-import type { RequestHandler } from "./$types";
+
 import { PrismaClient } from "@prisma/client";
-import type { RequestEvent } from "./$types";
+import type { RequestEvent, RequestHandler } from "./$types";
 import { postExists } from "$lib/server/server";
 
 const prisma = new PrismaClient();
 
-export const POST = (async (event: RequestEvent) => {
+export const POST: RequestHandler = async (event: RequestEvent) => {
   const session = await event.locals.getSession();
 
   console.log(session);
@@ -74,4 +74,4 @@ export const POST = (async (event: RequestEvent) => {
   //should prob check other stuff just in case
   return json({ sucess: false });
   //return json(newList.value + " test");
-}) satisfies RequestHandler;
+};

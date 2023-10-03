@@ -41,7 +41,7 @@
         if (res.sucess && res.id) {
           let url = $page.url.origin + "/post/" + res.id;
           toggleCreatePost();
-          window.open(url, "_blank").focus();
+          window.open(url, "_blank")!.focus();
           postTitle = postBody = "";
           //oto("/post");
         }
@@ -62,7 +62,7 @@
         if (res.sucess && res.id) {
           let url = $page.url.origin + "/post/" + res.id;
           toggleCreatePost();
-          window.open(url, "_blank").focus();
+          window.open(url, "_blank")!.focus();
           postTitle = postBody = "";
           //oto("/post");
         }
@@ -122,7 +122,7 @@
     popupMenu = !popupMenu;
   };
 
-  const toggleCreatePost = async (pu: any) => {
+  const toggleCreatePost = async () => {
     postPopupMenu = !postPopupMenu;
   };
 
@@ -145,7 +145,7 @@
   };
 
   let y: any;
-  export let data;
+  export let data: any;
 </script>
 
 <svelte:window bind:scrollY={y} on:scroll={handleScroll} />
@@ -168,7 +168,7 @@
 </head>
 <body>
   <nav class="navbar">
-    <a href="#" class="logo">
+    <a href="test" class="logo">
       <h1>Dogelore</h1>
     </a>
     <div class="nav-search">

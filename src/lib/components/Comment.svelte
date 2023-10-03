@@ -4,12 +4,18 @@
   import { onMount } from "svelte";
   import { goto } from "$app/navigation";
   export let nodeReference: any;
-  export let data: {};
-  export let user_id;
+  //import type { Comment } from "@prisma/client";
+
+  import type { Prisma } from "@prisma/client";
+  type Comment = Prisma.CommentGetPayload<{
+    include: { Likes: true; Dislikes: true; Replies: true; User: true };
+  }>;
+
+  export let data: Comment;
+  export let user_id: any;
   let showReplies = false;
   export let redirect: Boolean;
   export let second: Boolean;
-  export let third: Boolean;
   let replies = true;
   //let showReplies = false;
   let replyLimit = 0;
@@ -115,7 +121,7 @@
   bind:this={nodeReference}
   style="padding-top: 1rem; padding-bottom: 1rem;"
 >
-  <img class="comment-pfp" src={data.User?.image} />
+  <img class="comment-pfp" src={data.User?.image} alt="nothing" />
   <div class="comment-text-wrapper">
     <h2 class="comments-user">{data.User?.name}</h2>
     <h2 class="comments-text">{data.text}</h2>

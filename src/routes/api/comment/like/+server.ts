@@ -1,12 +1,11 @@
 import { json } from "@sveltejs/kit";
-import type { RequestHandler } from "./$types";
-import { PrismaClient } from "@prisma/client";
-import type { RequestEvent } from "./$types";
-import { commentExists } from "$lib/server/server";
 
+import { PrismaClient } from "@prisma/client";
+import type { RequestEvent, RequestHandler } from "./$types";
+import { commentExists } from "$lib/server/server";
 const prisma = new PrismaClient();
 
-export const POST = (async (event: RequestEvent) => {
+export const POST: RequestHandler = async (event: RequestEvent) => {
   const session = await event.locals.getSession();
 
   console.log(session);
@@ -15,7 +14,7 @@ export const POST = (async (event: RequestEvent) => {
 
     let comment_id = data.comment_id;
 
-    let id: String = session.user.id + comment_id;
+    let id: string = session.user.id + comment_id;
     if (await commentExists(comment_id)) {
       const like = await prisma.comment_likes.findUnique({
         where: { id },
@@ -74,4 +73,4 @@ export const POST = (async (event: RequestEvent) => {
   //should prob check other stuff just in case
   return json({ sucess: false });
   //return json(newList.value + " test");
-}) satisfies RequestHandler;
+};

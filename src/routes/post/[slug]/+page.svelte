@@ -3,6 +3,7 @@
   import NavBar from "$lib/components/NavBar.svelte";
   import Comment from "$lib/components/Comment.svelte";
   import SlideShow from "$lib/components/SlideShow.svelte";
+  import type { User } from "$lib/components/interface";
   import { onMount } from "svelte";
   import { page } from "$app/stores";
   import "$lib/styles/style.css";
@@ -19,7 +20,7 @@
   // console.log(data);
   let likeCount = 0;
   let originalCount = 0;
-
+  let userId = (data?.session?.user as User).id;
   const like = async (like: boolean) => {
     fetch("/api/post/like", {
       method: "POST",
@@ -63,7 +64,7 @@
 
       if (
         post.Likes.find(
-          (item: any) => item.id === data.session.user.id + post.id
+          (item: any) => item.id === (data?.session?.user as User).id + post.id
         )
       ) {
         liked = true;
@@ -72,7 +73,7 @@
 
       if (
         post.Dislikes.find(
-          (item: any) => item.id === data.session.user.id + post.id
+          (item: any) => item.id === (data?.session?.user as User).id + post.id
         )
       ) {
         disliked = true;
@@ -248,14 +249,14 @@
 
 {#key $page.url.search}
   {#if data.comments && data.comments.length > 0}
-    <div class="comments-div" use:scrollToBottom bind:this={element}>
+    <div class="comments-div" bind:this={element}>
       {#each data.comments as comment, i}
         <Comment
           redirect={false}
-          third={false}
           second={true}
           data={comment}
-          user_id={data.session?.user.id}
+          nodeReference={null}
+          user_id={userId}
         />
       {/each}
     </div>
