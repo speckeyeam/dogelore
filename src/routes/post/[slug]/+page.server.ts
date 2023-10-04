@@ -1,8 +1,7 @@
 import { error } from "@sveltejs/kit";
 import { PrismaClient } from "@prisma/client";
 import * as AWS from "aws-sdk";
-import { ACCESS_KEY } from "$env/static/private";
-import { SECRET_ACCESS_KEY } from "$env/static/private";
+
 import {
   getComments,
   getReplies,
@@ -43,8 +42,8 @@ export const load = async ({
         };
 
         const s3 = new AWS.S3({
-          accessKeyId: ACCESS_KEY || process.env.ACCESS_KEY,
-          secretAccessKey: SECRET_ACCESS_KEY || process.env.SECRET_ACCESS_KEY,
+          accessKeyId: process.env.ACCESS_KEY,
+          secretAccessKey: process.env.SECRET_ACCESS_KEY,
         });
 
         const keyArray: string[] = [];
