@@ -25,7 +25,7 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
       let secretAccessKey;
 
       const s3 = new AWS.S3({
-        accessKeyId: ACCESS_KEY || type  process.env.ACCESS_KEY,
+        accessKeyId: ACCESS_KEY || process.env.ACCESS_KEY,
         secretAccessKey: SECRET_ACCESS_KEY || process.env.SECRET_ACCESS_KEY,
       });
 
@@ -81,7 +81,7 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
           userId: session.user.id,
           file: true,
           title: title.toString(),
-          date: new Date()
+          date: new Date(),
         },
       });
       if (!post) {
@@ -101,7 +101,7 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
         const post = await prisma.postFiles.create({
           data: {
             id: foldername,
-            postFileName: foldername + "/" + i + fileType
+            postFileName: foldername + "/" + i + fileType,
           },
         });
         //makes gifs work
