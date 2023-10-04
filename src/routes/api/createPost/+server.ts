@@ -6,7 +6,7 @@ import * as fs from "fs";
 // import { ACCESS_KEY, AWS_REGION } from "$env/static/private";
 // import { SECRET_ACCESS_KEY } from "$env/static/private";
 import { v4 as uuidv4 } from "uuid";
-import { User } from "$lib/components/interface.ts";
+// import { User } from "$lib/components/interface";
 const prisma = new PrismaClient();
 
 export const POST: RequestHandler = async (event: RequestEvent) => {

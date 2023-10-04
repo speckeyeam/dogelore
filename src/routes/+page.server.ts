@@ -1,8 +1,6 @@
 import { error } from "@sveltejs/kit";
 import { PrismaClient } from "@prisma/client";
 import * as AWS from "aws-sdk";
-import { ACCESS_KEY } from "$env/static/private";
-import { SECRET_ACCESS_KEY } from "$env/static/private";
 import {
   getComments,
   getReplies,
