@@ -1,5 +1,5 @@
 import { SvelteKitAuth } from "@auth/sveltekit";
-import { Google } from "@auth/core/providers/google";
+import Google from "@auth/core/providers/google";
 import { Credentials } from "@auth/core/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
