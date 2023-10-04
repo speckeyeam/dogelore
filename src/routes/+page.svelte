@@ -46,7 +46,7 @@
           files = new FileList();
 
           if (window) {
-            window.open($page.url.pathname, "_blank").focus();
+            window.open($page.url.pathname, "_blank")!.focus();
           }
         }
       })
@@ -66,7 +66,7 @@
         if (res.sucess && res.id) {
           let url = $page.url + "post/" + res.id;
           toggleCreatePost();
-          window.open(url, "_blank").focus();
+          window.open(url, "_blank")!.focus();
           postTitle = postBody = "";
           //oto("/post");
         }
@@ -235,5 +235,25 @@
       {/if}
     </div>
   </div>
-  <div style="width:100%; height: 4000px" />
+  <div style="width:100%; height: 4000px">
+    <div class="masonry">
+      <div class="item">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+      </div>
+      <div class="item">...</div>
+      <div class="item">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+      </div>
+      <div class="item">...</div>
+
+      <div class="item">...</div>
+      <div class="item">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+      </div>
+      <div class="item">...</div>
+
+      <div class="item">...</div>
+      <div class="item">...</div>
+    </div>
+  </div>
 </body>

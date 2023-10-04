@@ -81,7 +81,7 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
           userId: session.user.id,
           file: true,
           title: title.toString(),
-          date: new Date(),
+          date: new Date()
         },
       });
       if (!post) {
@@ -97,6 +97,14 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
           fileType = ".jpg";
           uploadFile(files[i], foldername + "/" + i + fileType);
         }
+
+        const post = await prisma.postFiles.create({
+          data: {
+            id: foldername,
+            postFileName: foldername + "/" + i + fileType
+          },
+        });
+        //makes gifs work
       }
       return json({ sucess: true, id: post.id });
     } else if (title && text) {

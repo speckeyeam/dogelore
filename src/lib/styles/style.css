@@ -487,3 +487,20 @@
     min-width: 13rem;
   }
 
+
+  .masonry { /* Masonry container */
+    column-count: 4;
+    column-gap: 1em;
+    margin-top:20rem;
+    transition-duration:.5s;
+  }
+  
+  .item { /* Masonry bricks or child elements */
+    background-color:white;
+    display: inline-block;
+    margin: 0 0 1em;
+    width: 100%;
+  }
+.masonry:hover{
+  column-count:1;
+}

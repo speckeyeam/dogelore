@@ -67,6 +67,13 @@ model Post {
   file     Boolean
   Likes    post_likes[]
   Dislikes post_dislikes[]
+  Files    PostFiles[]
+}
+
+model PostFiles {
+  postId       String @id @unique
+  postFileName String
+  Post         Post   @relation(fields: [postId], references: [id])
 }
 
 model Comment {

@@ -60,7 +60,7 @@ export const load = async ({
               data.Contents.forEach(function (obj, index) {
                 // console.log(obj.Key, "<<<file path");
                 if (obj.Key) {
-                  keyArray.push(obj.Key);
+                  keyArray!.push(obj.Key);
                 }
               });
             }
