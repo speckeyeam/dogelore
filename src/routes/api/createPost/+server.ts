@@ -3,8 +3,8 @@ import json from "@sveltejs/kit";
 import { PrismaClient } from "@prisma/client";
 import * as AWS from "aws-sdk";
 import * as fs from "fs";
-import { ACCESS_KEY, AWS_REGION } from "$env/dynamic/private";
-import { SECRET_ACCESS_KEY } from "$env/dynamic/private";
+// import { ACCESS_KEY, AWS_REGION } from "$env/static/private";
+// import { SECRET_ACCESS_KEY } from "$env/static/private";
 import { v4 as uuidv4 } from "uuid";
 import { User } from "$lib/components/interface.ts";
 const prisma = new PrismaClient();
@@ -25,8 +25,8 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
       let secretAccessKey;
 
       const s3 = new AWS.S3({
-        accessKeyId: ACCESS_KEY || process.env.ACCESS_KEY,
-        secretAccessKey: SECRET_ACCESS_KEY || process.env.SECRET_ACCESS_KEY,
+        accessKeyId: process.env.ACCESS_KEY,
+        secretAccessKey: process.env.SECRET_ACCESS_KEY,
       });
 
       const uploadFile = async (file: any, keyName: any) => {
