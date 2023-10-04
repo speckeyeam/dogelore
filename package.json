@@ -33,7 +33,6 @@
 		"@vime/core": "^5.4.1",
 		"aws-sdk": "^2.1468.0",
 		"bcryptjs": "^2.4.3",
-		"fs": "0.0.1-security",
 		"swiper": "^10.3.1",
 		"uuid": "^9.0.1"
 	}

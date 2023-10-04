@@ -13,7 +13,6 @@ specifiers:
   '@vime/core': ^5.4.1
   aws-sdk: ^2.1468.0
   bcryptjs: ^2.4.3
-  fs: 0.0.1-security
   prisma: ^5.3.1
   svelte: ^4.2.1
   svelte-check: ^3.5.2
@@ -32,7 +31,6 @@ dependencies:
   '@vime/core': 5.4.1
   aws-sdk: 2.1468.0
   bcryptjs: 2.4.3
-  fs: 0.0.1-security
   swiper: 10.3.1
   uuid: 9.0.1
 
@@ -1722,10 +1720,6 @@ packages:
   /fs.realpath/1.0.0:
     resolution: {integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==}
     dev: true
-
-  /fs/0.0.1-security:
-    resolution: {integrity: sha512-3XY9e1pP0CVEUCdj5BmfIZxRBTSDycnbqhIOGec9QYtmVH2fbLpj86CFWkrNOkt/Fvty4KZG5lTglL9j/gJ87w==}
-    dev: false
 
   /fscreen/1.2.0:
     resolution: {integrity: sha512-hlq4+BU0hlPmwsFjwGGzZ+OZ9N/wq9Ljg/sq3pX+2CD7hrJsX9tJgWWK/wiNTFM212CLHWhicOoqwXyZGGetJg==}
