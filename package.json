@@ -9,7 +9,7 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"postinstall": "prisma generate",
-		"start": "node build"
+		"start": "npn run start"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^2.1.0",
