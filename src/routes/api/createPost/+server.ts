@@ -1,5 +1,5 @@
 import type { RequestEvent, RequestHandler } from "./$types";
-import json from "@sveltejs/kit";
+
 import { PrismaClient } from "@prisma/client";
 import * as AWS from "aws-sdk";
 import * as fs from "fs";
@@ -69,10 +69,10 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
         }
       }
       if (files.length > 50) {
-        return json({ sucess: false, tooManyImages: true });
+        return JSON.stringify({ sucess: false, tooManyImages: true });
       }
       if (title.length > 150) {
-        return json({ sucess: false, titleTooLong: true });
+        return JSON.stringify({ sucess: false, titleTooLong: true });
       }
       const foldername = uuidv4();
       const post = await prisma.post.create({
@@ -85,7 +85,7 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
         },
       });
       if (!post) {
-        return json({ sucess: false, prismaL: true });
+        return JSON.stringify({ sucess: false, prismaL: true });
       }
       let fileType: string = "";
       for (i = 0; i < files.length; i++) {
@@ -106,7 +106,7 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
         });
         //makes gifs work
       }
-      return json({ sucess: true, id: post.id });
+      return JSON.stringify({ sucess: true, id: post.id });
     } else if (title && text) {
       if (text.length < 2000 && text.length > 0) {
         const id = uuidv4();
@@ -123,9 +123,9 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
         });
 
         if (!post) {
-          return json({ sucess: false, prismaL: true });
+          return JSON.stringify({ sucess: false, prismaL: true });
         } else {
-          return json({ sucess: true, id: post.id });
+          return JSON.stringify({ sucess: true, id: post.id });
         }
       }
     }
@@ -135,6 +135,6 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
   //   if (!session?.user) throw redirect(303, "/auth");
 
   //should prob check other stuff just in case
-  return json({ sucess: false });
+  JSON.stringify({ sucess: false });
   //return json(newList.value + " test");
 };
