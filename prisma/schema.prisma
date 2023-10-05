@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -21,12 +18,12 @@ model Account {
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String?
+  id_token          String? @db.Text
   session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@index([userId], map: "Account_userId_fkey")
 }
 
 model Session {
@@ -35,6 +32,8 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId], map: "Session_userId_fkey")
 }
 
 model User {
@@ -44,9 +43,9 @@ model User {
   emailVerified DateTime?
   image         String?
   accounts      Account[]
-  sessions      Session[]
-  Posts         Post[]
   Comment       Comment[]
+  Posts         Post[]
+  sessions      Session[]
 }
 
 model VerificationToken {
@@ -59,15 +58,17 @@ model VerificationToken {
 
 model Post {
   id       String          @id @unique
-  User     User?           @relation(fields: [userId], references: [id])
   userId   String?
   title    String
   date     DateTime
   text     String?
   file     Boolean
-  Likes    post_likes[]
+  User     User?           @relation(fields: [userId], references: [id])
+  Files    PostFiles?
   Dislikes post_dislikes[]
-  Files    PostFiles[]
+  Likes    post_likes[]
+
+  @@index([userId], map: "Post_userId_fkey")
 }
 
 model PostFiles {
@@ -79,7 +80,6 @@ model PostFiles {
 model Comment {
   id       String             @id @default(cuid())
   post_id  String
-  User     User?              @relation(fields: [userId], references: [id])
   reply    Boolean            @default(false)
   reply_to String?
   userId   String?
@@ -87,64 +87,42 @@ model Comment {
   date     DateTime
   Reply    Comment?           @relation("replies", fields: [reply_to], references: [id])
   Replies  Comment[]          @relation("replies")
-  Likes    comment_likes[]
+  User     User?              @relation(fields: [userId], references: [id])
   Dislikes comment_dislikes[]
+  Likes    comment_likes[]
+
+  @@index([reply_to], map: "Comment_reply_to_fkey")
+  @@index([userId], map: "Comment_userId_fkey")
 }
 
 model post_likes {
   id     String @unique
-  Post   Post?  @relation(fields: [postId], references: [id])
   postId String
+  Post   Post   @relation(fields: [postId], references: [id])
+
+  @@index([postId], map: "post_likes_postId_fkey")
 }
 
 model post_dislikes {
   id     String @unique
-  Post   Post?  @relation(fields: [postId], references: [id])
   postId String
+  Post   Post   @relation(fields: [postId], references: [id])
+
+  @@index([postId], map: "post_dislikes_postId_fkey")
 }
 
 model comment_likes {
-  id        String   @unique
-  Comment   Comment? @relation(fields: [commentId], references: [id])
+  id        String  @unique
   commentId String
+  Comment   Comment @relation(fields: [commentId], references: [id])
+
+  @@index([commentId], map: "comment_likes_commentId_fkey")
 }
 
 model comment_dislikes {
-  id        String   @unique
-  Comment   Comment? @relation(fields: [commentId], references: [id])
+  id        String  @unique
   commentId String
+  Comment   Comment @relation(fields: [commentId], references: [id])
+
+  @@index([commentId], map: "comment_dislikes_commentId_fkey")
 }
-
-// model User {
-//   id          String     @id @default(uuid())
-//   email       String     @unique
-//   password    String
-//   username    String     @unique
-//   sessions    Sessions[]
-//   Post        Post[]
-//   dateCreated String?
-// }
-
-// // model Sessions {
-// //   sessionId  String @id @default(uuid())
-// //   expiration String
-// //   userId     String
-// //   User       User   @relation(fields: [userId], references: [id])
-
-// //   @@index([userId], map: "SessionId_userId_fkey")
-// // }
-
-// model Post {
-//   id     Int     @id @unique @default(autoincrement())
-//   User   User?   @relation(fields: [userId], references: [id])
-//   userId String?
-//   type   Boolean
-// }
-
-// model Admin {
-//   id        Int     @id @unique @default(autoincrement())
-//   userId    String?
-//   dateAdded String?
-// }
-
-//maybe have a folder for each post, storing each of the images, labeled 1 through max
