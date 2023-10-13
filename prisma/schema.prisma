@@ -63,8 +63,9 @@ model Post {
   date     DateTime
   text     String?
   file     Boolean
+  Comments Comment[]
   User     User?           @relation(fields: [userId], references: [id])
-  Files    PostFiles?
+  Files    PostFiles[]
   Dislikes post_dislikes[]
   Likes    post_likes[]
 
@@ -72,8 +73,9 @@ model Post {
 }
 
 model PostFiles {
-  postId       String @id @unique
+  postId       String @unique
   postFileName String
+  id           String @id @default(cuid())
   Post         Post   @relation(fields: [postId], references: [id])
 }
 
@@ -85,6 +87,8 @@ model Comment {
   userId   String?
   text     String
   date     DateTime
+  postId   String?
+  Post     Post?              @relation(fields: [postId], references: [id])
   Reply    Comment?           @relation("replies", fields: [reply_to], references: [id])
   Replies  Comment[]          @relation("replies")
   User     User?              @relation(fields: [userId], references: [id])
@@ -92,6 +96,7 @@ model Comment {
   Likes    comment_likes[]
 
   @@index([reply_to], map: "Comment_reply_to_fkey")
+  @@index([postId], map: "Comment_postId_fkey")
   @@index([userId], map: "Comment_userId_fkey")
 }
 

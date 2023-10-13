@@ -98,12 +98,13 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
           uploadFile(files[i], foldername + "/" + i + fileType);
         }
 
-        const post = await prisma.postFiles.create({
+        const postFiles = await prisma.PostFiles.create({
           data: {
-            id: foldername,
+            postId: foldername,
             postFileName: foldername + "/" + i + fileType,
           },
         });
+
         //makes gifs work
       }
       return json({ sucess: true, id: post.id });

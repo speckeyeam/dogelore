@@ -4,11 +4,13 @@
   import { register } from "swiper/element/bundle";
   register();
 
-  const isImage = (input: String) => {
-    if (input.substring(input.length - 3)) {
-      let ext = input.substring(input.length - 3);
+  const isImage = (input: string) => {
+    if (input.length > 3) {
+      if (input.substring(input.length - 3)) {
+        let ext = input.substring(input.length - 3);
 
-      return ext == "jpg" ? true : false;
+        return ext == "jpg" ? true : false;
+      }
     }
     return false;
   };
@@ -21,10 +23,8 @@
 
 <!-- Optional light theme (extends default). ~400B -->
 
-<div
-  class="file-div {fileArray.Contents.length > 1 ? '' : 'justify-content-div'}"
->
-  {#if fileArray.Contents.length > 1}
+<div class="file-div {fileArray.length > 1 ? '' : 'justify-content-div'}">
+  {#if fileArray.length > 1}
     <swiper-container
       navigation="true"
       centered-slides="true"
@@ -38,31 +38,33 @@
       }}
       pagination="true"
     >
-      {#each fileArray.Contents as image}
+      {#each fileArray as image}
         <swiper-slide>
           <div class="post-file-container">
-            {#if isImage(image.Key)}
+            {#if isImage(image.postFileName)}
               <img
                 class="post-file"
-                src={"https://dogelore.s3.amazonaws.com/" + image.Key}
+                src={"https://dogelore.s3.amazonaws.com/" + image.postFileName}
                 alt="doge"
               />
             {:else}
-              <Video src={"https://dogelore.s3.amazonaws.com/" + image.Key} />
+              <Video
+                src={"https://dogelore.s3.amazonaws.com/" + image.postFileName}
+              />
             {/if}
           </div>
         </swiper-slide>
       {/each}
     </swiper-container>
-  {:else if isImage(fileArray.Contents[0].Key)}
+  {:else if isImage(fileArray[0].postFileName)}
     <img
       class="post-file"
-      src={"https://dogelore.s3.amazonaws.com/" + fileArray.Contents[0].Key}
+      src={"https://dogelore.s3.amazonaws.com/" + fileArray[0].postFileName}
       alt="doge"
     />
   {:else}
     <Video
-      src={"https://dogelore.s3.amazonaws.com/" + fileArray.Contents[0].Key}
+      src={"https://dogelore.s3.amazonaws.com/" + fileArray[0].postFileName}
     />
   {/if}
 </div>

@@ -1,5 +1,6 @@
 import { error } from "@sveltejs/kit";
 import { PrismaClient } from "@prisma/client";
+import { getPosts } from "$lib/server/server";
 import * as AWS from "aws-sdk";
 import {
   getComments,

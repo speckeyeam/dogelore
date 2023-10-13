@@ -35,45 +35,15 @@ export const load = async ({
         comments = await getComments(post.id);
       }
       if (post.file) {
-        const prefix = post.id + "/";
-        const params = {
-          Bucket: "dogelore" /* required */,
-          Prefix: prefix, // Can be your folder name
-        };
-
-        const s3 = new AWS.S3({
-          accessKeyId: process.env.ACCESS_KEY,
-          secretAccessKey: process.env.SECRET_ACCESS_KEY,
-        });
-
-        const keyArray: string[] = [];
-
-        const listItems = s3
-          .listObjectsV2(params, async function (err, data) {
-            if (err) {
-              console.log(err, err.stack);
-            } // an error occurred
-
-            //console.log(data);
-            if (data?.Contents) {
-              data.Contents.forEach(function (obj, index) {
-                // console.log(obj.Key, "<<<file path");
-                if (obj.Key) {
-                  keyArray!.push(obj.Key);
-                }
-              });
-            }
-
-            return keyArray;
-            // data.Contents.forEach(function (obj, index) {
-            //   console.log(index);
-            // });
-          })
-          .promise();
-        // console.log(keyArray + " . TEST");
+        if (post.Files) {
+          console.log("test");
+        } else {
+          console.log("fail");
+        }
+        console.log(post);
         return {
           data: post,
-          fileArray: await listItems,
+          fileArray: post.Files,
           comments,
           viewComment: theurl,
         };

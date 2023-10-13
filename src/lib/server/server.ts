@@ -5,7 +5,7 @@ export async function postExists(id: string) {
   if (id) {
     const post = await prisma.post.findUnique({
       where: { id },
-      include: { Likes: true, Dislikes: true, User: true },
+      include: { Likes: true, Dislikes: true, User: true, Files: true },
     });
     return post ? post : false;
   } else {
@@ -64,6 +64,23 @@ export async function getComments(id: string) {
     });
     if (comments) {
       return comments;
+    }
+  }
+  return null;
+}
+
+export async function getPosts(id: string) {
+  if (await postExists(id)) {
+    const posts = await prisma.post.findFirst({
+      where: { id },
+      include: {
+        Files: true,
+        // Comments: true,
+      },
+    });
+
+    if (posts) {
+      return posts;
     }
   }
   return null;
