@@ -9,10 +9,12 @@ import {
   postExists,
 } from "$lib/server/server";
 export const load = async ({ cookies, url }: { cookies: any; url: any }) => {
-  return {
-    posts: "balls",
+  const posts = await getPosts();
+  if (posts) {
+    return {
+      posts,
+    };
+  }
 
-    //get
-  };
   throw error(404, "Not found");
 };

@@ -35,12 +35,6 @@ export const load = async ({
         comments = await getComments(post.id);
       }
       if (post.file) {
-        if (post.Files) {
-          console.log("test");
-        } else {
-          console.log("fail");
-        }
-        console.log(post);
         return {
           data: post,
           fileArray: post.Files,
@@ -55,13 +49,6 @@ export const load = async ({
         };
       }
     }
-
-    // s3.listObjectsV2(params, function (err, data) {
-    //   if (err) console.log(err, err.stack); // an error occurred
-    //   else console.log(data); // successful response
-    // });
-
-    //get posts
   }
 
   throw error(404, "Not found");

@@ -168,7 +168,7 @@
 </head>
 <body>
   <nav class="navbar">
-    <a href="test" class="logo">
+    <a href={$page.url.origin} class="logo">
       <h1>Dogelore</h1>
     </a>
     <div class="nav-search">

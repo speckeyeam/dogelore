@@ -69,20 +69,20 @@ export async function getComments(id: string) {
   return null;
 }
 
-export async function getPosts(id: string) {
-  if (await postExists(id)) {
-    const posts = await prisma.post.findFirst({
-      where: { id },
-      include: {
-        Files: true,
-        // Comments: true,
-      },
-    });
-
-    if (posts) {
-      return posts;
-    }
+export async function getPosts() {
+  const posts = await prisma.post.findMany({
+    include: {
+      Files: true,
+    },
+    orderBy: {
+      date: "asc",
+    },
+  });
+  console.log(posts);
+  if (posts) {
+    return posts;
   }
+
   return null;
 }
 

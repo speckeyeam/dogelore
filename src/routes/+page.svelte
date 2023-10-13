@@ -4,6 +4,7 @@
   import { text, redirect } from "@sveltejs/kit";
   import { page } from "$app/stores";
   import NavBar from "$lib/components/NavBar.svelte";
+  import Post from "$lib/components/Post.svelte";
   import "$lib/styles/style.css";
   let hot: Boolean = false;
   let memes: Boolean = true;
@@ -155,6 +156,7 @@
 
   let y: any;
   export let data;
+  console.log(data.posts.Files);
 </script>
 
 <svelte:window bind:scrollY={y} on:scroll={handleScroll} />
@@ -235,25 +237,12 @@
       {/if}
     </div>
   </div>
-  <div style="width:100%; height: 4000px">
+  <div style="width:100%;">
     <div class="masonry">
-      <div class="item">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-      </div>
-      <div class="item">...</div>
-      <div class="item">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-      </div>
-      <div class="item">...</div>
-
-      <div class="item">...</div>
-      <div class="item">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-      </div>
-      <div class="item">...</div>
-
-      <div class="item">...</div>
-      <div class="item">...</div>
+      {#each data.posts as post, i}
+        <Post fileName={post.Files[0]} />
+        <div class="item" />
+      {/each}
     </div>
   </div>
 </body>

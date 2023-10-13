@@ -490,17 +490,20 @@
 
   .masonry { /* Masonry container */
     column-count: 4;
-    column-gap: 1em;
-    margin-top:20rem;
+    margin-top:11rem;
     transition-duration:.5s;
+    column-gap:0rem;
   }
   
   .item { /* Masonry bricks or child elements */
     background-color:white;
-    display: inline-block;
-    margin: 0 0 1em;
+    /* display: inline-block; */
+    margin: 0 0 .75em;
     width: 100%;
+    max-width: calc(100% - 2em);
+    column-gap:0rem;
   }
-.masonry:hover{
+/* .masonry:hover{
+
   column-count:1;
-}
+} */

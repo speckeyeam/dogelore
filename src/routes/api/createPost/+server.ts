@@ -2,6 +2,7 @@ import type { RequestEvent, RequestHandler } from "./$types";
 import { json } from "@sveltejs/kit";
 import { PrismaClient } from "@prisma/client";
 import * as AWS from "aws-sdk";
+import S3 from "aws-sdk/clients/s3.js";
 import * as fs from "fs";
 // import { ACCESS_KEY, AWS_REGION } from "$env/static/private";
 // import { SECRET_ACCESS_KEY } from "$env/static/private";
@@ -24,7 +25,7 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
       let accessKeyId;
       let secretAccessKey;
 
-      const s3 = new AWS.S3({
+      const s3 = new S3({
         accessKeyId: process.env.ACCESS_KEY,
         secretAccessKey: process.env.SECRET_ACCESS_KEY,
       });
