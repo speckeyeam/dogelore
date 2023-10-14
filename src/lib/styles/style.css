@@ -502,6 +502,7 @@
     width: 100%;
     max-width: calc(100% - 2em);
     column-gap:0rem;
+    border-radius:.2rem;
   }
 /* .masonry:hover{
 
