@@ -490,7 +490,7 @@
 
   .masonry { /* Masonry container */
     column-count: 4;
-    margin-top:11rem;
+
     transition-duration:.5s;
     column-gap:0rem;
   }
@@ -498,11 +498,41 @@
   .item { /* Masonry bricks or child elements */
     background-color:white;
     /* display: inline-block; */
-    margin: 0 0 .75em;
+    margin: 0 0 1em;
     width: 100%;
     max-width: calc(100% - 2em);
     column-gap:0rem;
     border-radius:.2rem;
+  
+  }
+  .posts-div{
+    margin-left: .5em;
+     margin-top:10rem;
+     max-width: calc(100% - 1em);
+  }
+  .twoRow{
+    width: 50%;
+    margin:0 auto;
+  }
+  .postOption2{
+    height:30rem;
+    object-fit: contain;
+  }
+  .postContainer{
+    display: flex;
+    justify-content: center;  /* Center horizontally */
+    align-items: center; 
+  }
+  .orgBtn{
+  height:100rem;
+  width:100rem;
+  position:fixed;
+     margin-left:0;
+     background-color: transparent;
+      border-style:none;
+      cursor:pointer;
+      border-color:none;
+
   }
 /* .masonry:hover{
 

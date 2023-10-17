@@ -23,57 +23,22 @@
   let filePost = true;
   let postTitle: string,
     postBody: string = "";
+  let currentView: string = "Option1";
 
-  const submitFilePost = async () => {
-    var data = new FormData();
-    data.append("title", postTitle);
-
-    for (const file of imageArray) {
-      data.append("file", file, file.name);
+  const toggleOption = async () => {
+    switch (currentView) {
+      case "Option1":
+        currentView = "Option2";
+        break;
+      case "Option2":
+        currentView = "Option3";
+        break;
+      case "Option3":
+        currentView = "Option1";
+        break;
     }
-    console.log(data);
-
-    // data.append("files", imageArray[0]);
-
-    fetch("/api/createPost", {
-      method: "POST",
-      body: data,
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.sucess) {
-          imageArray = [];
-          postTitle = postBody = "";
-          files = new FileList();
-
-          if (window) {
-            window.open($page.url.pathname, "_blank")!.focus();
-          }
-        }
-      })
-      .catch((message: any) => console.log(message));
   };
-  const submitTextPost = async () => {
-    var data = new FormData();
-    data.append("title", postTitle);
-    data.append("text", postBody);
 
-    fetch("/api/createPost", {
-      method: "POST",
-      body: data,
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.sucess && res.id) {
-          let url = $page.url + "post/" + res.id;
-          toggleCreatePost();
-          window.open(url, "_blank")!.focus();
-          postTitle = postBody = "";
-          //oto("/post");
-        }
-      })
-      .catch((message: any) => console.log(message));
-  };
   const toggleMenu = async (section: string) => {
     switch (section) {
       case "hot": {
@@ -128,32 +93,6 @@
     }
   };
 
-  const toggleSignIn = async (pu: any) => {
-    popupMenu = !popupMenu;
-  };
-
-  const toggleCreatePost = async () => {
-    postPopupMenu = !postPopupMenu;
-  };
-
-  const handleImages = async (e: any) => {
-    if (e.target.files) {
-      let images = e.target.files;
-      imageArray = imageArray.concat(Array.from(images));
-    }
-  };
-  const removeImage = async (file: File) => {
-    const index = imageArray.indexOf(file, 0);
-    if (index > -1) {
-      imageArray.splice(index, 1);
-      imageArray = imageArray;
-    }
-  };
-  const openFile = async (pu: any) => {
-    const input = document.getElementById("imageInput");
-    input?.click();
-  };
-
   let y: any;
   export let data;
   console.log(data.posts.Files);
@@ -177,7 +116,7 @@
   />
   <!--https://fonts.google.com/specimen/Jost download later maybe?-->
 </head>
-<body>
+<body style="margin: 0rem !important">
   <NavBar {data} />
   <div class="menu {isNavVisible && 'visible'}" on:scroll={handleScroll}>
     <button
@@ -237,12 +176,24 @@
       {/if}
     </div>
   </div>
-  <div style="width:100%;">
-    <div class="masonry">
-      {#each data.posts as post, i}
-        <Post fileName={post.Files[0]} />
-        <div class="item" />
-      {/each}
-    </div>
+  <button
+    style="background-color: transparent; border-style:none; height: 100%; width:100%"
+    class="orgBtn btn"
+    on:click={toggleOption}
+  />
+  <div class="posts-div">
+    {#if currentView == "Option1"}
+      <div class="masonry">
+        {#each data.posts as post, i}
+          <Post fileName={post.Files[0]} type={currentView} />
+        {/each}
+      </div>
+    {:else}
+      <div class="twoRow">
+        {#each data.posts as post, i}
+          <Post fileName={post.Files[0]} type={currentView} />
+        {/each}
+      </div>
+    {/if}
   </div>
 </body>
