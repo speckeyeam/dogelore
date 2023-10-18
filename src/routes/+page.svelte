@@ -45,6 +45,8 @@
         if (!hot) {
           hot = memes = series = false;
           hot = true;
+        } else {
+          toggleOption();
         }
         break;
       }
@@ -52,6 +54,8 @@
         if (!memes) {
           hot = memes = series = false;
           memes = true;
+        } else {
+          toggleOption();
         }
         break;
       }
@@ -59,6 +63,8 @@
         if (!series) {
           hot = memes = series = false;
           series = true;
+        } else {
+          toggleOption();
         }
         break;
       }
@@ -176,11 +182,7 @@
       {/if}
     </div>
   </div>
-  <button
-    style="background-color: transparent; border-style:none; height: 100%; width:100%"
-    class="orgBtn btn"
-    on:click={toggleOption}
-  />
+
   <div class="posts-div">
     {#if currentView == "Option1"}
       <div class="masonry">

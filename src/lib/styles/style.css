@@ -492,7 +492,7 @@
     column-count: 4;
 
     transition-duration:.5s;
-    column-gap:0rem;
+    column-gap:1rem;
   }
   
   .item { /* Masonry bricks or child elements */
@@ -500,15 +500,16 @@
     /* display: inline-block; */
     margin: 0 0 1em;
     width: 100%;
-    max-width: calc(100% - 2em);
-    column-gap:0rem;
+    column-gap:2rem;
     border-radius:.2rem;
   
   }
   .posts-div{
-    margin-left: .5em;
-     margin-top:10rem;
-     max-width: calc(100% - 1em);
+    margin-left: 1em;
+     margin-top:10.5rem;
+     max-width: calc(100% - 2em);
+     display:flex;
+     justify-content: center;
   }
   .twoRow{
     width: 50%;
@@ -523,17 +524,7 @@
     justify-content: center;  /* Center horizontally */
     align-items: center; 
   }
-  .orgBtn{
-  height:100rem;
-  width:100rem;
-  position:fixed;
-     margin-left:0;
-     background-color: transparent;
-      border-style:none;
-      cursor:pointer;
-      border-color:none;
 
-  }
 /* .masonry:hover{
 
   column-count:1;

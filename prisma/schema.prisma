@@ -73,9 +73,9 @@ model Post {
 }
 
 model PostFiles {
-  postId       String @unique
+  postId       String
   postFileName String
-  id           String @id @default(cuid())
+  id           String @id @unique @default(cuid())
   Post         Post   @relation(fields: [postId], references: [id])
 }
 
