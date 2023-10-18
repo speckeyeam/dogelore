@@ -73,10 +73,12 @@ model Post {
 }
 
 model PostFiles {
-  postId       String
   postFileName String
   id           String @id @unique @default(cuid())
+  postId       String
   Post         Post   @relation(fields: [postId], references: [id])
+
+  @@index([postId], map: "PostFiles_postId_fkey")
 }
 
 model Comment {

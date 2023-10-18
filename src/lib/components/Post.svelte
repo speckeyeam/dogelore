@@ -38,6 +38,7 @@
         src={"https://dogelore.s3.amazonaws.com/" + fileName.postFileName}
         autoplay={true}
         loop={true}
+        muted={true}
       />
     </div>
   {/if}

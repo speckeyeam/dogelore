@@ -43,6 +43,7 @@
           toggleCreatePost();
           window.open(url, "_blank")!.focus();
           postTitle = postBody = "";
+          imageArray = [];
           //oto("/post");
         }
       })
