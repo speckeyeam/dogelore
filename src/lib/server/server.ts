@@ -73,6 +73,7 @@ export async function getPosts() {
   const posts = await prisma.post.findMany({
     include: {
       Files: true,
+      User: true,
     },
     orderBy: {
       date: "asc",

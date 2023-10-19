@@ -1,7 +1,11 @@
 <script lang="ts">
   import Video from "$lib/components/Video.svelte";
   import { page } from "$app/stores";
-  export let fileName: any;
+  export let post: any;
+  let fileName = post.Files[0];
+  let title = post.title;
+  let user = post.User;
+  console.log(user);
   export let type: string;
   import { register } from "swiper/element/bundle";
   register();
@@ -21,18 +25,21 @@
 
 <!-- Optional light theme (extends default). ~400B -->
 
-<a href={"/post/" + fileName.postId}>
-  {#if isImage(fileName.postFileName)}
-    <div class="postContainer">
+<div class="postContainer">
+  {#if type == "Option2"}
+    <div>
+      <h2 class="preview-post-title">{title}</h2>
+      <h2 class="preview-post-user">{user.name}</h2>
+    </div>
+  {/if}
+  <a href={"/post/" + fileName.postId} class="postContainer">
+    {#if isImage(fileName.postFileName)}
       <img
         class="item {type == 'Option2' ? 'postOption2' : ''}"
         src={"https://dogelore.s3.amazonaws.com/" + fileName.postFileName}
         alt="doge"
       />
-    </div>
-  {:else}
-    <div class="postContainer">
-      <!-- svelte-ignore a11y-media-has-caption -->
+    {:else}
       <video
         class="item"
         src={"https://dogelore.s3.amazonaws.com/" + fileName.postFileName}
@@ -40,6 +47,11 @@
         loop={true}
         muted={true}
       />
+    {/if}
+  </a>
+  {#if type == "Option2"}
+    <div class="preview-likes-dislikes-div">
+      <h2>updoot section</h2>
     </div>
   {/if}
-</a>
+</div>

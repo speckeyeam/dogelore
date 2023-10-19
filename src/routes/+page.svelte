@@ -187,13 +187,13 @@
     {#if currentView == "Option1"}
       <div class="masonry">
         {#each data.posts as post, i}
-          <Post fileName={post.Files[0]} type={currentView} />
+          <Post {post} type={currentView} />
         {/each}
       </div>
     {:else}
       <div class="twoRow">
         {#each data.posts as post, i}
-          <Post fileName={post.Files[0]} type={currentView} />
+          <Post {post} type={currentView} />
         {/each}
       </div>
     {/if}
