@@ -3,7 +3,6 @@
   import NavBar from "$lib/components/NavBar.svelte";
   import Comment from "$lib/components/Comment.svelte";
   import SlideShow from "$lib/components/SlideShow.svelte";
-  import type { User } from "$lib/components/interface";
   import { onMount } from "svelte";
   import { page } from "$app/stores";
   import "$lib/styles/style.css";
@@ -64,7 +63,7 @@
 
       if (
         post.Likes.find(
-          (item: any) => item.id === (data?.session?.user as User).id + post.id
+          (item: any) => item.id === data?.session?.user?.id + post.id
         )
       ) {
         liked = true;
@@ -73,7 +72,7 @@
 
       if (
         post.Dislikes.find(
-          (item: any) => item.id === (data?.session?.user as User).id + post.id
+          (item: any) => item.id === data?.session?.user?.id + post.id
         )
       ) {
         disliked = true;

@@ -74,6 +74,8 @@ export async function getPosts() {
     include: {
       Files: true,
       User: true,
+      Likes: true,
+      Dislikes: true,
     },
     orderBy: {
       date: "asc",

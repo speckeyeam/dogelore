@@ -187,13 +187,21 @@
     {#if currentView == "Option1"}
       <div class="masonry">
         {#each data.posts as post, i}
-          <Post {post} type={currentView} />
+          <Post
+            userId={data?.session?.user?.id || null}
+            {post}
+            type={currentView}
+          />
         {/each}
       </div>
     {:else}
       <div class="twoRow">
         {#each data.posts as post, i}
-          <Post {post} type={currentView} />
+          <Post
+            userId={data?.session?.user?.id || null}
+            {post}
+            type={currentView}
+          />
         {/each}
       </div>
     {/if}

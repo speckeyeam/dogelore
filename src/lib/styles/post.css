@@ -16,8 +16,6 @@
    
     margin-bottom: 1.5rem;
 
-  
-    max-width: calc(100% - 19rem);
     background-color: white;
     margin-left: 9.5rem;
     display:flex;
@@ -26,12 +24,18 @@
 }
 
   .post-title{
+
+    word-wrap: break-word;      /* IE 5.5-7 */
+      white-space: -moz-pre-wrap; /* Firefox 1.0-2.0 */
+      white-space: pre-wrap;   
+max-width: calc(100% - 4rem);
     margin:0;
     box-sizing: border-box;
     margin-top:5.4rem;
     margin-left:2rem;
     font-family: "Jost", "Sans-serif";
     margin-bottom:.35rem;
+
   }
   .post-user{
     font-size: 1.1rem;
