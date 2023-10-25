@@ -15,7 +15,7 @@
 .create-comment-div{
    
     margin-bottom: 1.5rem;
-
+width: calc(100% - 19rem);
     background-color: white;
     margin-left: 9.5rem;
     display:flex;
