@@ -188,7 +188,7 @@
       <div class="masonry">
         {#each data.posts as post, i}
           <Post
-            userId={data?.session?.user?.id || null}
+            userId={data.session ? data?.session?.user?.id : null}
             {post}
             type={currentView}
           />
@@ -198,7 +198,7 @@
       <div class="twoRow">
         {#each data.posts as post, i}
           <Post
-            userId={data?.session?.user?.id || null}
+            userId={data.session ? data?.session?.user?.id : null}
             {post}
             type={currentView}
           />

@@ -29,56 +29,56 @@
   };
 
   const like = async (like: boolean) => {
-    if (like) {
-      if (liked) {
-        liked = disliked = false;
-        likeCount = originalCount;
-      } else {
-        liked = true;
-        disliked = false;
-        likeCount = likeCount + (disliked ? 2 : 1);
-      }
-    } else {
-      if (disliked) {
-        liked = disliked = false;
-        likeCount = originalCount;
-      } else {
-        likeCount = likeCount - (liked ? 2 : 1);
-        disliked = true;
-        liked = false;
-      }
-    }
-
-    likeCount = likeCount;
-
-    fetch("/api/post/like", {
-      method: "POST",
-      body: JSON.stringify({
-        post_id: post.id,
-        like,
-      }),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        likeCount = likeCount;
-        if (res.success) {
-        } else if (res.notLoggedIn) {
-          alert("not logged in");
+    if (userId) {
+      if (like) {
+        if (liked) {
+          liked = disliked = false;
+          likeCount = originalCount;
         } else {
+          liked = true;
+          disliked = false;
+          likeCount = likeCount + (disliked ? 2 : 1);
         }
-      })
-      .catch(() => alert("Failed to submit"));
-  };
+      } else {
+        if (disliked) {
+          liked = disliked = false;
+          likeCount = originalCount;
+        } else {
+          likeCount = likeCount - (liked ? 2 : 1);
+          disliked = true;
+          liked = false;
+        }
+      }
 
+      likeCount = likeCount;
+
+      fetch("/api/post/like", {
+        method: "POST",
+        body: JSON.stringify({
+          post_id: post.id,
+          like,
+        }),
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          likeCount = likeCount;
+          if (res.success) {
+          } else if (res.notLoggedIn) {
+            alert("not logged in");
+          } else {
+          }
+        })
+        .catch(() => alert("Failed to submit"));
+    }
+  };
   onMount(() => async () => {
     likeCount = post.Likes.length - post.Dislikes.length;
     originalCount = post.Likes.length - post.Dislikes.length;
 
-    if (user) {
+    if (userId) {
       if (post.Likes.find((item: any) => item.id === userId + post.id)) {
         liked = true;
         originalCount = post.Likes.length - post.Dislikes.length - 1;
-        alert(liked);
       }
 
       if (post.Dislikes.find((item: any) => item.id === userId + post.id)) {
@@ -95,7 +95,7 @@
   {#if type == "Option2"}
     <div>
       <h2 class="preview-post-title">{title}</h2>
-      <h2 class="preview-post-user">{user.name}</h2>
+      <h2 class="preview-post-user">{user ? user.name : "???"}</h2>
     </div>
   {/if}
   <a href={"/post/" + fileName.postId} class="postContainer">
