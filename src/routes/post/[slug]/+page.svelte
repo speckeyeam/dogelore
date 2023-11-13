@@ -21,6 +21,26 @@
   let originalCount = 0;
   let userId = (data?.session?.user as User).id;
   const like = async (like: boolean) => {
+    if (like) {
+      if (liked) {
+        liked = disliked = false;
+        likeCount = originalCount;
+      } else {
+        likeCount = likeCount + (disliked ? 2 : 1);
+        liked = true;
+        disliked = false;
+      }
+    } else {
+      if (disliked) {
+        liked = disliked = false;
+        likeCount = originalCount;
+      } else {
+        likeCount = likeCount - (liked ? 2 : 1);
+        disliked = true;
+        liked = false;
+      }
+    }
+
     fetch("/api/post/like", {
       method: "POST",
       body: JSON.stringify({
@@ -31,25 +51,13 @@
       .then((res) => res.json())
       .then((res) => {
         if (res.success) {
-          if (res.deselect) {
-            liked = disliked = false;
-            likeCount = originalCount;
-          } else if (res.like) {
-            likeCount = likeCount + (disliked ? 2 : 1);
-            liked = true;
-            disliked = false;
-          } else if (res.dislike) {
-            likeCount = likeCount - (liked ? 2 : 1);
-            disliked = true;
-            liked = false;
-          }
           likeCount = likeCount;
         } else if (res.notLoggedIn) {
           alert("not logged in");
         } else {
         }
       })
-      .catch(() => alert("Failed to submit"));
+      .catch(() => console.log("stop spamming it bruh"));
   };
 
   onMount(() => scrollToBottom(element));
@@ -92,11 +100,6 @@
           parseFloat(getComputedStyle(document.documentElement).fontSize);
         window.scroll(node);
         window.scrollBy(0, offset);
-        //alert(node.t);
-        // window.scrollTo({
-        //   top: node.top + window.scrollY - 100,
-        //   behavior: "smooth",
-        // });
       }
     }
   };

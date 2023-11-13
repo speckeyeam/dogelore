@@ -35,9 +35,9 @@
           liked = disliked = false;
           likeCount = originalCount;
         } else {
+          likeCount = likeCount + (disliked ? 2 : 1);
           liked = true;
           disliked = false;
-          likeCount = likeCount + (disliked ? 2 : 1);
         }
       } else {
         if (disliked) {
@@ -71,22 +71,22 @@
         .catch(() => alert("Failed to submit"));
     }
   };
-  onMount(() => async () => {
-    likeCount = post.Likes.length - post.Dislikes.length;
-    originalCount = post.Likes.length - post.Dislikes.length;
 
-    if (userId) {
-      if (post.Likes.find((item: any) => item.id === userId + post.id)) {
-        liked = true;
-        originalCount = post.Likes.length - post.Dislikes.length - 1;
-      }
+  likeCount = post.Likes.length - post.Dislikes.length;
+  console.log(likeCount);
+  originalCount = post.Likes.length - post.Dislikes.length;
 
-      if (post.Dislikes.find((item: any) => item.id === userId + post.id)) {
-        disliked = true;
-        originalCount = post.Likes.length - post.Dislikes.length + 1;
-      }
+  if (userId) {
+    if (post.Likes.find((item: any) => item.id === userId + post.id)) {
+      liked = true;
+      originalCount = post.Likes.length - post.Dislikes.length - 1;
     }
-  });
+
+    if (post.Dislikes.find((item: any) => item.id === userId + post.id)) {
+      disliked = true;
+      originalCount = post.Likes.length - post.Dislikes.length + 1;
+    }
+  }
 </script>
 
 <!-- Optional light theme (extends default). ~400B -->
