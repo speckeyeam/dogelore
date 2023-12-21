@@ -515,6 +515,12 @@
     width: 50%;
     margin:0 auto;
   }
+
+  .rows{
+    width: 100%;
+    margin:0 auto;
+  }
+
   .postOption2{
     max-height:30rem;
     object-fit: contain;
@@ -555,6 +561,26 @@ padding-bottom:.5rem;
 }
 .preview-likes-div{
   margin-bottom:2rem;
+}
+
+.option3Container{
+  height: 10rem;
+  width: 14rem;
+  object-fit:contain;
+}
+.option3Container{
+  max-height: 10rem;
+}
+.postOption3{
+  object-fit: contain;
+  height: 8rem;
+  max-width: 14rem;
+  background-color:black;
+  /* display: inline-block; */
+  margin: 0 0 1em;
+  width: 100%;
+  column-gap:2rem;
+  /* border-radius:.2rem; */
 }
 /* .masonry:hover{
 

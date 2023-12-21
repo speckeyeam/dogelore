@@ -194,8 +194,18 @@
           />
         {/each}
       </div>
-    {:else}
+    {:else if currentView == "Option2"}
       <div class="twoRow">
+        {#each data.posts as post, i}
+          <Post
+            userId={data.session ? data?.session?.user?.id : null}
+            {post}
+            type={currentView}
+          />
+        {/each}
+      </div>
+    {:else if currentView == "Option3"}
+      <div class="rows">
         {#each data.posts as post, i}
           <Post
             userId={data.session ? data?.session?.user?.id : null}
