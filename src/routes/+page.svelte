@@ -23,7 +23,7 @@
   let filePost = true;
   let postTitle: string,
     postBody: string = "";
-  let currentView: string = "Option1";
+  let currentView: string = "Option2";
 
   const toggleOption = async () => {
     switch (currentView) {

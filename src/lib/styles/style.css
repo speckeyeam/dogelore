@@ -527,12 +527,9 @@
     margin-bottom:-0.3rem;
     border-radius:0rem;
   }
-  .postContainer{
-    /* display: flex;
-    justify-content: center;  /* Center horizontally */
-    /* align-items: flex-start; 
-    flex-direction: column; */ 
-
+  .postContainer3{
+width:15rem;
+text-align: center;
 
   }
 .preview-post-title{
@@ -559,28 +556,113 @@
 padding-bottom:.5rem;
   padding-left:1rem;
 }
+.preview-post-option3{
+  padding-top:0rem !important;
+  padding-left: 0.5rem !important;
+}
 .preview-likes-div{
   margin-bottom:2rem;
 }
 
 .option3Container{
-  height: 10rem;
+
   width: 14rem;
   object-fit:contain;
 }
 .option3Container{
-  max-height: 10rem;
+  height: 8rem;
+  flex-direction: row;
+  display: flex;
+  width:100%;
+  background-color:white;
+  margin-bottom: .75rem;
 }
 .postOption3{
   object-fit: contain;
   height: 8rem;
-  max-width: 14rem;
+  /* max-width: 14rem; */
   background-color:black;
+  /* height:fit-content; */
+
   /* display: inline-block; */
-  margin: 0 0 1em;
+
   width: 100%;
   column-gap:2rem;
   /* border-radius:.2rem; */
+}
+.post-likes-div{
+  background-color:#14336F;
+  border-bottom-left-radius: .25rem;
+  border-bottom-right-radius: .25rem;
+  display: flex;
+  flex-direction: row;
+  vertical-align: center;
+  justify-content: space-between;
+height:4.7rem;
+}
+.post-likes-container{
+  display: flex;
+  flex-direction: row;
+  margin-left:2rem;
+}
+.not-selected-like-btn{
+  filter: grayscale(100%);
+}
+.selected-like-text{
+  color:#f4b43e
+}
+.like-post{
+
+  font-size: 1.9rem;
+  
+  
+    }
+    .dislike-post{
+      font-size: 1.9rem;
+  
+    }
+.post-likes{
+  color: white;
+  font-family: "Jost", "Sans-serif";
+  font-weight: 700;
+  font-size: 1.9rem;
+  margin:0;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  margin-right: 1rem;
+  margin-left: 1rem;
+}
+.post-likes-option3{
+  color: white;
+  font-family: "Jost", "Sans-serif";
+  font-weight: 700;
+  font-size: 1.9rem;
+  margin:0;
+text-align: center;
+}
+.post-likes-div-option3{
+  width:5.5rem;
+  height:100%;
+  background-color:#14336F;
+  /* display: flex;
+  flex-direction: row;
+  vertical-align: center;
+  justify-content: space-between;
+height:4.7rem; */
+}
+.post-likes-container-option3{
+  display: flex;
+  flex-direction: column;
+  height:100%;
+  justify-content: center;
+}
+.btn{
+  border:none;
+  background-color: transparent;
+  margin:0;
+  padding:0;
+  cursor: pointer;
+  user-select: none;
 }
 /* .masonry:hover{
 

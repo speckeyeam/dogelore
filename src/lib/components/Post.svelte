@@ -171,7 +171,7 @@
 {/if}
 {#if type === "Option3"}
   <div class="option3Container">
-    <a href={"/post/" + fileName.postId} class="postContainer">
+    <a href={"/post/" + fileName.postId} class="postContainer3">
       {#if isImage(fileName.postFileName)}
         <img
           class="postOption3"
@@ -180,7 +180,7 @@
         />
       {:else}
         <video
-          class="ostOption3"
+          class="postOption3"
           src={"https://dogelore.s3.amazonaws.com/" + fileName.postFileName}
           autoplay={true}
           loop={true}
@@ -188,13 +188,14 @@
         />
       {/if}
     </a>
-    <div class="post-likes-div preview-likes-div">
-      <div class="post-likes-container">
+
+    <div class="post-likes-div-option3">
+      <div class="post-likes-container-option3">
         <button
           class="like-post btn {liked ? '' : 'not-selected-like-btn'}"
           on:click={() => like(true)}>👍</button
         >
-        <h3 class="post-likes {liked ? '' : ''}">
+        <h3 class="post-likes-option3 {liked ? '' : ''}">
           {likeCount}
         </h3>
         <button
@@ -222,8 +223,10 @@
     </div>
 
     <div>
-      <h2 class="preview-post-title">{title}</h2>
-      <h2 class="preview-post-user">{user ? user.name : "???"}</h2>
+      <h2 class="preview-post-title preview-post-option3">{title}</h2>
+      <h2 class="preview-post-user preview-post-option3">
+        {user ? user.name : "???"}
+      </h2>
     </div>
   </div>
 {/if}
