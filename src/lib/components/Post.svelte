@@ -1,5 +1,6 @@
 <script lang="ts">
   import Video from "$lib/components/Video.svelte";
+  import { Image } from "@unpic/svelte";
   import { page } from "$app/stores";
   import { onMount } from "svelte";
   export let post: any;
@@ -18,11 +19,11 @@
 
   const isImage = (input: string) => {
     console.log(input);
-    if (input.length > 3) {
-      if (input.substring(input.length - 3)) {
-        let ext = input.substring(input.length - 3);
+    if (input.length > 4) {
+      if (input.substring(input.length - 4)) {
+        let ext = input.substring(input.length - 4);
 
-        return ext == "jpg" ? true : false;
+        return ext == "webp" ? true : false;
       }
     }
     return false;
@@ -118,7 +119,7 @@
       <h2 class="preview-post-user">{user ? user.name : "???"}</h2>
     </div>
 
-    <a href={"/post/" + fileName.postId} class="postContainer">
+    <a href={"/post/" + fileName.postId} class="postContainer2">
       {#if isImage(fileName.postFileName)}
         <img
           class="item postOption2"

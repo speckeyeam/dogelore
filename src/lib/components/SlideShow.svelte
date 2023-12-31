@@ -5,11 +5,11 @@
   register();
 
   const isImage = (input: string) => {
-    if (input.length > 3) {
-      if (input.substring(input.length - 3)) {
-        let ext = input.substring(input.length - 3);
+    if (input.length > 4) {
+      if (input.substring(input.length - 4)) {
+        let ext = input.substring(input.length - 4);
 
-        return ext == "jpg" ? true : false;
+        return ext == "webp" ? true : false;
       }
     }
     return false;

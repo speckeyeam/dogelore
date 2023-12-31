@@ -4,12 +4,12 @@ import { PrismaClient } from "@prisma/client";
 import * as AWS from "aws-sdk";
 import S3 from "aws-sdk/clients/s3.js";
 import * as fs from "fs";
+import sharp from "sharp";
 // import { ACCESS_KEY, AWS_REGION } from "$env/static/private";
 // import { SECRET_ACCESS_KEY } from "$env/static/private";
 import { v4 as uuidv4 } from "uuid";
 // import { User } from "$lib/components/interface";
 const prisma = new PrismaClient();
-
 export const POST: RequestHandler = async (event: RequestEvent) => {
   const session = await event.locals.getSession();
 
@@ -31,7 +31,21 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
       });
 
       const uploadFile = async (file: any, keyName: any) => {
+        //const arrayBuffer = await file.arrayBuffer();
+
         const arrayBuffer = await file.arrayBuffer();
+        let buffer = Buffer.from(arrayBuffer);
+
+        // Check if the file is an image and compress it
+        if (file.type.includes("image/")) {
+          try {
+            buffer = await sharp(buffer).toFormat("webp").toBuffer();
+            fileType = ".webp"; // Update file type to webp
+          } catch (error) {
+            console.error("Error converting image to WebP:", error);
+            // Handle the error as per your application's requirement
+          }
+        }
 
         return new Promise((resolve, reject) => {
           try {
@@ -40,12 +54,19 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
             const uploadParams = {
               Bucket: BUCKET,
               Key: keyName,
-              Body: Buffer.from(arrayBuffer),
+              Body: buffer,
             };
 
-            s3.upload(uploadParams, function (err: any, data: any) {
+            s3.upload(uploadParams, async function (err: any, data: any) {
               if (err) {
                 return reject(err);
+              } else {
+                const postFiles = await prisma.PostFiles.create({
+                  data: {
+                    postId: foldername,
+                    postFileName: foldername + "/" + i + fileType,
+                  },
+                });
               }
               if (data) {
                 return resolve(data);
@@ -95,16 +116,9 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
           console.log(fileType + "TEST");
           uploadFile(files[i], foldername + "/" + i + fileType);
         } else {
-          fileType = ".jpg";
-          uploadFile(files[i], foldername + "/" + i + fileType);
+          fileType = ".webp";
         }
-
-        const postFiles = await prisma.PostFiles.create({
-          data: {
-            postId: foldername,
-            postFileName: foldername + "/" + i + fileType,
-          },
-        });
+        await uploadFile(files[i], foldername + "/" + i + fileType);
 
         //makes gifs work
       }

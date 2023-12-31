@@ -523,7 +523,7 @@
 
   .postOption2{
     max-height:30rem;
-    object-fit: contain;
+    object-fit: contain !important;
     margin-bottom:-0.3rem;
     border-radius:0rem;
   }
@@ -531,7 +531,7 @@
 width:15rem;
 text-align: center;
 
-  }
+  }  
 .preview-post-title{
   word-wrap: break-word;      /* IE 5.5-7 */
   white-space: -moz-pre-wrap; /* Firefox 1.0-2.0 */
