@@ -99,6 +99,7 @@
           class="item"
           src={"https://dogelore.s3.amazonaws.com/" + fileName.postFileName}
           alt="doge"
+          loading="lazy"
         />
       {:else}
         <video
@@ -125,6 +126,7 @@
           class="item postOption2"
           src={"https://dogelore.s3.amazonaws.com/" + fileName.postFileName}
           alt="doge"
+          loading="lazy"
         />
       {:else}
         <video
@@ -178,6 +180,7 @@
           class="postOption3"
           src={"https://dogelore.s3.amazonaws.com/" + fileName.postFileName}
           alt="doge"
+          loading="lazy"
         />
       {:else}
         <video
