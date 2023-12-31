@@ -114,7 +114,6 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
         if (files[i].type.includes("video")) {
           fileType = "." + files[i].type.replace("video/", "");
           console.log(fileType + "TEST");
-          uploadFile(files[i], foldername + "/" + i + fileType);
         } else {
           fileType = ".webp";
         }
