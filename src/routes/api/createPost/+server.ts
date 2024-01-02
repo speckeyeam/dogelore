@@ -55,9 +55,7 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
               Bucket: BUCKET,
               Key: keyName,
               Body: buffer,
-              Metadata: {
-                fileType: file.type,
-              },
+              ContentType: file.type,
             };
 
             s3.upload(uploadParams, async function (err: any, data: any) {
