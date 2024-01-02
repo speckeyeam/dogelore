@@ -42,11 +42,16 @@
         <swiper-slide>
           <div class="post-file-container">
             {#if isImage(image.postFileName)}
-              <img
-                class="post-file"
-                src={"https://dogelore.s3.amazonaws.com/" + image.postFileName}
-                alt="doge"
-              />
+              <a
+                href={"https://dogelore.s3.amazonaws.com/" + image.postFileName}
+              >
+                <img
+                  class="post-file"
+                  src={"https://dogelore.s3.amazonaws.com/" +
+                    image.postFileName}
+                  alt="doge"
+                />
+              </a>
             {:else}
               <Video
                 src={"https://dogelore.s3.amazonaws.com/" + image.postFileName}
@@ -57,11 +62,13 @@
       {/each}
     </swiper-container>
   {:else if isImage(fileArray[0].postFileName)}
-    <img
-      class="post-file"
-      src={"https://dogelore.s3.amazonaws.com/" + fileArray[0].postFileName}
-      alt="doge"
-    />
+    <a href={"https://dogelore.s3.amazonaws.com/" + image.postFileName}>
+      <img
+        class="post-file"
+        src={"https://dogelore.s3.amazonaws.com/" + fileArray[0].postFileName}
+        alt="doge"
+      />
+    </a>
   {:else}
     <Video
       src={"https://dogelore.s3.amazonaws.com/" + fileArray[0].postFileName}
