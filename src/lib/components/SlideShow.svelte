@@ -62,7 +62,7 @@
       {/each}
     </swiper-container>
   {:else if isImage(fileArray[0].postFileName)}
-    <a href={"https://dogelore.s3.amazonaws.com/" + image.postFileName}>
+    <a href={"https://dogelore.s3.amazonaws.com/" + fileArray[0].postFileName}>
       <img
         class="post-file"
         src={"https://dogelore.s3.amazonaws.com/" + fileArray[0].postFileName}
