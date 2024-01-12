@@ -668,3 +668,16 @@ height:4.7rem; */
 
   column-count:1;
 } */
+.progress-bar{
+  margin-top:1rem;
+  width:100%;
+  height:2rem;
+  accent-color:#3a71d4
+}
+/* the progress bar on svelte is broken find anothers solution later */
+.progress-bar::-webkit-progress-bar {
+  background-color: #3a71d4;
+}
+.progress-bar::-webkit-progress-value {
+  background-color:red;
+}

@@ -3,7 +3,7 @@
   import { signIn, signOut } from "@auth/sveltekit/client";
   import { text, redirect } from "@sveltejs/kit";
   import { page } from "$app/stores";
-
+  import { writable } from "svelte/store";
   let hot: Boolean = false;
   let memes: Boolean = true;
   let series: Boolean = false;
@@ -20,35 +20,55 @@
   let filePost = true;
   let postTitle: string,
     postBody: string = "";
+  let uploading: boolean = false;
+  let uploadProgress = 0;
 
   const submitFilePost = async () => {
-    var data = new FormData();
-    data.append("title", postTitle);
+    if (!uploading) {
+      uploading = true;
+      var data = new FormData();
+      data.append("title", postTitle);
 
-    for (const file of imageArray) {
-      data.append("file", file, file.name);
-    }
-    console.log(data);
+      for (const file of imageArray) {
+        data.append("file", file, file.name);
+      }
 
-    // data.append("files", imageArray[0]);
+      const xhr = new XMLHttpRequest();
 
-    fetch("/api/createPost", {
-      method: "POST",
-      body: data,
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.sucess && res.id) {
-          let url = $page.url.origin + "/post/" + res.id;
-          toggleCreatePost();
-          window.open(url, "_blank")!.focus();
-          postTitle = postBody = "";
-          imageArray = [];
-          //oto("/post");
+      xhr.upload.onprogress = (event) => {
+        if (event.lengthComputable) {
+          const percentComplete = (event.loaded / event.total) * 100;
+          uploadProgress = percentComplete;
         }
-      })
-      .catch((message: any) => console.log(message));
+      };
+
+      xhr.onloadend = () => {
+        if (xhr.status === 200) {
+          const res = JSON.parse(xhr.responseText);
+          if (res.sucess && res.id) {
+            let url = $page.url.origin + "/post/" + res.id;
+            toggleCreatePost();
+            window.open(url, "_blank")!.focus();
+            postTitle = postBody = "";
+            imageArray = [];
+            uploading = false;
+            updateProgressBar(0);
+          }
+        } else {
+          // Handle error
+        }
+      };
+
+      xhr.open("POST", "/api/createPost", true);
+      xhr.send(data);
+    }
   };
+
+  // Example progress bar update function
+  function updateProgressBar(percentComplete: number) {
+    // Update your progress bar UI here
+    console.log("Progress: " + percentComplete + "%");
+  }
   const submitTextPost = async () => {
     var data = new FormData();
     data.append("title", postTitle);
@@ -150,6 +170,7 @@
 </script>
 
 <svelte:window bind:scrollY={y} on:scroll={handleScroll} />
+
 <head>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" />
@@ -284,7 +305,8 @@
                 on:change={(e) => handleImages(e)}
                 bind:files
               />
-
+              <progress class="progress-bar" value={uploadProgress} max="100"
+              ></progress>
               <div class="popup-buttons">
                 <button
                   on:click={toggleCreatePost}
