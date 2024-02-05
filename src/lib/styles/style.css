@@ -681,3 +681,25 @@ height:4.7rem; */
 .progress-bar::-webkit-progress-value {
   background-color:red;
 }
+.template-container{
+  margin-top: 5.4rem;
+}
+.create-template{
+  -moz-border-radius: 6px; -webkit-border-radius: 6px; 
+    width: 18rem;
+    height:18rem;
+    background-color: white;
+    border: .2rem solid rgb(188, 188, 188);
+    color:rgb(188, 188, 188);
+    border-radius: 0.8rem;
+    font-size: 7.5rem;
+    font-weight: 200;
+    cursor: pointer;
+    min-width: 18rem;
+
+}
+.create-template:hover{
+  transition: color .2s ease;
+  color:gray;
+  border-color:gray
+}

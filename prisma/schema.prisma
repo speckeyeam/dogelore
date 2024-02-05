@@ -37,15 +37,17 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  Comment       Comment[]
-  Posts         Post[]
-  sessions      Session[]
+  id             String           @id @default(cuid())
+  name           String?
+  email          String?          @unique
+  emailVerified  DateTime?
+  image          String?
+  accounts       Account[]
+  Comment        Comment[]
+  Posts          Post[]
+  sessions       Session[]
+  template       template[]
+  template_image template_image[]
 }
 
 model VerificationToken {
@@ -132,4 +134,22 @@ model comment_dislikes {
   Comment   Comment @relation(fields: [commentId], references: [id])
 
   @@index([commentId], map: "comment_dislikes_commentId_fkey")
+}
+
+model template {
+  id       Int    @unique @default(autoincrement())
+  parentId Int
+  name     String
+  imageId  String
+  user     User   @relation(fields: [userId], references: [id])
+  userId   String
+}
+
+model template_entry {
+  id         Int      @unique @default(autoincrement())
+  templateId Int
+  imageId    String
+  user       User     @relation(fields: [userId], references: [id])
+  template   template @relation(fields: [templateId], references: [id])
+  userId     String
 }
