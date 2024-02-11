@@ -278,6 +278,7 @@
     height: 100%;
     background-color: rgba(244, 180, 62, 0.5); /* Orange with 50% opacity */
     cursor: pointer;
+    z-index: 2;
   }
 
   /* Styles for the popup menu */

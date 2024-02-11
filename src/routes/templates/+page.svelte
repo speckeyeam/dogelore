@@ -59,7 +59,7 @@
         }
       };
 
-      xhr.open("POST", "/api/createPost", true);
+      xhr.open("POST", "/api/templates/folder", true);
       xhr.send(data);
     }
   };
@@ -119,8 +119,9 @@
             >
           </div>
         {/if}
-
-        <button on:click={openFile} class="popup-input-file">+</button>
+        {#if !file}
+          <button on:click={openFile} class="popup-input-file">+</button>
+        {/if}
       </div>
 
       <input

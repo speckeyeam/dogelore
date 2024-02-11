@@ -136,20 +136,20 @@ model comment_dislikes {
   @@index([commentId], map: "comment_dislikes_commentId_fkey")
 }
 
-model template {
-  id       Int    @unique @default(autoincrement())
-  parentId Int
-  name     String
-  imageId  String
-  user     User   @relation(fields: [userId], references: [id])
-  userId   String
+model folder {
+  id      Int    @unique @default(autoincrement())
+  parent  Int
+  name    String
+  imageId String
+  user    User   @relation(fields: [userId], references: [id])
+  userId  String
 }
 
 model template_entry {
-  id         Int      @unique @default(autoincrement())
+  id         Int    @unique @default(autoincrement())
   templateId Int
   imageId    String
-  user       User     @relation(fields: [userId], references: [id])
-  template   template @relation(fields: [templateId], references: [id])
+  user       User   @relation(fields: [userId], references: [id])
+  folder     folder @relation(fields: [templateId], references: [id])
   userId     String
 }
