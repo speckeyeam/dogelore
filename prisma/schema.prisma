@@ -37,17 +37,17 @@ model Session {
 }
 
 model User {
-  id             String           @id @default(cuid())
-  name           String?
-  email          String?          @unique
-  emailVerified  DateTime?
-  image          String?
-  accounts       Account[]
-  Comment        Comment[]
-  Posts          Post[]
-  sessions       Session[]
-  template       template[]
-  template_image template_image[]
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  Comment       Comment[]
+  Posts         Post[]
+  sessions      Session[]
+  folder        folder[]
+  entry         entry[]
 }
 
 model VerificationToken {
@@ -137,19 +137,21 @@ model comment_dislikes {
 }
 
 model folder {
-  id      Int    @unique @default(autoincrement())
-  parent  Int
-  name    String
-  imageId String
-  user    User   @relation(fields: [userId], references: [id])
+  id      Int      @unique @default(autoincrement())
+  parent  Int      @default(0)
+  title   String
+  entries entry[]
+  user    User     @relation(fields: [userId], references: [id])
   userId  String
+  date    DateTime
 }
 
-model template_entry {
-  id         Int    @unique @default(autoincrement())
-  templateId Int
-  imageId    String
-  user       User   @relation(fields: [userId], references: [id])
-  folder     folder @relation(fields: [templateId], references: [id])
-  userId     String
+model entry {
+  id       String   @unique
+  title    String
+  folderId Int
+  user     User     @relation(fields: [userId], references: [id])
+  folder   folder   @relation(fields: [folderId], references: [id])
+  userId   String
+  date     DateTime
 }

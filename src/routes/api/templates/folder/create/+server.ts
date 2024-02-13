@@ -16,11 +16,12 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
   if (session?.user) {
     const data = await event.request.formData();
     // console.log([...data]);
-    const file: any = data.getAll("file");
+    const file: any = data.get("file");
     const title = data.get("title");
+    const parent = data.get("parent");
     const text = data.get("text");
 
-    if (file.length > 0 && title) {
+    if (file && title) {
       //do s3 stuff
       let accessKeyId;
       let secretAccessKey;
@@ -62,15 +63,9 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
               if (err) {
                 return reject(err);
               } else {
-                const postFiles = await prisma.folder.create({
-                  data: {
-                    folder: foldername,
-                    parent: 
-                    postFileName: foldername + "/" + i + fileType,
-                  },
-                });
               }
               if (data) {
+                //console.log(data);
                 return resolve(data);
               }
             });
@@ -81,70 +76,48 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
       };
 
       let i;
-      for (i = 0; i < files.length; i++) {
-        let file: any = files[i];
-        const arrayBuffer = await file.arrayBuffer();
-        let boofer = Buffer.from(arrayBuffer);
-        if (
-          Buffer.byteLength(boofer) > 5368709120 ||
-          !(file?.type.includes("video/") || file?.type.includes("image/"))
-        ) {
-          files.splice(i, 1);
-        }
+
+      const arrayBuffer = await file.arrayBuffer();
+      let boofer = Buffer.from(arrayBuffer);
+
+      if (
+        Buffer.byteLength(boofer) > 5368709120 ||
+        !file?.type.includes("image/")
+      ) {
+        return json({ sucess: false, fileError: true });
       }
-      if (files.length > 50) {
-        return json({ sucess: false, tooManyImages: true });
-      }
+
       if (title.length > 150) {
         return json({ sucess: false, titleTooLong: true });
       }
-      const foldername = uuidv4();
-      const post = await prisma.post.create({
-        data: {
-          id: foldername,
-          userId: session.user.id,
-          file: true,
-          title: title.toString(),
-          date: new Date(),
-        },
-      });
-      if (!post) {
-        return json({ sucess: false, prismaL: true });
-      }
-      let fileType: string = "";
-      for (i = 0; i < files.length; i++) {
-        if (files[i].type.includes("video")) {
-          fileType = "." + files[i].type.replace("video/", "");
-          console.log(fileType + "TEST");
-        } else {
-          fileType = ".webp";
-        }
-        await uploadFile(files[i], foldername + "/" + i + fileType);
 
-        //makes gifs work
-      }
-      return json({ sucess: true, id: post.id });
-    } else if (title && text) {
-      if (text.length < 2000 && text.length > 0) {
-        const id = uuidv4();
+      let fileType = ".webp";
+      if (file.type.includes("image")) {
+        const entryId = uuidv4();
 
-        const post = await prisma.post.create({
+        await uploadFile(file, "folder/" + entryId + fileType);
+        const folder = await prisma.folder.create({
           data: {
-            id,
             userId: session.user.id,
-            file: false,
             title: title.toString(),
-            text: text.toString(),
             date: new Date(),
           },
         });
-
-        if (!post) {
-          return json({ sucess: false, prismaL: true });
-        } else {
-          return json({ sucess: true, id: post.id });
+        const entry = await prisma.entry.create({
+          data: {
+            id: entryId,
+            folderId: folder.id,
+            userId: session.user.id,
+            title: title.toString(),
+            date: new Date(),
+          },
+        });
+        if (folder && entry) {
+          return json({ sucess: true, folder, entry });
         }
       }
+
+      //makes gifs work
     }
   } else {
   }
@@ -152,6 +125,6 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
   //   if (!session?.user) throw redirect(303, "/auth");
 
   //should prob check other stuff just in case
-  json({ sucess: false });
+  return json({ sucess: false });
   //return json(newList.value + " test");
 };

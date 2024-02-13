@@ -13,6 +13,22 @@ export async function postExists(id: string) {
   }
 }
 
+export async function folderExists(id: number) {
+  if (id != null) {
+    const folder = await prisma.folder.findUnique({
+      where: { id },
+      include: { entries: true },
+    });
+    const children = await prisma.folder.findMany({
+      where: { parent: id },
+      include: { entries: true },
+    });
+    return folder ? folder : false;
+  } else {
+    return false;
+  }
+}
+
 export async function userExists(id: string) {
   if (id) {
     const user = await prisma.user.findUnique({

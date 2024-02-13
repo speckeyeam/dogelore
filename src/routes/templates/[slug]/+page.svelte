@@ -8,6 +8,7 @@
   let uploading = false;
   let postTitle = "";
   let file: any;
+  console.log(data);
   const toggleCreatePost = async () => {
     templatePopupMenu = !templatePopupMenu;
   };
@@ -54,12 +55,10 @@
             file = null;
             uploading = false;
           }
-        } else {
-          // Handle error
         }
       };
 
-      xhr.open("POST", "/api/templates/folder", true);
+      xhr.open("POST", "/api/templates/folder/create", true);
       xhr.send(data);
     }
   };
