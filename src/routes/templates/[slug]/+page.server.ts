@@ -25,8 +25,10 @@ export const load = async ({
     const folder = await folderExists(Number(folderId));
 
     if (folder) {
+      let data = await folder.json();
+
       return {
-        data: folder,
+        data: data,
       };
     } else {
       return {

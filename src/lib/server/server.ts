@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { json } from "@sveltejs/kit";
 const prisma = new PrismaClient();
 
 export async function postExists(id: string) {
@@ -23,10 +24,20 @@ export async function folderExists(id: number) {
       where: { parent: id },
       include: { entries: true },
     });
-    return folder ? folder : false;
+
+    return folder ? json({ folder, children }) : false;
   } else {
     return false;
   }
+}
+
+export async function getRootFolders() {
+  const folder = await prisma.folder.findMany({
+    where: { parent: 0 },
+    include: { entries: true },
+  });
+
+  return folder ? folder : false;
 }
 
 export async function userExists(id: string) {
