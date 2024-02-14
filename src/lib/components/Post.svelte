@@ -1,6 +1,5 @@
 <script lang="ts">
   import Video from "$lib/components/Video.svelte";
-  import { Image } from "@unpic/svelte";
   import { page } from "$app/stores";
   import { onMount } from "svelte";
   export let post: any;

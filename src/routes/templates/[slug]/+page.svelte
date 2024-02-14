@@ -4,11 +4,12 @@
   import "$lib/styles/style.css";
   import { page } from "$app/stores";
   let templatePopupMenu = false;
+  let entryPopupMenu = false;
   let template = true;
   let uploading = false;
   let postTitle = "";
   let file: any;
-  let userId = (data?.session?.user as User).id;
+  let userId = (data?.session?.user as User)?.id;
   let folderId = data?.data?.folder?.id;
   console.log(data);
   const toggleCreatePost = async () => {
@@ -116,17 +117,22 @@
     </div>
   {/each}
 
-  <div class="template-div">
-    <button class="create-template">+</button>
-    <h2 class="template-text">Entry</h2>
-  </div>
+  {#if userId}
+    <div class="template-div">
+      <button class="create-template" on:click={() => (entryPopupMenu = true)}
+        >+</button
+      >
+      <h2 class="template-text">Entry</h2>
+    </div>
 
-  <div class="template-div">
-    <button class="create-template" on:click={() => (templatePopupMenu = true)}
-      >+</button
-    >
-    <h2 class="template-text">Template</h2>
-  </div>
+    <div class="template-div">
+      <button
+        class="create-template"
+        on:click={() => (templatePopupMenu = true)}>+</button
+      >
+      <h2 class="template-text">Template</h2>
+    </div>
+  {/if}
 </div>
 
 {#if templatePopupMenu}
@@ -200,3 +206,4 @@
     </div>
   </div>
 {/if}
+use the same popup menu, add paramter to function

@@ -46,8 +46,8 @@ model User {
   Comment       Comment[]
   Posts         Post[]
   sessions      Session[]
-  folder        folder[]
   entry         entry[]
+  folder        folder[]
 }
 
 model VerificationToken {
@@ -138,21 +138,26 @@ model comment_dislikes {
 
 model folder {
   id      Int      @unique @default(autoincrement())
-  imageId String   @default("0")
   parent  Int      @default(0)
   title   String
-  entries entry[]
-  user    User     @relation(fields: [userId], references: [id])
   userId  String
   date    DateTime
+  imageId String   @default("0")
+  entries entry[]
+  user    User     @relation(fields: [userId], references: [id])
+
+  @@index([userId], map: "folder_userId_fkey")
 }
 
 model entry {
   id       String   @unique
   title    String
   folderId Int
-  user     User     @relation(fields: [userId], references: [id])
-  folder   folder   @relation(fields: [folderId], references: [id])
   userId   String
   date     DateTime
+  folder   folder   @relation(fields: [folderId], references: [id])
+  user     User     @relation(fields: [userId], references: [id])
+
+  @@index([folderId], map: "entry_folderId_fkey")
+  @@index([userId], map: "entry_userId_fkey")
 }
