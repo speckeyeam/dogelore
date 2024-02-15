@@ -20,7 +20,7 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
     // console.log([...data]);
     const file: any = data.get("file");
     const title = data.get("title");
-    const folder = data.get("folderId");
+    const folderId = Number(data.get("folderId"));
     const text = data.get("text");
 
     if (file && title) {
@@ -101,7 +101,7 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
         const entry = await prisma.entry.create({
           data: {
             id: entryId,
-            folderId: folder,
+            folderId,
             userId: session.user.id,
             title: title.toString(),
             date: new Date(),

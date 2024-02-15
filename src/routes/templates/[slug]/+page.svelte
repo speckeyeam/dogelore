@@ -4,15 +4,26 @@
   import "$lib/styles/style.css";
   import { page } from "$app/stores";
   let templatePopupMenu = false;
-  let entryPopupMenu = false;
-  let template = true;
+
+  let template = false;
+
   let uploading = false;
   let postTitle = "";
   let file: any;
   let userId = (data?.session?.user as User)?.id;
   let folderId = data?.data?.folder?.id;
+
   console.log(data);
-  const toggleCreatePost = async () => {
+  const togglePopUp = async () => {
+    templatePopupMenu = !templatePopupMenu;
+  };
+
+  const toggleCreateEntry = async () => {
+    template = false;
+    templatePopupMenu = !templatePopupMenu;
+  };
+  const toggleCreateTemplate = async (arg: any) => {
+    template = true;
     templatePopupMenu = !templatePopupMenu;
   };
 
@@ -31,7 +42,7 @@
     file = null;
   };
 
-  const submitFilePost = async () => {
+  const submitTemplate = async () => {
     if (!uploading) {
       uploading = true;
       var data = new FormData();
@@ -62,6 +73,41 @@
       };
 
       xhr.open("POST", "/api/templates/folder/create", true);
+      xhr.send(data);
+    }
+  };
+
+  const submitEntry = async () => {
+    if (!uploading) {
+      uploading = true;
+      var data = new FormData();
+      data.append("title", postTitle);
+      data.append("file", file, file.name);
+      data.append("folderId", folderId);
+      const xhr = new XMLHttpRequest();
+
+      xhr.upload.onprogress = (event) => {
+        if (event.lengthComputable) {
+          const percentComplete = (event.loaded / event.total) * 100;
+          // uploadProgress = percentComplete;
+        }
+      };
+
+      xhr.onloadend = () => {
+        if (xhr.status === 200) {
+          const res = JSON.parse(xhr.responseText);
+          if (res.sucess && res.id) {
+            let url = $page.url.origin + "/post/" + res.id;
+            togglePopUp();
+            window.open(url, "_blank")!.focus();
+            postTitle = "";
+            file = null;
+            uploading = false;
+          }
+        }
+      };
+
+      xhr.open("POST", "/api/templates/entry/create", true);
       xhr.send(data);
     }
   };
@@ -119,24 +165,19 @@
 
   {#if userId}
     <div class="template-div">
-      <button class="create-template" on:click={() => (entryPopupMenu = true)}
-        >+</button
-      >
+      <button class="create-template" on:click={toggleCreateEntry}>+</button>
       <h2 class="template-text">Entry</h2>
     </div>
 
     <div class="template-div">
-      <button
-        class="create-template"
-        on:click={() => (templatePopupMenu = true)}>+</button
-      >
+      <button class="create-template" on:click={toggleCreateTemplate}>+</button>
       <h2 class="template-text">Template</h2>
     </div>
   {/if}
 </div>
 
 {#if templatePopupMenu}
-  <button class="popup-background" on:click={toggleCreatePost} />
+  <button class="popup-background" on:click={togglePopUp} />
   <div class="popup-menu" id="popupMenu">
     <div class="popup-div">
       <h1 class="popup-title">
@@ -195,15 +236,19 @@
       <!-- <progress class="progress-bar" value={uploadProgress} max="100"
       ></progress> -->
       <div class="popup-buttons">
-        <button on:click={toggleCreatePost} class="nav-button popup-button"
+        <button on:click={togglePopUp} class="nav-button popup-button"
           >Close</button
         >
-
-        <button on:click={submitFilePost} class="nav-button popup-button"
-          >Submit</button
-        >
+        {#if template}
+          <button on:click={submitTemplate} class="nav-button popup-button"
+            >Submit</button
+          >
+        {:else}
+          <button on:click={submitEntry} class="nav-button popup-button"
+            >Submit</button
+          >
+        {/if}
       </div>
     </div>
   </div>
 {/if}
-use the same popup menu, add paramter to function

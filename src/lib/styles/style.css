@@ -726,6 +726,7 @@ height:4.7rem; */
   background-color:white;
   color:rgb(188, 188, 188);
   border-radius: 0.8rem;
+  margin-right:.5rem;
 }
 .folder-div{
   width: 18rem;
@@ -733,6 +734,7 @@ height:4.7rem; */
   background-color:#3a71d4;
   color:rgb(188, 188, 188);
   border-radius: 0.8rem;
+  margin-right:.5rem;
 }
 .entry-image{
   width: 18rem;
