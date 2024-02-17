@@ -13,7 +13,7 @@ export const load: PageServerLoad = async ({ cookies }: { cookies: any }) => {
 
   if (folders) {
     return {
-      data: folders,
+      folders,
     };
   } else {
     return {
