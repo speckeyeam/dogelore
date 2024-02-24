@@ -710,11 +710,12 @@ height:4.7rem; */
 .template-text{
   font-family: "Jost", sans-serif;
   text-align: center;
-  margin-top:.25rem;
+margin:0
 }
 .template-div{
   width:fit-content;
   display: inline-block;
+  margin-bottom: 1rem;
 }
 .template-container{
   text-align: center;
@@ -735,6 +736,7 @@ height:4.7rem; */
   color:rgb(188, 188, 188);
   border-radius: 0.8rem;
   margin-right:.5rem;
+
 }
 .entry-image{
   width: 18rem;

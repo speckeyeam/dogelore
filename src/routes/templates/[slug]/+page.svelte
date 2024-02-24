@@ -22,7 +22,7 @@
     template = false;
     templatePopupMenu = !templatePopupMenu;
   };
-  const toggleCreateTemplate = async (arg: any) => {
+  const toggleCreateTemplate = async () => {
     template = true;
     templatePopupMenu = !templatePopupMenu;
   };
@@ -45,10 +45,10 @@
   const submitTemplate = async () => {
     if (!uploading) {
       uploading = true;
-      var data = new FormData();
-      data.append("title", postTitle);
-      data.append("file", file, file.name);
-      data.append("parent", folderId);
+      var body = new FormData();
+      body.append("title", postTitle);
+      body.append("file", file, file.name);
+      body.append("parent", folderId);
       const xhr = new XMLHttpRequest();
 
       xhr.upload.onprogress = (event) => {
@@ -61,9 +61,13 @@
       xhr.onloadend = () => {
         if (xhr.status === 200) {
           const res = JSON.parse(xhr.responseText);
-          if (res.sucess && res.id) {
-            let url = $page.url.origin + "/post/" + res.id;
-            toggleCreatePost();
+          if (res.sucess && res.folder) {
+            res.folder.entries = [0];
+            data.data.children?.push(res.folder);
+
+            data.data.children = data.data.children;
+            toggleCreateTemplate();
+            let url = $page.url.origin + "/templates/" + res.folder.id;
             window.open(url, "_blank")!.focus();
             postTitle = "";
             file = null;
@@ -73,17 +77,17 @@
       };
 
       xhr.open("POST", "/api/templates/folder/create", true);
-      xhr.send(data);
+      xhr.send(body);
     }
   };
 
   const submitEntry = async () => {
     if (!uploading) {
       uploading = true;
-      var data = new FormData();
-      data.append("title", postTitle);
-      data.append("file", file, file.name);
-      data.append("folderId", folderId);
+      let body = new FormData();
+      body.append("title", postTitle);
+      body.append("file", file, file.name);
+      body.append("folderId", folderId);
       const xhr = new XMLHttpRequest();
 
       xhr.upload.onprogress = (event) => {
@@ -96,10 +100,10 @@
       xhr.onloadend = () => {
         if (xhr.status === 200) {
           const res = JSON.parse(xhr.responseText);
-          if (res.sucess && res.id) {
-            let url = $page.url.origin + "/post/" + res.id;
+          if (res.sucess && res.entry) {
+            data.data.folder.entries.push(res.entry);
+            data.data.folder.entries = data.data.folder.entries;
             togglePopUp();
-            window.open(url, "_blank")!.focus();
             postTitle = "";
             file = null;
             uploading = false;
@@ -108,7 +112,7 @@
       };
 
       xhr.open("POST", "/api/templates/entry/create", true);
-      xhr.send(data);
+      xhr.send(body);
     }
   };
 </script>
