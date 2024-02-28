@@ -736,7 +736,7 @@ margin:0
   color:rgb(188, 188, 188);
   border-radius: 0.8rem;
   margin-right:.5rem;
-
+position:relative
 }
 .entry-image{
   width: 18rem;
@@ -749,4 +749,20 @@ margin:0
   border-style: none;
   font-size: 1.5rem;
   font-weight: bold;
+}
+.close-button-template {
+  position: absolute;
+  top: 0.3rem;
+  right: 0.3rem !important;
+  background-color: rgb(255, 255, 255, 0.5);
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+  border-radius: 0.25rem;
+  width: 3rem;
+  height: 3rem;
+  transition-duration: 0.3s;
+}
+.close-button-template:hover {
+  background-color: rgb(255, 255, 255, 0.8);
 }
