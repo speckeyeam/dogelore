@@ -31,6 +31,19 @@ export async function folderExists(id: number) {
   }
 }
 
+export async function entryExists(id: string) {
+  if (id != null) {
+    const entry = await prisma.entry.findUnique({
+      where: { id },
+      include: { folder: true },
+    });
+
+    return entry ? entry : false;
+  } else {
+    return false;
+  }
+}
+
 export async function getRootFolders() {
   const folder = await prisma.folder.findMany({
     where: { parent: 0 },
