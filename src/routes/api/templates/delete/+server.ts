@@ -10,23 +10,25 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
   if (session?.user) {
     const data = await event.request.json();
     let id = data.id;
-    let isTemplate = data.isTemplate;
+    let isFolder = data.isFolder;
 
-    if (isTemplate) {
-      let folder = await folderExists(id);
-      if (folder) {
-        if (session?.user.id == folder.userId) {
+    if (isFolder) {
+      let fetch = await folderExists(id);
+      let folder = await fetch.json();
+      if (folder.folder) {
+        console.log("test");
+        if (session?.user.id == folder.folder.userId) {
           const entries = await prisma.entry.deleteMany({
             where: {
-              folderId: folder.id,
+              folderId: folder.folder.id,
             },
           });
           const delete_folder = await prisma.folder.delete({
             where: {
-              id: folder.id,
+              id: folder.folder.id,
             },
           });
-          return json({ success: true });
+          return json({ success: true, folder: delete_folder });
         }
       }
     } else {

@@ -20,6 +20,7 @@ export async function folderExists(id: number) {
       where: { id },
       include: { entries: true },
     });
+
     const children = await prisma.folder.findMany({
       where: { parent: id },
       include: { entries: true },

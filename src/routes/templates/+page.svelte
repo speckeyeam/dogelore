@@ -32,6 +32,33 @@
     file = null;
   };
 
+  const deleteTemplate = async (id: number) => {
+    alert(id);
+    fetch("/api/templates/delete", {
+      method: "POST",
+      body: JSON.stringify({
+        id,
+        isFolder: true,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.success) {
+          if (res.folder) {
+            const index = data?.folders?.findIndex(
+              (folder) => folder.id === res.folder.id
+            );
+
+            if (index !== -1 && index != null) {
+              data?.folders?.splice(index, 1);
+              data.folders = data.folders;
+            }
+          }
+        } else {
+        }
+      })
+      .catch((e) => alert(e.message));
+  };
   const submitFilePost = async () => {
     if (!uploading) {
       uploading = true;
@@ -166,7 +193,10 @@
               class="entry-image"
             />
           </a>
-          <button class="close-button-template">
+          <button
+            class="close-button-template"
+            on:click={() => deleteTemplate(entry.id)}
+          >
             <svg
               color="#14336f"
               width="2rem"
