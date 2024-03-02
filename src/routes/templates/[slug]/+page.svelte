@@ -81,6 +81,42 @@
     }
   };
 
+  const deleteTemplate = async (id: number, isFolder: boolean) => {
+    fetch("/api/templates/delete", {
+      method: "POST",
+      body: JSON.stringify({
+        id,
+        isFolder,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.success) {
+          if (res.entry) {
+            const index = data?.data?.folder?.entries.findIndex(
+              (entry: any) => entry.id === res.entry.id
+            );
+
+            if (index !== -1 && index != null) {
+              data.data.folder.entries.splice(index, 1);
+              data.data.folder.entries = data.data.folder.entries;
+            }
+          } else if (res.folder) {
+            const index = data.data.children.findIndex(
+              (folder: any) => folder.id === res.folder.id
+            );
+
+            if (index !== -1 && index != null) {
+              data.data.children.splice(index, 1);
+              data.data.children = data.data.children;
+            }
+          }
+        } else {
+        }
+      })
+      .catch((e) => console.log(e.message));
+  };
+
   const submitEntry = async () => {
     if (!uploading) {
       uploading = true;
@@ -119,7 +155,7 @@
 
 <NavBar {data} />
 <div class="template-container">
-  {#each data.data.children as entry, i}
+  {#each data?.data?.children as entry, i}
     <div class="template-div">
       <div class="folder-div">
         <a href={entry.id}>
@@ -130,6 +166,34 @@
             class="entry-image"
           />
         </a>
+        {#if (data.data.folder.userId = userId)}
+          <button
+            class="close-button-template"
+            on:click={() => deleteTemplate(entry.id, true)}
+          >
+            <svg
+              color="#14336f"
+              width="2rem"
+              height="2rem"
+              fill="#000000"
+              version="1.1"
+              id="Capa_1"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              viewBox="0 0 460.775 460.775"
+              xml:space="preserve"
+            >
+              <path
+                d="M285.08,230.397L456.218,59.27c6.076-6.077,6.076-15.911,0-21.986L423.511,4.565c-2.913-2.911-6.866-4.55-10.992-4.55
+                   c-4.127,0-8.08,1.639-10.993,4.55l-171.138,171.14L59.25,4.565c-2.913-2.911-6.866-4.55-10.993-4.55
+                   c-4.126,0-8.08,1.639-10.992,4.55L4.558,37.284c-6.077,6.075-6.077,15.909,0,21.986l171.138,171.128L4.575,401.505
+                   c-6.074,6.077-6.074,15.911,0,21.986l32.709,32.719c2.911,2.911,6.865,4.55,10.992,4.55c4.127,0,8.08-1.639,10.994-4.55
+                   l171.117-171.12l171.118,171.12c2.913,2.911,6.866,4.55,10.993,4.55c4.128,0,8.081-1.639,10.992-4.55l32.709-32.719
+                   c6.074-6.075,6.074-15.909,0-21.986L285.08,230.397z"
+              />
+            </svg></button
+          >
+        {/if}
       </div>
       {#if entry.userId == userId}
         <input
@@ -158,6 +222,34 @@
             class="entry-image"
           />
         </a>
+        {#if data.data.folder.userId == userId}
+          <button
+            class="close-button-template"
+            on:click={() => deleteTemplate(entry.id, false)}
+          >
+            <svg
+              color="#14336f"
+              width="2rem"
+              height="2rem"
+              fill="#000000"
+              version="1.1"
+              id="Capa_1"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              viewBox="0 0 460.775 460.775"
+              xml:space="preserve"
+            >
+              <path
+                d="M285.08,230.397L456.218,59.27c6.076-6.077,6.076-15.911,0-21.986L423.511,4.565c-2.913-2.911-6.866-4.55-10.992-4.55
+                 c-4.127,0-8.08,1.639-10.993,4.55l-171.138,171.14L59.25,4.565c-2.913-2.911-6.866-4.55-10.993-4.55
+                 c-4.126,0-8.08,1.639-10.992,4.55L4.558,37.284c-6.077,6.075-6.077,15.909,0,21.986l171.138,171.128L4.575,401.505
+                 c-6.074,6.077-6.074,15.911,0,21.986l32.709,32.719c2.911,2.911,6.865,4.55,10.992,4.55c4.127,0,8.08-1.639,10.994-4.55
+                 l171.117-171.12l171.118,171.12c2.913,2.911,6.866,4.55,10.993,4.55c4.128,0,8.081-1.639,10.992-4.55l32.709-32.719
+                 c6.074-6.075,6.074-15.909,0-21.986L285.08,230.397z"
+              />
+            </svg></button
+          >
+        {/if}
       </div>
       {#if entry.userId == userId}
         <input class="template-text template-input" value={entry.title} />
@@ -200,6 +292,7 @@
               alt={file.name}
               class="uploaded-image"
             />
+
             <button class="close-button" on:click={removeImage}>
               <svg
                 color="#14336f"

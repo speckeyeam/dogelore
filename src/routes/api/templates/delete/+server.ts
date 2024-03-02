@@ -37,9 +37,10 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
         if (session?.user.id == entry.folder.userId) {
           const entry = await prisma.entry.delete({
             where: {
-              id: folder.id,
+              id: id,
             },
           });
+          return json({ success: true, entry });
         }
       }
     }

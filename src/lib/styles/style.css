@@ -728,6 +728,7 @@ margin:0
   color:rgb(188, 188, 188);
   border-radius: 0.8rem;
   margin-right:.5rem;
+  position: relative;
 }
 .folder-div{
   width: 18rem;
