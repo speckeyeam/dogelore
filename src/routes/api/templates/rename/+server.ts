@@ -14,13 +14,13 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
     let title = data.title;
     if (isFolder) {
       let fetch = await folderExists(id);
-      let json = await fetch.json();
-      if (json.folder) {
+      let folder = await fetch.json();
+      if (folder.folder) {
         console.log("test");
-        if (session?.user.id == json.folder.userId) {
+        if (session?.user.id == folder.folder.userId) {
           const delete_folder = await prisma.folder.update({
             where: {
-              id: json.folder.id,
+              id: folder.folder.id,
             },
             data: {
               title,

@@ -48,7 +48,7 @@
       method: "POST",
       body: JSON.stringify({
         id,
-        isFolder: true,
+        isFolder,
         title,
       }),
     })
@@ -282,7 +282,7 @@
           <input
             class="template-text template-input"
             value={entry.title}
-            on:change={(e) => renameTemplate(entry.id, true, e)}
+            on:change={(e) => renameTemplate(entry.id, false, e)}
           />
         </div>
       {:else}
