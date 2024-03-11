@@ -42,6 +42,26 @@
     file = null;
   };
 
+  const renameTemplate = async (id: number, isFolder: boolean, e: Event) => {
+    const title = e?.target?.value;
+    fetch("/api/templates/rename", {
+      method: "POST",
+      body: JSON.stringify({
+        id,
+        isFolder: true,
+        title,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.success) {
+          //yay
+        } else {
+        }
+      })
+      .catch((e) => console.log(e.message));
+  };
+
   const submitTemplate = async () => {
     if (!uploading) {
       uploading = true;
@@ -196,10 +216,16 @@
         {/if}
       </div>
       {#if entry.userId == userId}
-        <input
-          class="template-text template-input"
-          value={entry.title + " (" + entry.entries.length + ")"}
-        />
+        <div class="template-text-div joshua test">
+          <input
+            class="template-text template-input"
+            value={entry.title}
+            on:change={(e) => renameTemplate(entry.id, true, e)}
+          />
+          <h2 class="template-text">
+            {" (" + entry.entries.length + ")"}
+          </h2>
+        </div>
       {:else}
         <h2 class="template-text">{entry.title}</h2>
       {/if}
@@ -252,7 +278,13 @@
         {/if}
       </div>
       {#if entry.userId == userId}
-        <input class="template-text template-input" value={entry.title} />
+        <div class="template-text-div">
+          <input
+            class="template-text template-input"
+            value={entry.title}
+            on:change={(e) => renameTemplate(entry.id, true, e)}
+          />
+        </div>
       {:else}
         <h2 class="template-text">{entry.title}</h2>
       {/if}

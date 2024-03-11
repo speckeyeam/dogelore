@@ -750,6 +750,7 @@ position:relative
   border-style: none;
   font-size: 1.5rem;
   font-weight: bold;
+  width:50%;
 }
 .close-button-template {
   position: absolute;
@@ -766,4 +767,10 @@ position:relative
 }
 .close-button-template:hover {
   background-color: rgb(255, 255, 255, 0.8);
+}
+.template-text-div{
+  display:flex;
+  flex-direction: row;
+  text-align: center;
+  justify-content: center;
 }
