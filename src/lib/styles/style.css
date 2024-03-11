@@ -774,3 +774,16 @@ position:relative
   text-align: center;
   justify-content: center;
 }
+.template-search{
+  background-color: transparent;
+  border-style: none;
+  border-bottom:0.15rem solid rgb(188, 188, 188);
+  width:15rem;
+  font-size: 1.2rem;
+  margin-bottom:1rem;
+  transition-duration: .1s;
+  text-align: center;
+}
+.template-search:hover{
+  border-bottom:0.15rem solid transparent;
+}

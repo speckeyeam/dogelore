@@ -123,6 +123,8 @@
 
 <NavBar {data} />
 <div class="template-container">
+  <input placeholder="quoge..." class="template-search" />
+  <br />
   <div class="template-div">
     <button class="create-template" on:click={() => (templatePopupMenu = true)}
       >+</button
