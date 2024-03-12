@@ -1,6 +1,6 @@
 import { error } from "@sveltejs/kit";
 import { PrismaClient } from "@prisma/client";
-import { getPosts } from "$lib/server/server";
+import { getPosts2 } from "$lib/server/server";
 import * as AWS from "aws-sdk";
 import {
   getComments,
@@ -9,7 +9,7 @@ import {
   postExists,
 } from "$lib/server/server";
 export const load = async ({ cookies, url }: { cookies: any; url: any }) => {
-  const posts = await getPosts();
+  const posts = await getPosts2();
   if (posts) {
     return {
       posts,

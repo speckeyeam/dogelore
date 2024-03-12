@@ -74,7 +74,7 @@
   let prevScrollPos = 0;
   let isScrollingUp = false;
   let isNavVisible = true;
-
+  let loadmore = false;
   const handleScroll = async () => {
     const currentScrollPos = y;
 
@@ -90,6 +90,20 @@
     }
 
     prevScrollPos = currentScrollPos;
+
+    if (
+      window.innerHeight * 1.6 + window.scrollY >=
+      document.body.offsetHeight
+    ) {
+      if (!loadmore) {
+        loadmore = true;
+        console.log("test");
+      }
+    }
+  };
+
+  const loadMore = async () => {
+    data.posts[data.posts.length - 1].id;
   };
 
   const toggleDropdown = async (dd: any) => {

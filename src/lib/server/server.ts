@@ -130,6 +130,33 @@ export async function getPosts() {
   return null;
 }
 
+export async function getPosts2(id: string) {
+  const posts = await prisma.post.findMany({
+    where: {
+      // Assuming 'id' is the unique identifier and you have the 'lastId' seen by the user
+      id: {
+        gt: id, // Fetch posts greater than 'lastId'
+      },
+    },
+    take: 10,
+    include: {
+      Files: true,
+      User: true,
+      Likes: true,
+      Dislikes: true,
+    },
+    orderBy: {
+      date: "asc",
+    },
+  });
+  console.log(posts);
+  if (posts) {
+    return posts;
+  }
+
+  return null;
+}
+
 export async function getReplies(id: string) {
   const replies = await prisma.comment.findMany({
     where: { id: id },
