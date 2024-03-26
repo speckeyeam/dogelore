@@ -97,13 +97,32 @@
     ) {
       if (!loadmore) {
         loadmore = true;
+        loadMore();
         console.log("test");
       }
     }
   };
 
   const loadMore = async () => {
-    data.posts[data.posts.length - 1].id;
+    // alert(data.posts[data.posts.length - 1].title);
+    console.log(data.posts);
+    fetch("/api/post/load", {
+      method: "POST",
+      body: JSON.stringify({
+        id: data.posts[data.posts.length - 1].id,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.posts.length > 0) {
+          data.posts.push(...res.posts);
+          data.posts = data.posts;
+          loadmore = false;
+        } else {
+          loadmore = false;
+        }
+      })
+      .catch((e) => console.log(e.message));
   };
 
   const toggleDropdown = async (dd: any) => {

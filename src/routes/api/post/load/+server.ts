@@ -16,7 +16,7 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
   let id = data.id;
   if (id) {
     const posts = await getPosts2(id);
-
+    console.log(id);
     return json({ posts });
   }
 
