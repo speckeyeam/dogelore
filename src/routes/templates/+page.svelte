@@ -132,7 +132,7 @@
     <h2 class="template-text">Template</h2>
   </div>
 
-  {#if templatePopupMenu}
+  {#if templatePopupMenu && data?.session}
     <button class="popup-background" on:click={toggleCreatePost} />
     <div class="popup-menu" id="popupMenu">
       <div class="popup-div">

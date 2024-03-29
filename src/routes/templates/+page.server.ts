@@ -9,7 +9,7 @@ export const load: PageServerLoad = async ({ cookies }: { cookies: any }) => {
 
   const prisma = new PrismaClient();
 
-  const folders = await getRootFolders();
+  const folders = await getRootFolders(null);
 
   if (folders) {
     return {

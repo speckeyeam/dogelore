@@ -2,7 +2,7 @@ import { json } from "@sveltejs/kit";
 
 import { PrismaClient } from "@prisma/client";
 import type { RequestEvent, RequestHandler } from "./$types";
-import { postExists, getPosts2 } from "$lib/server/server";
+import { postExists, getPosts } from "$lib/server/server";
 
 const prisma = new PrismaClient();
 
@@ -15,7 +15,7 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
 
   let id = data.id;
   if (id) {
-    const posts = await getPosts2(id);
+    const posts = await getPosts(id);
     console.log(id);
     return json({ posts });
   }

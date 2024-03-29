@@ -45,13 +45,27 @@ export async function entryExists(id: string) {
   }
 }
 
-export async function getRootFolders() {
-  const folder = await prisma.folder.findMany({
-    where: { parent: 0 },
-    include: { entries: true },
-  });
+export async function getRootFolders(id: string) {
+  if (id) {
+    const folder = await prisma.folder.findMany({
+      skip: 1,
+      take: 10,
+      cursor: {
+        id: id,
+      },
+      where: { parent: 0 },
+      include: { entries: true },
+    });
 
-  return folder ? folder : false;
+    return folder ? folder : false;
+  } else {
+    const folder = await prisma.folder.findMany({
+      where: { parent: 0 },
+      include: { entries: true },
+    });
+
+    return folder ? folder : false;
+  }
 }
 
 export async function userExists(id: string) {
@@ -110,27 +124,7 @@ export async function getComments(id: string) {
   return null;
 }
 
-export async function getPosts() {
-  const posts = await prisma.post.findMany({
-    include: {
-      Files: true,
-      User: true,
-      Likes: true,
-      Dislikes: true,
-    },
-    orderBy: {
-      date: "asc",
-    },
-  });
-  console.log(posts);
-  if (posts) {
-    return posts;
-  }
-
-  return null;
-}
-
-export async function getPosts2(id: string) {
+export async function getPosts(id: string) {
   if (id) {
     const posts = await prisma.post.findMany({
       skip: 1,
