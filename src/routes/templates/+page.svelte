@@ -119,19 +119,62 @@
       xhr.send(body);
     }
   };
+
+  //infinite scroll
+  let loadmore = false;
+  let y: any;
+  const handleScroll = async () => {
+    console.log("test");
+    if (
+      window.innerHeight * 1.6 + window.scrollY >=
+      document.body.offsetHeight
+    ) {
+      if (!loadmore) {
+        loadmore = true;
+        loadMore();
+        console.log("test");
+      }
+    }
+  };
+
+  const loadMore = async () => {
+    // alert(data.posts[data.posts.length - 1].title);
+    console.log(data.folders);
+    fetch("/api/post/load", {
+      method: "POST",
+      body: JSON.stringify({
+        id: data.folders[data.folders.length - 1].id,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.folders.length > 0) {
+          data.folders.push(...res.folders);
+          data.folders = data.folders;
+          loadmore = false;
+        } else {
+          loadmore = false;
+        }
+      })
+      .catch((e) => console.log(e.message));
+  };
 </script>
 
+<svelte:window bind:scrollY={y} on:scroll={handleScroll} />
 <NavBar {data} />
 <div class="template-container">
   <input placeholder="quoge..." class="template-search" />
   <br />
-  <div class="template-div">
-    <button class="create-template" on:click={() => (templatePopupMenu = true)}
-      >+</button
-    >
-    <h2 class="template-text">Template</h2>
-  </div>
 
+  {#if data.session}
+    <div class="template-div">
+      <button
+        class="create-template"
+        on:click={() => (templatePopupMenu = true)}>+</button
+      >
+      <h2 class="template-text">Template</h2>
+    </div>
+  {/if}
   {#if templatePopupMenu && data?.session}
     <button class="popup-background" on:click={toggleCreatePost} />
     <div class="popup-menu" id="popupMenu">
@@ -250,13 +293,10 @@
               value={entry.title}
               on:change={(e) => renameTemplate(entry.id, e)}
             />
-            <h2 class="template-text">
-              {" (" + entry.entries.length + ")"}
-            </h2>
           </div>
         {:else}
           <h2 class="template-text">
-            {entry.title + " (" + entry.entries.length + ")"}
+            {entry.title}
           </h2>
         {/if}
       </div>

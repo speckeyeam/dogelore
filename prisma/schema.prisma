@@ -137,16 +137,19 @@ model comment_dislikes {
 }
 
 model folder {
-  id      Int      @unique @default(autoincrement())
-  parent  Int      @default(0)
-  title   String
-  userId  String
-  date    DateTime
-  imageId String   @default("0")
-  entries entry[]
-  user    User     @relation(fields: [userId], references: [id])
+  id       Int      @unique @default(autoincrement())
+  parentId Int
+  title    String
+  userId   String
+  date     DateTime
+  imageId  String   @default("0")
+  entries  entry[]
+  parent   folder   @relation("ParentChild", fields: [parentId], references: [id])
+  children folder[] @relation("ParentChild")
+  user     User     @relation(fields: [userId], references: [id])
 
   @@index([userId], map: "folder_userId_fkey")
+  @@index([parentId], map: "folder_parentId_fkey")
 }
 
 model entry {

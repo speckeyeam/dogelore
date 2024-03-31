@@ -175,63 +175,6 @@
 
 <NavBar {data} />
 <div class="template-container">
-  {#each data?.data?.children as entry, i}
-    <div class="template-div">
-      <div class="folder-div">
-        <a href={entry.id}>
-          <img
-            src={"https://dogelore.s3.amazonaws.com/folder/" +
-              entry.imageId +
-              ".webp"}
-            class="entry-image"
-          />
-        </a>
-        {#if (data.data.folder.userId = userId)}
-          <button
-            class="close-button-template"
-            on:click={() => deleteTemplate(entry.id, true)}
-          >
-            <svg
-              color="#14336f"
-              width="2rem"
-              height="2rem"
-              fill="#000000"
-              version="1.1"
-              id="Capa_1"
-              xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink"
-              viewBox="0 0 460.775 460.775"
-              xml:space="preserve"
-            >
-              <path
-                d="M285.08,230.397L456.218,59.27c6.076-6.077,6.076-15.911,0-21.986L423.511,4.565c-2.913-2.911-6.866-4.55-10.992-4.55
-                   c-4.127,0-8.08,1.639-10.993,4.55l-171.138,171.14L59.25,4.565c-2.913-2.911-6.866-4.55-10.993-4.55
-                   c-4.126,0-8.08,1.639-10.992,4.55L4.558,37.284c-6.077,6.075-6.077,15.909,0,21.986l171.138,171.128L4.575,401.505
-                   c-6.074,6.077-6.074,15.911,0,21.986l32.709,32.719c2.911,2.911,6.865,4.55,10.992,4.55c4.127,0,8.08-1.639,10.994-4.55
-                   l171.117-171.12l171.118,171.12c2.913,2.911,6.866,4.55,10.993,4.55c4.128,0,8.081-1.639,10.992-4.55l32.709-32.719
-                   c6.074-6.075,6.074-15.909,0-21.986L285.08,230.397z"
-              />
-            </svg></button
-          >
-        {/if}
-      </div>
-      {#if entry.userId == userId}
-        <div class="template-text-div joshua test">
-          <input
-            class="template-text template-input"
-            value={entry.title}
-            on:change={(e) => renameTemplate(entry.id, true, e)}
-          />
-          <h2 class="template-text">
-            {" (" + entry.entries.length + ")"}
-          </h2>
-        </div>
-      {:else}
-        <h2 class="template-text">{entry.title}</h2>
-      {/if}
-    </div>
-  {/each}
-
   {#each data.data.folder.entries as entry, i}
     <div class="template-div">
       <div class="entry-div">
@@ -290,12 +233,68 @@
       {/if}
     </div>
   {/each}
+  {#each data?.data?.children as entry, i}
+    <div class="template-div">
+      <div class="entry-div">
+        <a href={entry.id}>
+          <img
+            src={"https://dogelore.s3.amazonaws.com/folder/" +
+              entry.imageId +
+              ".webp"}
+            class="entry-image"
+          />
+        </a>
+        {#if (data.data.folder.userId = userId)}
+          <button
+            class="close-button-template"
+            on:click={() => deleteTemplate(entry.id, true)}
+          >
+            <svg
+              color="#14336f"
+              width="2rem"
+              height="2rem"
+              fill="#000000"
+              version="1.1"
+              id="Capa_1"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              viewBox="0 0 460.775 460.775"
+              xml:space="preserve"
+            >
+              <path
+                d="M285.08,230.397L456.218,59.27c6.076-6.077,6.076-15.911,0-21.986L423.511,4.565c-2.913-2.911-6.866-4.55-10.992-4.55
+                   c-4.127,0-8.08,1.639-10.993,4.55l-171.138,171.14L59.25,4.565c-2.913-2.911-6.866-4.55-10.993-4.55
+                   c-4.126,0-8.08,1.639-10.992,4.55L4.558,37.284c-6.077,6.075-6.077,15.909,0,21.986l171.138,171.128L4.575,401.505
+                   c-6.074,6.077-6.074,15.911,0,21.986l32.709,32.719c2.911,2.911,6.865,4.55,10.992,4.55c4.127,0,8.08-1.639,10.994-4.55
+                   l171.117-171.12l171.118,171.12c2.913,2.911,6.866,4.55,10.993,4.55c4.128,0,8.081-1.639,10.992-4.55l32.709-32.719
+                   c6.074-6.075,6.074-15.909,0-21.986L285.08,230.397z"
+              />
+            </svg></button
+          >
+        {/if}
+      </div>
+      {#if entry.userId == userId}
+        <div class="template-text-div joshua test">
+          <input
+            class="template-text template-input"
+            value={entry.title}
+            on:change={(e) => renameTemplate(entry.id, true, e)}
+          />
+          <h2 class="template-text">
+            {" (" + entry.entries.length + ")"}
+          </h2>
+        </div>
+      {:else}
+        <h2 class="template-text">{entry.title}</h2>
+      {/if}
+    </div>
+  {/each}
 
   {#if userId}
-    <div class="template-div">
+    <!-- <div class="template-div">
       <button class="create-template" on:click={toggleCreateEntry}>+</button>
       <h2 class="template-text">Entry</h2>
-    </div>
+    </div> -->
 
     <div class="template-div">
       <button class="create-template" on:click={toggleCreateTemplate}>+</button>

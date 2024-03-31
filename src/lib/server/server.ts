@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { json } from "@sveltejs/kit";
 const prisma = new PrismaClient();
 
+// await prisma.folder.deleteMany({});
 export async function postExists(id: string) {
   if (id) {
     const post = await prisma.post.findUnique({
@@ -22,7 +23,7 @@ export async function folderExists(id: number) {
     });
 
     const children = await prisma.folder.findMany({
-      where: { parent: id },
+      where: { parentId: id },
       include: { entries: true },
     });
 
@@ -53,14 +54,14 @@ export async function getRootFolders(id: string) {
       cursor: {
         id: id,
       },
-      where: { parent: 0 },
+      where: { parentId: null },
       include: { entries: true },
     });
 
     return folder ? folder : false;
   } else {
     const folder = await prisma.folder.findMany({
-      where: { parent: 0 },
+      where: { parentId: 0 },
       include: { entries: true },
     });
 

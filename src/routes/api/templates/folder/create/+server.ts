@@ -101,7 +101,7 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
             userId: session.user.id,
             title: title.toString(),
             date: new Date(),
-            parent: Number(parent) || 0,
+            parentId: Number(parent) || null,
             imageId: entryId,
           },
         });
